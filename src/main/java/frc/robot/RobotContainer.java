@@ -29,8 +29,8 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    m_drivetrain.setDefaultCommand(new Drive(driverLeftStick::getX,
-    driverRightStick::getY,
+    m_drivetrain.setDefaultCommand(new Drive(driverLeftStick::getY,
+    driverRightStick::getX,
     m_drivetrain));
 
 
