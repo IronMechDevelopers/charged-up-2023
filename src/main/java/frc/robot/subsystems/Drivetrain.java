@@ -4,11 +4,14 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.SPI;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -23,6 +26,7 @@ public class Drivetrain extends SubsystemBase {
     private final WPI_VictorSPX rightSon = new WPI_VictorSPX(Constants.RIGHT_SON_CANBUS_NUMBER);
     private final NeutralMode brakeMode = NeutralMode.Brake;
 
+    private AHRS gyro;
     /**
      * 
      */
@@ -58,7 +62,23 @@ public class Drivetrain extends SubsystemBase {
         addChild("Drive",
                 m_drive);
 
+                gyro = new AHRS(SPI.Port.kMXP); 
+
     }
+    public void periodic()
+    {
+        SmartDashboard.putNumber("Pitch", gyro.getPitch());
+        SmartDashboard.putNumber("Yaw", gyro.getYaw());
+        SmartDashboard.putNumber("Roll", gyro.getRoll());
+    }
+
+    /***
+     * A negative number means the front is up in the air.
+     * @return
+     */
+    public double getPitch()
+    {return gyro.getPitch();
+}
 
     public void arcadeDrive(double fwd, double rot) {
         m_drive.arcadeDrive(-1 * fwd, rot, true);
