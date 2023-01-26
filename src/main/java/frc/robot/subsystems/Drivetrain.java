@@ -131,5 +131,8 @@ public class Drivetrain extends SubsystemBase {
                 Constants.kPIDLoopIdx,
                 Constants.kTimeoutMs);
     }
+public double getYaw() {
+        return 0;
+}
 
 }

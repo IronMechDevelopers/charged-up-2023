@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import frc.robot.commands.DriveStraight;
+import frc.robot.commands.Angle;
 import frc.robot.commands.Balance;
 import frc.robot.commands.Drive;
 import frc.robot.subsystems.Drivetrain;
@@ -50,12 +52,19 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-      
-    final JoystickButton balanceButton = new JoystickButton(driverLeftStick,3);
 
+    final JoystickButton balanceButton = new JoystickButton(driverLeftStick,3);
     balanceButton.whileTrue(new Balance(m_drivetrain));
 
+    final JoystickButton driveStraight = new JoystickButton(driverLeftStick,4);
+    driveStraight.whileTrue(new DriveStraight(m_drivetrain));
+
+    final JoystickButton angleCorrecter = new JoystickButton(driverLeftStick,6);
+    angleCorrecter.whileTrue(new Angle(m_drivetrain));
+
   }
+
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -67,3 +76,4 @@ public class RobotContainer {
     return null;
   }
 }
+
