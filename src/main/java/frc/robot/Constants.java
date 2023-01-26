@@ -53,4 +53,6 @@ public final class Constants {
   public static final int LEFT_SON_CANBUS_NUMBER = 2;
   public static final int RIGHT_FATHER_CANBUS_NUMBER = 0;
   public static final int LEFT_FATHER_CANBUS_NUMBER = 1;
+
+public static final int ARM_MOTOR_CONTROLLER_CONSTANT = 0; //TODO set up can number
 }

@@ -6,6 +6,8 @@ package frc.robot;
 
 import frc.robot.commands.Balance;
 import frc.robot.commands.Drive;
+import frc.robot.commands.MoveArm;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   final Drivetrain m_drivetrain = new Drivetrain();
+  final Arm m_arm = new Arm();
 
       // The robot's subsystems and commands are defined here...
       private final Joystick driverLeftStick = new Joystick(0);
@@ -52,8 +55,15 @@ public class RobotContainer {
   private void configureBindings() {
       
     final JoystickButton balanceButton = new JoystickButton(driverLeftStick,3);
+    final JoystickButton armInButton = new JoystickButton(driverLeftStick, 0); //TODO Get button number
+    final JoystickButton armOutButton = new JoystickButton(driverLeftStick, 0); //TODO Get button number
 
     balanceButton.whileTrue(new Balance(m_drivetrain));
+    armInButton.whileTrue(new MoveArm(m_arm, -1, 0.1));
+    armOutButton.whileTrue(new MoveArm(m_arm, 1, 0.1));
+
+
+
 
   }
 
