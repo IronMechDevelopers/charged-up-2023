@@ -8,7 +8,7 @@ public class Arm extends SubsystemBase{
     private final WPI_TalonSRX armMotorcontroller = new WPI_TalonSRX(Constants.ARM_MOTOR_CONTROLLER_CONSTANT);
 
     public Arm () {
-        super();
+         super();
     }
 
     public void move(int dir , double speed){
