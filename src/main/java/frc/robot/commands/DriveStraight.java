@@ -3,12 +3,16 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class Balance extends CommandBase {
+public class DriveStraight extends CommandBase  {
+
+    // SmartDashboard.putNumber("Pitch", gyro.getPitch());
+    // SmartDashboard.putNumber("Yaw", gyro.getYaw());
+    // SmartDashboard.putNumber("Roll", gyro.getRoll());
 
     private final Drivetrain m_drivetrain;
     private double goalAngle;
 
-    public Balance( Drivetrain drivetrain) {
+    public DriveStraight( Drivetrain drivetrain) {
         super();
         m_drivetrain = drivetrain;
         addRequirements(m_drivetrain);
@@ -17,7 +21,7 @@ public class Balance extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        goalAngle=3;
+        goalAngle=0;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -28,21 +32,20 @@ public class Balance extends CommandBase {
         if(angle<0)
         {
             //this means the front is in the air so we should move forward;
-            m_drivetrain.arcadeDrive(.5,0);
+            m_drivetrain.arcadeDrive(-0.5,0);
         }
         if(angle>0)
         {
-            m_drivetrain.arcadeDrive(-.5, 0);
+            m_drivetrain.arcadeDrive(-0.5, 0);
         }
-
-
     }
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {
-       m_drivetrain.arcadeDrive(0, 0);
+    public void end (boolean interrupted) { 
+        m_drivetrain.arcadeDrive(0, 0);
     }
+    
 
     // Returns true when the command should end.
     @Override
@@ -51,5 +54,5 @@ public class Balance extends CommandBase {
         double angle = m_drivetrain.getPitch();
         return angle > -1* goalAngle && angle < goalAngle;
     }
-    
+
 }
