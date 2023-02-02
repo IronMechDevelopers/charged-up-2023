@@ -3,7 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class DriveStraight extends CommandBase  {
+public class DriveStraightUntilPitch extends CommandBase  {
 
     // SmartDashboard.putNumber("Pitch", gyro.getPitch());
     // SmartDashboard.putNumber("Yaw", gyro.getYaw());
@@ -12,7 +12,7 @@ public class DriveStraight extends CommandBase  {
     private final Drivetrain m_drivetrain;
     private double goalAngle;
 
-    public DriveStraight( Drivetrain drivetrain) {
+    public DriveStraightUntilPitch( Drivetrain drivetrain) {
         super();
         m_drivetrain = drivetrain;
         addRequirements(m_drivetrain);
@@ -52,7 +52,7 @@ public class DriveStraight extends CommandBase  {
     @Override
     public boolean isFinished() {
 
-       return false;
+       return m_drivetrain.getPitch()>14;
     }
 
 }

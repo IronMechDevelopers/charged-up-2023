@@ -78,10 +78,19 @@ public class Drivetrain extends SubsystemBase {
      */
     public double getPitch()
     {return gyro.getPitch();
+
+        
 }
 
+public double getPitchAcc()
+        {
+                return gyro.getWorldLinearAccelX();
+        }
+
     public void arcadeDrive(double fwd, double rot) {
-        m_drive.arcadeDrive(-1 * fwd, rot, true);
+        SmartDashboard.putNumber("Fwd" , fwd);
+        SmartDashboard.putNumber("rot" , rot);
+        m_drive.arcadeDrive(-1 * fwd, rot);
     }
 
     public void setTalon(final WPI_TalonSRX _talon) {
@@ -132,7 +141,18 @@ public class Drivetrain extends SubsystemBase {
                 Constants.kTimeoutMs);
     }
 public double getYaw() {
-        return 0;
+        return gyro.getYaw();
+}
+public double getAltitude()
+    {
+        return gyro.getAltitude();
+    }
+public double getGoalAngle(double angleToTurnBy)
+{
+        System.out.println("yaw:"+getYaw());
+        double goalAngle = getYaw()+angleToTurnBy;
+        SmartDashboard.putNumber("goal Angle2", goalAngle);
+        return goalAngle;
 }
 
 }

@@ -5,7 +5,10 @@
 package frc.robot;
 
 import frc.robot.commands.DriveStraight;
+import frc.robot.commands.DriveStraightUntilPitch;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.Angle;
+import frc.robot.commands.AutoBalance;
 import frc.robot.commands.Balance;
 import frc.robot.commands.Drive;
 import frc.robot.subsystems.Drivetrain;
@@ -56,11 +59,11 @@ public class RobotContainer {
     final JoystickButton balanceButton = new JoystickButton(driverLeftStick,3);
     balanceButton.whileTrue(new Balance(m_drivetrain));
 
-    final JoystickButton driveStraight = new JoystickButton(driverLeftStick,4);
-    driveStraight.whileTrue(new DriveStraight(m_drivetrain));
+    final JoystickButton driveStraight = new JoystickButton(driverLeftStick,11);
+    driveStraight.whileTrue(new AutoBalance(m_drivetrain));
 
     final JoystickButton angleCorrecter = new JoystickButton(driverLeftStick,6);
-    angleCorrecter.whileTrue(new Angle(m_drivetrain));
+    angleCorrecter.toggleOnTrue(new TurnToAngle(m_drivetrain,m_drivetrain.getGoalAngle(90)));
 
   }
 
@@ -73,7 +76,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
+    return new AutoBalance(m_drivetrain);
   }
 }
 
