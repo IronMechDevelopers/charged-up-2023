@@ -60,7 +60,7 @@ public class RobotContainer {
     final JoystickButton armInButton = new JoystickButton(driverLeftStick, 7); //TODO Get button number
     final JoystickButton armOutButton = new JoystickButton(driverLeftStick, 8); //TODO Get button number
 
-    final JoystickButton balanceButton = new JoystickButton(driverLeftStick,3);
+    //final JoystickButton balanceButton = new JoystickButton(driverLeftStick,3);
     balanceButton.whileTrue(new Balance(m_drivetrain));
     armInButton.whileTrue(new MoveArm(m_arm, -1, 1.0));
     armOutButton.whileTrue(new MoveArm(m_arm, 1, 1.0));
