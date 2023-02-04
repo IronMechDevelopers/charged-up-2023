@@ -43,9 +43,9 @@ public final class Constants {
    */
   public static final int kTimeoutMs = 30;
   public static final double kGains_kF =0.0;
-  public static final double kGains_kP =0.2 ;
-  public static final double kGains_kI =0.0;
-  public static final double kGains_kD =0.0;
+  public static final double kGains_kP = 1.5 ;
+  public static final double kGains_kI =0.000;
+  public static final double kGains_kD =30;
   
 
 
