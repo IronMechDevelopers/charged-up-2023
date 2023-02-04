@@ -12,6 +12,8 @@ import frc.robot.commands.AutoBalance;
 import frc.robot.commands.Balance;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveForwardDistance;
+import frc.robot.commands.MoveArm;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   final Drivetrain m_drivetrain = new Drivetrain();
+  final Arm m_arm = new Arm();
 
       // The robot's subsystems and commands are defined here...
       private final Joystick driverLeftStick = new Joystick(0);
@@ -56,9 +59,18 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-
+      
     final JoystickButton balanceButton = new JoystickButton(driverLeftStick,3);
+    final JoystickButton armInButton = new JoystickButton(driverLeftStick, 7); //TODO Get button number
+    final JoystickButton armOutButton = new JoystickButton(driverLeftStick, 8); //TODO Get button number
+
+    //final JoystickButton balanceButton = new JoystickButton(driverLeftStick,3);
     balanceButton.whileTrue(new Balance(m_drivetrain));
+    armInButton.whileTrue(new MoveArm(m_arm, -1, 1.0));
+    armOutButton.whileTrue(new MoveArm(m_arm, 1, 1.0));
+
+
+
 
     final JoystickButton driveStraight = new JoystickButton(driverLeftStick,11);
     driveStraight.whileTrue(new AutoBalance(m_drivetrain));
