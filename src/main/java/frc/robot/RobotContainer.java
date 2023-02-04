@@ -11,6 +11,7 @@ import frc.robot.commands.Angle;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.Balance;
 import frc.robot.commands.Drive;
+import frc.robot.commands.DriveForwardDistance;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -65,6 +66,11 @@ public class RobotContainer {
     final JoystickButton angleCorrecter = new JoystickButton(driverLeftStick,6);
     angleCorrecter.toggleOnTrue(new TurnToAngle(m_drivetrain,m_drivetrain.getGoalAngle(90)));
 
+    final JoystickButton driveForwardDistanceButton = new JoystickButton(driverLeftStick,5);
+    driveForwardDistanceButton.toggleOnTrue(new DriveForwardDistance(m_drivetrain,6));
+
+    final JoystickButton driveForwardDistanceButton2 = new JoystickButton(driverRightStick,5);
+    driveForwardDistanceButton2.toggleOnTrue(new DriveForwardDistance(m_drivetrain,12));
   }
 
 
