@@ -1,6 +1,6 @@
 package frc.robot.commands;
 
-import com.kauailabs.navx.frc.AHRS;
+
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -9,24 +9,24 @@ import frc.robot.subsystems.Drivetrain;
 public class Angle extends CommandBase {
     
     private final Drivetrain m_drivetrain;
-    private double goalAngle;
+    private double goalAngle; 
+    private double angleToTurnBy;
 
-    public double getYaw()
-    {return gyro.getYaw();
-}
 
-    public Angle( Drivetrain drivetrain) {
+    public Angle( Drivetrain drivetrain, double angleToTurnBy) {
         super();
         m_drivetrain = drivetrain;
+        this.angleToTurnBy=angleToTurnBy;
         addRequirements(m_drivetrain);
     }
 
-     private AHRS gyro;
+     
 
  // Called when the command is initially scheduled.
      @Override
      public void initialize() { 
-        goalAngle=3;
+        goalAngle=m_drivetrain.getYaw()+angleToTurnBy;
+        goalAngle = goalAngle % 360;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -34,18 +34,19 @@ public class Angle extends CommandBase {
     public void execute() { 
 
         
-        SmartDashboard.putNumber("Yaw", gyro.getYaw());
-        System.out.println( gyro.getYaw());
+        SmartDashboard.putNumber("Yaw", m_drivetrain.getYaw());
+        SmartDashboard.putNumber("goalAngle",goalAngle);
+        System.out.println( m_drivetrain.getYaw());
 
         double angle = m_drivetrain.getYaw();
-        if(angle>1)
+        if(angle-goalAngle>0)
         {
             //this means the front is in the air so we should move forward;
-            m_drivetrain.arcadeDrive(0.5,0);
+            m_drivetrain.arcadeDrive(0,-0.5);
         }
-        if(angle<1)
+        else if(angle-goalAngle<0)
         {
-            m_drivetrain.arcadeDrive(-0.5, 0);
+            m_drivetrain.arcadeDrive(0, 0.5);
         }
 
     }
@@ -60,9 +61,7 @@ public class Angle extends CommandBase {
  // Returns true when the command should end.
  @Override
  public boolean isFinished() {
-
-     double angle = m_drivetrain.getYaw();
-     return angle > -1* goalAngle && angle < goalAngle;
+    return Math.abs(goalAngle-m_drivetrain.getYaw())<3;
  }
 
 }
