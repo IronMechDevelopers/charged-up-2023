@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
@@ -20,6 +21,7 @@ public class Drive extends CommandBase {
      */
     public Drive(DoubleSupplier left, DoubleSupplier right, Drivetrain drivetrain) {
         super();
+        // labels the drivetrain dir
         m_drivetrain = drivetrain;
         m_left = left;
         m_right = right;
@@ -34,8 +36,14 @@ public class Drive extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_drivetrain.arcadeDrive(-1*m_left.getAsDouble(),
-                -1*m_right.getAsDouble());
+        double forward = m_left.getAsDouble();
+        double rotation = m_right.getAsDouble();
+        // flipping joystick to make postive be up
+        forward = forward * -1;
+        SmartDashboard.putNumber("left joystick", forward);
+        SmartDashboard.putNumber("right joystick", rotation);
+
+        m_drivetrain.arcadeDrive(forward, rotation);
     }
 
     // Called once the command ends or is interrupted.
