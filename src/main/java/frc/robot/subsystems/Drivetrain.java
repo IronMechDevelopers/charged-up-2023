@@ -114,6 +114,13 @@ public class Drivetrain extends SubsystemBase {
                 //making rot so that postive goes clockwise instead of WPILIB standard
                 m_drive.arcadeDrive(fwd, -1*rot);
         }
+        public void arcadeDriveBySpeed(double fwd, double rot) {
+                SmartDashboard.putNumber("Fwd", fwd);
+                SmartDashboard.putNumber("rot", rot);
+                //making rot so that postive goes clockwise instead of WPILIB standard
+                leftFather.set(ControlMode.Velocity, 800);
+                rightFather.set(ControlMode.Velocity, 800);
+        }
 
         public void driveForwardDistance(double left, double right) {
                 SmartDashboard.putNumber("driveForwardDistanceLeft", left);
@@ -189,6 +196,21 @@ public class Drivetrain extends SubsystemBase {
                 return goalAngle;
         }
 
+        public  void driveForwardDistanceToCountLeft(double leftTickCountGoal) {
+                SmartDashboard.putNumber("leftTickCountGoal", leftTickCountGoal);
+                leftFather.set(ControlMode.Position, leftTickCountGoal);
+        }
+
+        public  void driveForwardDistanceToCountRight(double rightTickCountGoal) {
+                SmartDashboard.putNumber("rightTickCountGoal", rightTickCountGoal);
+                rightFather.set(ControlMode.Position, rightTickCountGoal);
+        }
+
+        public  void driveForwardDistanceToCount(double leftTickCountGoal,double rightTickCountGoal) {
+                driveForwardDistanceToCountLeft(leftTickCountGoal);
+                driveForwardDistanceToCountRight(rightTickCountGoal);
+        }
+
         public int driveForwardDistance(double distance) {
                 int tickCountGoal = convertInchesToTicks(distance);
                 SmartDashboard.putNumber("driveForwardDistance", tickCountGoal);
@@ -232,6 +254,6 @@ public class Drivetrain extends SubsystemBase {
 
         public double convertTicksToInches (double ticks) {
                 double circumference = 2*Math.PI*3;
-                return (1.0/4096.0)*circumference;
+                return ticks*(1.0/4096.0)*circumference;
         }
 }

@@ -53,7 +53,7 @@ public class DriveStraightUntilPitch extends CommandBase  {
     @Override
     public boolean isFinished() {
 
-       return m_drivetrain.getPitch()<-14;
+       return Math.bs(m_drivetrain.getPitch())>14;
     }
 
 }

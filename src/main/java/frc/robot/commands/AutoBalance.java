@@ -7,7 +7,7 @@ public class AutoBalance extends SequentialCommandGroup {
 //gives our AutoBalance a class to use in a button
     public AutoBalance(Drivetrain m_drivetrain)
     {
-        addCommands(new DriveStraightUntilPitch(m_drivetrain),new Balance(m_drivetrain) );
+        addCommands(new DriveStraightUntilPitch(m_drivetrain),new DriveForwardDistance(m_drivetrain,-20),new Park(m_drivetrain));
     }
     
 }

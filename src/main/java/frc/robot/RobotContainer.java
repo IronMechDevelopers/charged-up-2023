@@ -6,9 +6,11 @@ package frc.robot;
 
 import frc.robot.commands.DriveStraight;
 import frc.robot.commands.DriveStraightUntilPitch;
+import frc.robot.commands.Intake;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.Angle;
 import frc.robot.commands.AutoBalance;
+import frc.robot.commands.AutoPark;
 import frc.robot.commands.Balance;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveForwardDistance;
@@ -63,26 +65,30 @@ public class RobotContainer {
     final JoystickButton balanceButton = new JoystickButton(driverLeftStick,3);
     final JoystickButton armInButton = new JoystickButton(driverLeftStick, 7); //TODO Get button number
     final JoystickButton armOutButton = new JoystickButton(driverLeftStick, 8); //TODO Get button number
+    final JoystickButton intakeInButton = new JoystickButton(driverRightStick, 7); 
+    final JoystickButton intakeOutButton = new JoystickButton(driverRightStick, 8); 
 
-    //final JoystickButton balanceButton = new JoystickButton(driverLeftStick,3);
+
     balanceButton.whileTrue(new Balance(m_drivetrain));
     armInButton.whileTrue(new MoveArm(m_arm, -1, 1.0));
     armOutButton.whileTrue(new MoveArm(m_arm, 1, 1.0));
 
+    intakeInButton.whileTrue(new Intake(m_arm, -1, 1.0));
+    intakeOutButton.whileTrue(new Intake(m_arm, 1, 1.0));
 
 
 
     final JoystickButton driveStraight = new JoystickButton(driverRightStick,6);
-    driveStraight.whileTrue(new AutoBalance(m_drivetrain));
+    driveStraight.toggleOnTrue(new AutoBalance(m_drivetrain));
 
     final JoystickButton angleCorrecter = new JoystickButton(driverLeftStick,6);
     angleCorrecter.toggleOnTrue(new TurnToAngle(m_drivetrain,m_drivetrain.getGoalAngle(90)));
 
     final JoystickButton driveForwardDistanceButton = new JoystickButton(driverLeftStick,5);
-    driveForwardDistanceButton.toggleOnTrue(new DriveForwardDistance(m_drivetrain,36));
+    driveForwardDistanceButton.toggleOnTrue(new DriveForwardDistance(m_drivetrain,-36));
 
     final JoystickButton driveForwardDistanceButton2 = new JoystickButton(driverRightStick,5);
-    driveForwardDistanceButton2.toggleOnTrue(new DriveForwardDistance(m_drivetrain,12));s
+    driveForwardDistanceButton2.toggleOnTrue(new DriveForwardDistance(m_drivetrain,-6));
   }
 
 

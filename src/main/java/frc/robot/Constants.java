@@ -44,8 +44,8 @@ public final class Constants {
   public static final int kTimeoutMs = 30;
   public static final double kGains_kF =0.0;
   public static final double kGains_kP = 1.5 ;
-  public static final double kGains_kI =0.000;
-  public static final double kGains_kD =30;
+  public static final double kGains_kI =0.008;
+  public static final double kGains_kD =70;
   
 
 
@@ -55,4 +55,6 @@ public final class Constants {
   public static final int LEFT_FATHER_CANBUS_NUMBER = 1;
 
 public static final int ARM_MOTOR_CONTROLLER_CONSTANT = 4; 
+public static final int LEFT_INTAKE_MOTOR_CONTROLLER_CONSTANT = 5; 
+public static final int RIGHT_INTAKE_MOTOR_CONTROLLER_CONSTANT = 6; 
 }
