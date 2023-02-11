@@ -115,6 +115,13 @@ public class Drivetrain extends SubsystemBase {
                 m_drive.arcadeDrive(fwd, -1*rot);
         }
 
+        public void driveForwardDistance(double left, double right) {
+                SmartDashboard.putNumber("driveForwardDistanceLeft", left);
+                SmartDashboard.putNumber("driveForwardDistanceRight", right);
+                leftFather.set(ControlMode.Position, left);
+                rightFather.set(ControlMode.Position, right);
+        }
+
         public void setTalon(final WPI_TalonSRX _talon) {
 
                 /* Set relevant frame periods to be at least as fast as periodic rate */
@@ -205,9 +212,26 @@ public class Drivetrain extends SubsystemBase {
                 return rightFather.getSelectedSensorPosition();
         }
 
-public int convertInchesToTicks (double inches) {
-        double circumference = 2*Math.PI*3;
-        double a = 4096/circumference; 
-        return (int)(a*inches);
-}
+        public double getLeftEncoderCountInInches()
+        {
+                double temp = leftFather.getSelectedSensorPosition();
+                return convertTicksToInches(temp);
+        }
+        public double getRightEncoderCountInInches()
+        {
+                double temp = rightFather.getSelectedSensorPosition();
+                return convertTicksToInches(temp);
+        }
+
+
+        public int convertInchesToTicks (double inches) {
+                double circumference = 2*Math.PI*3;
+                double a = 4096/circumference; 
+                return (int)(a*inches);
+        }
+
+        public double convertTicksToInches (double ticks) {
+                double circumference = 2*Math.PI*3;
+                return (1.0/4096.0)*circumference;
+        }
 }
