@@ -72,7 +72,7 @@ public class RobotContainer {
 
 
 
-    final JoystickButton driveStraight = new JoystickButton(driverLeftStick,11);
+    final JoystickButton driveStraight = new JoystickButton(driverRightStick,6);
     driveStraight.whileTrue(new AutoBalance(m_drivetrain));
 
     final JoystickButton angleCorrecter = new JoystickButton(driverLeftStick,6);

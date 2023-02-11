@@ -46,6 +46,7 @@ public class Drivetrain extends SubsystemBase {
                 leftFather.setInverted(false);
                 rightFather.setInverted(true);
                 rightSon.setInverted(true);
+                leftSon.setInverted(false);
 
                 leftFather.setSensorPhase(true);
                 rightFather.setSensorPhase(true);
@@ -101,10 +102,17 @@ public class Drivetrain extends SubsystemBase {
                 return gyro.getWorldLinearAccelX();
         }
 
+        /**
+         * a method that will drive the robot
+         * 
+         * @param fwd a number from -1 to 1 with 1 moving forward
+         * @param rot a number from -1 to 1 with 1 moving clockwise
+         */
         public void arcadeDrive(double fwd, double rot) {
                 SmartDashboard.putNumber("Fwd", fwd);
                 SmartDashboard.putNumber("rot", rot);
-                m_drive.arcadeDrive(fwd, rot);
+                //making rot so that postive goes clockwise instead of WPILIB standard
+                m_drive.arcadeDrive(fwd, -1*rot);
         }
 
         public void setTalon(final WPI_TalonSRX _talon) {

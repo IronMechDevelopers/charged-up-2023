@@ -12,7 +12,7 @@ public class Angle extends CommandBase {
     private double goalAngle; 
     private double angleToTurnBy;
 
-
+// Shows angle to turn by
     public Angle( Drivetrain drivetrain, double angleToTurnBy) {
         super();
         m_drivetrain = drivetrain;
@@ -23,6 +23,7 @@ public class Angle extends CommandBase {
      
 
  // Called when the command is initially scheduled.
+ // Shows current angle and changes to goal angle
      @Override
      public void initialize() { 
         goalAngle=m_drivetrain.getYaw()+angleToTurnBy;
@@ -30,10 +31,11 @@ public class Angle extends CommandBase {
     }
 
     // Called every time the scheduler runs while the command is scheduled.
+    // Turns to goal angle depending on current angle
     @Override
     public void execute() { 
 
-        
+    // shows what our angle from the drivetrain and puts it on the dashboard
         SmartDashboard.putNumber("Yaw", m_drivetrain.getYaw());
         SmartDashboard.putNumber("goalAngle",goalAngle);
         System.out.println( m_drivetrain.getYaw());
@@ -41,14 +43,14 @@ public class Angle extends CommandBase {
         double angle = m_drivetrain.getYaw();
         if(angle-goalAngle>0)
         {
-            //this means the front is in the air so we should move forward;
+            //means the front is in the air so we should move forward;
             m_drivetrain.arcadeDrive(0,-0.5);
         }
         else if(angle-goalAngle<0)
         {
             m_drivetrain.arcadeDrive(0, 0.5);
         }
-
+        //means the back is in the air so we should move backwards;
     }
 
  // Called once the command ends or is interrupted.

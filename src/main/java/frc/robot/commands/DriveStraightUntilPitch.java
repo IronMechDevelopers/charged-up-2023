@@ -19,12 +19,14 @@ public class DriveStraightUntilPitch extends CommandBase  {
     }
 
     // Called when the command is initially scheduled.
+    // Gets yaw
     @Override
     public void initialize() {
         goalAngle=m_drivetrain.getYaw();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
+    // If any interference to change direction, command would realine itself.
     @Override
     public void execute() {
 
@@ -32,12 +34,11 @@ public class DriveStraightUntilPitch extends CommandBase  {
         double errorAngle=m_drivetrain.getYaw()-angle;
         if(errorAngle>0)
         {
-            //this means the front is in the air so we should move forward;
-            m_drivetrain.arcadeDrive(0.6,0.2);
+            m_drivetrain.arcadeDrive(-0.6,0.15);
         }
        else
         {
-            m_drivetrain.arcadeDrive(0.6, -0.2);
+            m_drivetrain.arcadeDrive(-0.6, -0.15);
         }
     }
 
@@ -52,7 +53,7 @@ public class DriveStraightUntilPitch extends CommandBase  {
     @Override
     public boolean isFinished() {
 
-       return m_drivetrain.getPitch()>14;
+       return m_drivetrain.getPitch()<-14;
     }
 
 }

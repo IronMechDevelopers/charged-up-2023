@@ -7,7 +7,7 @@ import frc.robot.subsystems.Drivetrain;
 public class DriveForwardDistance extends CommandBase {
     private Drivetrain m_Drivetrain;
     private double inches;
-
+//basiclly this allows us to move forward a set amount of inches
     public DriveForwardDistance(Drivetrain _drivetrain, double _inches) {
         m_Drivetrain = _drivetrain;
         inches = _inches;

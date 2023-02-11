@@ -12,6 +12,7 @@ public class Balance extends CommandBase {
     private double lastAngle;
     private int counter;
 
+    // Adds drive train components to balance command
     public Balance( Drivetrain drivetrain) {
         super();
         m_drivetrain = drivetrain;
@@ -19,13 +20,15 @@ public class Balance extends CommandBase {
     }
 
     // Called when the command is initially scheduled.
+    // Gets pitch
+    // Goal angle is 5, closest number to 0
     @Override
     public void initialize() {
         goalAngle=5;
         lastAngle = m_drivetrain.getPitch();
     }
 
-    // Called every time the scheduler runs while the command is scheduled.
+    // The closer we get to balancing the slower we go till eventully we stop
     @Override
     public void execute() {
         double angle = m_drivetrain.getPitch();
@@ -42,7 +45,7 @@ public class Balance extends CommandBase {
             SmartDashboard.putString("Balance state","Balnced");
             m_drivetrain.arcadeDrive(0,0);
         }
-        else if( Math.abs(lastAngle-angle) >= 2)
+        else if( Math.abs(lastAngle-angle) >= 5)
         {
             SmartDashboard.putString("Balance state","Moving to fast");
             counter=0;
@@ -51,38 +54,38 @@ public class Balance extends CommandBase {
         
         else if(angle>15)
         {
-            //this means the front is in the air so we should move forward;
-            m_drivetrain.arcadeDrive(.5,0);
+            //this means the back is in the air so we should move back;
+            m_drivetrain.arcadeDrive(-.6,0);
             SmartDashboard.putString("Balance state",">15");
         }
         else if(angle>10)
         {
-            m_drivetrain.arcadeDrive(.4,0);
+            m_drivetrain.arcadeDrive(-.5,0);
             SmartDashboard.putString("Balance state",">10");
         }
         else if(angle>5)
         {
-            m_drivetrain.arcadeDrive(.3,0);
+            m_drivetrain.arcadeDrive(-.4,0);
             SmartDashboard.putString("Balance state",">5");
         }
         else if(angle<-15)
         {
-            m_drivetrain.arcadeDrive(-.48,0);
+            m_drivetrain.arcadeDrive(.6,0);
             SmartDashboard.putString("Balance state",">-15");
         }
         else if(angle<-10)
         {
-            m_drivetrain.arcadeDrive(-.45,0);
+            m_drivetrain.arcadeDrive(.5,0);
             SmartDashboard.putString("Balance state",">-10");
         }
         else if(angle<-5)
         {
-            m_drivetrain.arcadeDrive(-.3,0);
+            m_drivetrain.arcadeDrive(.4,0);
             SmartDashboard.putString("Balance state",">-5");
         }
     
         lastAngle=angle;
-
+// Speed varies on angle positions
     }
 
     
