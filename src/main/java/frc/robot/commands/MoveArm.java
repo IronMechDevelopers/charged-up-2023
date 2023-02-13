@@ -4,22 +4,23 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
 public class MoveArm extends CommandBase {
-    private Arm m_arm;
-    private int m_dir;
-    private double m_speed;
+  private Arm m_arm;
+  private int m_dir;
+  private double m_speed;
 
-    public MoveArm (Arm arm, int dir, double speed) {
-        super();
-        m_arm = arm; 
-        m_dir = dir;
-        m_speed = speed;
- 
-        addRequirements(m_arm);
-    } 
-  
+  public MoveArm(Arm arm, int dir, double speed) {
+    super();
+    m_arm = arm;
+    m_dir = dir;
+    m_speed = speed;
+
+    addRequirements(m_arm);
+  }
+
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

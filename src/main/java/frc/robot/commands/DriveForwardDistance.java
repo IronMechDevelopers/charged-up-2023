@@ -7,7 +7,8 @@ import frc.robot.subsystems.Drivetrain;
 public class DriveForwardDistance extends CommandBase {
     private Drivetrain m_Drivetrain;
     private double inches;
-//basiclly this allows us to move forward a set amount of inches
+
+    // basiclly this allows us to move forward a set amount of inches
     public DriveForwardDistance(Drivetrain _drivetrain, double _inches) {
         m_Drivetrain = _drivetrain;
         inches = _inches;
@@ -18,29 +19,31 @@ public class DriveForwardDistance extends CommandBase {
     @Override
     public void initialize() {
         m_Drivetrain.resetEncoders();
-        SmartDashboard.putNumber("leftDistance",0);
-        SmartDashboard.putNumber("rightDistance",0);
+        SmartDashboard.putNumber("leftDistance", 0);
+        SmartDashboard.putNumber("rightDistance", 0);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        SmartDashboard.putNumber("distance2",inches);
+        SmartDashboard.putNumber("distance2", inches);
         m_Drivetrain.driveForwardDistance(inches);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        SmartDashboard.putNumber("leftDistance",m_Drivetrain.getLeftEncoderCountInInches());
-        SmartDashboard.putNumber("rightDistance",m_Drivetrain.getRightEncoderCountInInches());
+        SmartDashboard.putNumber("leftDistance", m_Drivetrain.getLeftEncoderCountInInches());
+        SmartDashboard.putNumber("rightDistance", m_Drivetrain.getRightEncoderCountInInches());
         m_Drivetrain.arcadeDrive(0, 0);
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return (Math.abs(m_Drivetrain.getRightEncoderCount() - m_Drivetrain.convertInchesToTicks(inches))) < m_Drivetrain.convertInchesToTicks(.1); 
+        return (Math
+                .abs(m_Drivetrain.getRightEncoderCount() - m_Drivetrain.convertInchesToTicks(inches))) < m_Drivetrain
+                        .convertInchesToTicks(.1);
     }
 
 }
