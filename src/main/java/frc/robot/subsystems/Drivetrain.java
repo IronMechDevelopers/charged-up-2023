@@ -36,6 +36,19 @@ public class Drivetrain extends SubsystemBase {
         public Drivetrain() {
                 super();
 
+                gyro = new AHRS(SPI.Port.kMXP);
+                new Thread(() -> {
+                        try {
+                                SmartDashboard.putString("gyro", "No good");
+                                Thread.sleep(1000);
+                                zeroHeading();
+                                SmartDashboard.putString("gyro", "Good");
+                        } catch (Exception e) {
+
+                        }
+                }).start();
+                gyro.calibrate();
+
                 leftFather.configFactoryDefault();
                 rightFather.configFactoryDefault();
 
@@ -58,11 +71,11 @@ public class Drivetrain extends SubsystemBase {
                 setTalon(rightFather);
 
                 leftFather.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
-                0,
-                10);
-            rightFather.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
-                0,
-                10);
+                                0,
+                                10);
+                rightFather.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
+                                0,
+                                10);
 
                 m_leftMotor = new MotorControllerGroup(leftFather,
                                 leftSon);
@@ -73,8 +86,6 @@ public class Drivetrain extends SubsystemBase {
                 m_drive.setSafetyEnabled(false);
                 addChild("Drive",
                                 m_drive);
-
-                gyro = new AHRS(SPI.Port.kMXP);
 
         }
 
@@ -111,22 +122,16 @@ public class Drivetrain extends SubsystemBase {
         public void arcadeDrive(double fwd, double rot) {
                 SmartDashboard.putNumber("Fwd", fwd);
                 SmartDashboard.putNumber("rot", rot);
-                //making rot so that postive goes clockwise instead of WPILIB standard
-                m_drive.arcadeDrive(fwd, -1*rot);
+                // making rot so that postive goes clockwise instead of WPILIB standard
+                m_drive.arcadeDrive(fwd, -1 * rot);
         }
+
         public void arcadeDriveBySpeed(double fwd, double rot) {
                 SmartDashboard.putNumber("Fwd", fwd);
                 SmartDashboard.putNumber("rot", rot);
-                //making rot so that postive goes clockwise instead of WPILIB standard
+                // making rot so that postive goes clockwise instead of WPILIB standard
                 leftFather.set(ControlMode.Velocity, 800);
                 rightFather.set(ControlMode.Velocity, 800);
-        }
-
-        public void driveForwardDistance(double left, double right) {
-                SmartDashboard.putNumber("driveForwardDistanceLeft", left);
-                SmartDashboard.putNumber("driveForwardDistanceRight", right);
-                leftFather.set(ControlMode.Position, left);
-                rightFather.set(ControlMode.Position, right);
         }
 
         public void setTalon(final WPI_TalonSRX _talon) {
@@ -183,8 +188,6 @@ public class Drivetrain extends SubsystemBase {
                 return gyro.getYaw();
         }
 
-
-
         public double getAltitude() {
                 return gyro.getAltitude();
         }
@@ -196,17 +199,17 @@ public class Drivetrain extends SubsystemBase {
                 return goalAngle;
         }
 
-        public  void driveForwardDistanceToCountLeft(double leftTickCountGoal) {
+        public void driveForwardDistanceToCountLeft(double leftTickCountGoal) {
                 SmartDashboard.putNumber("leftTickCountGoal", leftTickCountGoal);
                 leftFather.set(ControlMode.Position, leftTickCountGoal);
         }
 
-        public  void driveForwardDistanceToCountRight(double rightTickCountGoal) {
+        public void driveForwardDistanceToCountRight(double rightTickCountGoal) {
                 SmartDashboard.putNumber("rightTickCountGoal", rightTickCountGoal);
                 rightFather.set(ControlMode.Position, rightTickCountGoal);
         }
 
-        public  void driveForwardDistanceToCount(double leftTickCountGoal,double rightTickCountGoal) {
+        public void driveForwardDistanceToCount(double leftTickCountGoal, double rightTickCountGoal) {
                 driveForwardDistanceToCountLeft(leftTickCountGoal);
                 driveForwardDistanceToCountRight(rightTickCountGoal);
         }
@@ -219,41 +222,48 @@ public class Drivetrain extends SubsystemBase {
                 return tickCountGoal;
         }
 
-        public void resetEncoders()
-        {
+        public void driveForwardDistance(double left, double right) {
+                int leftTickCountGoal = convertInchesToTicks(left);
+                int rightTickCountGoal = convertInchesToTicks(right);
+                leftFather.set(ControlMode.Position, leftTickCountGoal);
+                rightFather.set(ControlMode.Position, rightTickCountGoal);
+        }
+
+        public void resetEncoders() {
                 leftFather.setSelectedSensorPosition(0);
                 rightFather.setSelectedSensorPosition(0);
         }
 
-        public double getLeftEncoderCount()
-        {
+        public void zeroHeading() {
+                gyro.reset();
+        }
+
+        public double getLeftEncoderCount() {
                 return leftFather.getSelectedSensorPosition();
         }
-        public double getRightEncoderCount()
-        {
+
+        public double getRightEncoderCount() {
                 return rightFather.getSelectedSensorPosition();
         }
 
-        public double getLeftEncoderCountInInches()
-        {
+        public double getLeftEncoderCountInInches() {
                 double temp = leftFather.getSelectedSensorPosition();
                 return convertTicksToInches(temp);
         }
-        public double getRightEncoderCountInInches()
-        {
+
+        public double getRightEncoderCountInInches() {
                 double temp = rightFather.getSelectedSensorPosition();
                 return convertTicksToInches(temp);
         }
 
-
-        public int convertInchesToTicks (double inches) {
-                double circumference = 2*Math.PI*3;
-                double a = 4096/circumference; 
-                return (int)(a*inches);
+        public int convertInchesToTicks(double inches) {
+                double circumference = 2 * Math.PI * 3;
+                double a = 4096 / circumference;
+                return (int) (a * inches);
         }
 
-        public double convertTicksToInches (double ticks) {
-                double circumference = 2*Math.PI*3;
-                return ticks*(1.0/4096.0)*circumference;
+        public double convertTicksToInches(double ticks) {
+                double circumference = 2 * Math.PI * 3;
+                return ticks * (1.0 / 4096.0) * circumference;
         }
 }

@@ -1,7 +1,5 @@
 package frc.robot.commands;
 
-import javax.lang.model.util.ElementScanner6;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
@@ -32,8 +30,7 @@ public class DriveStraight extends CommandBase {
     @Override
     public void execute() {
 
-        double angle = m_drivetrain.getPitch();
-        double errorAngle = m_drivetrain.getYaw() - angle;
+        double errorAngle = m_drivetrain.getYaw() - goalAngle;
         if (errorAngle > 3) {
             m_drivetrain.arcadeDrive(0.6, -0.2);
         } else if (errorAngle < -3) {

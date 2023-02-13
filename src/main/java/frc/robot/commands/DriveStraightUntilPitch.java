@@ -1,13 +1,11 @@
 package frc.robot.commands;
 
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
 public class DriveStraightUntilPitch extends CommandBase  {
-
-    // SmartDashboard.putNumber("Pitch", gyro.getPitch());
-    // SmartDashboard.putNumber("Yaw", gyro.getYaw());
-    // SmartDashboard.putNumber("Roll", gyro.getRoll());
 
     private final Drivetrain m_drivetrain;
     private double goalAngle;
@@ -23,22 +21,27 @@ public class DriveStraightUntilPitch extends CommandBase  {
     @Override
     public void initialize() {
         goalAngle=m_drivetrain.getYaw();
+        m_drivetrain.resetEncoders();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     // If any interference to change direction, command would realine itself.
     @Override
     public void execute() {
-
+        double speed =  -.6;
         double angle = m_drivetrain.getPitch();
-        double errorAngle=m_drivetrain.getYaw()-angle;
-        if(errorAngle>0)
+        double errorAngle=angle-goalAngle;
+        SmartDashboard.putNumber("errorAngle",errorAngle);
+        if(errorAngle>1)
         {
-            m_drivetrain.arcadeDrive(-0.6,0.15);
+            m_drivetrain.arcadeDrive(speed,-0.4);
         }
-       else
+       else if(errorAngle<-1)
         {
-            m_drivetrain.arcadeDrive(-0.6, -0.15);
+            m_drivetrain.arcadeDrive(speed, 0.4);
+        }
+        else{
+            m_drivetrain.arcadeDrive(speed, 0);
         }
     }
 
@@ -53,7 +56,7 @@ public class DriveStraightUntilPitch extends CommandBase  {
     @Override
     public boolean isFinished() {
 
-       return Math.bs(m_drivetrain.getPitch())>14;
+        return Math.abs(m_drivetrain.getPitch())>14;
     }
 
 }
