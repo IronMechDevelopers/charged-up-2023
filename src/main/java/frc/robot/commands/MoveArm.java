@@ -14,6 +14,7 @@ public class MoveArm extends CommandBase {
     m_dir = dir;
     m_speed = speed;
 
+  
     addRequirements(m_arm);
   }
 

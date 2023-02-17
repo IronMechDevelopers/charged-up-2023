@@ -71,8 +71,8 @@ public class RobotContainer {
     final JoystickButton balanceButton = new JoystickButton(driverLeftStick, 3);
     final JoystickButton armInButton = new JoystickButton(driverLeftStick, 7); // TODO Get button number
     final JoystickButton armOutButton = new JoystickButton(driverLeftStick, 8); // TODO Get button number
-    final JoystickButton intakeInButton = new JoystickButton(driverRightStick, 7);
-    final JoystickButton intakeOutButton = new JoystickButton(driverRightStick, 8);
+    final JoystickButton armDownButton = new JoystickButton(driverRightStick, 7);
+    final JoystickButton armUpButton = new JoystickButton(driverRightStick, 8);
 
     final JoystickButton oneEighty = new JoystickButton(driverRightStick, 10);
 
@@ -82,8 +82,8 @@ public class RobotContainer {
     armInButton.whileTrue(new MoveArm(m_arm, -1, 1.0));
     armOutButton.whileTrue(new MoveArm(m_arm, 1, 1.0));
 
-    intakeInButton.whileTrue(new Intake(m_arm, -1, 1.0));
-    intakeOutButton.whileTrue(new Intake(m_arm, 1, 1.0));
+    armDownButton.whileTrue(new Intake(m_arm, -1, 1));
+    armUpButton.whileTrue(new Intake(m_arm, 1, 1));
 
     final JoystickButton driveStraight = new JoystickButton(driverRightStick, 11);
     driveStraight.toggleOnTrue(new AutoBalance(m_drivetrain));
