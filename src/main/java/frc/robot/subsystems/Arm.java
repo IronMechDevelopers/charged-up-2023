@@ -32,10 +32,6 @@ public class Arm extends SubsystemBase {
         armMotorcontroller.set(speed * dir);
     }
 
-    public void periodic() {
-        SmartDashboard.putNumber("Pot", pot.get());
-    }
-
     public void runIntake(int dir, double speed) {
         leftIntakeMotorcontroller.set(speed * dir);
         rightIntakeMotorcontroller.set(speed * dir);
