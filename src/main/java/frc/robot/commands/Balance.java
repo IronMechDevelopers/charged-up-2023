@@ -32,11 +32,10 @@ public class Balance extends CommandBase {
         double angle = m_drivetrain.getPitch();
 
         if (angle > 5) {
-            m_drivetrain.driveForwardDistanceToCount(left - sixInches, right - sixInches);
-            SmartDashboard.putString("Balance state", ">5");
-        } else {
+            //this  means the front is up and we should drive forward 6 inches
             m_drivetrain.driveForwardDistanceToCount(left + sixInches, right + sixInches);
-            SmartDashboard.putString("Balance state", ">-15");
+        } else {
+            m_drivetrain.driveForwardDistanceToCount(left - sixInches, right - sixInches);
         }
 
     }

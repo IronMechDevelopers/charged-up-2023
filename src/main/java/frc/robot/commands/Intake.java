@@ -26,8 +26,7 @@ public class Intake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_arm.move(m_dir, m_speed);
-    SmartDashboard.putNumber("Pot", System.currentTimeMillis());
+    m_arm.runIntake(m_dir, m_speed);
   }
 
   // Called once the command ends or is interrupted.

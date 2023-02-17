@@ -12,6 +12,7 @@ import frc.robot.commands.Balance;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveForwardDistance;
 import frc.robot.commands.MoveArm;
+import frc.robot.commands.MoveArmToDistance;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.Joystick;
@@ -69,21 +70,31 @@ public class RobotContainer {
   private void configureBindings() {
 
     final JoystickButton balanceButton = new JoystickButton(driverLeftStick, 3);
-    final JoystickButton armInButton = new JoystickButton(driverLeftStick, 7); // TODO Get button number
-    final JoystickButton armOutButton = new JoystickButton(driverLeftStick, 8); // TODO Get button number
+
     final JoystickButton armDownButton = new JoystickButton(driverRightStick, 7);
     final JoystickButton armUpButton = new JoystickButton(driverRightStick, 8);
+
+    final JoystickButton intakeInButton = new JoystickButton(driverRightStick, 1);
+    final JoystickButton intakeOutButton = new JoystickButton(driverLeftStick, 1);
+
+    final JoystickButton armLowButton = new JoystickButton(driverLeftStick, 7);
+    final JoystickButton armHighButton = new JoystickButton(driverLeftStick, 8);
 
     final JoystickButton oneEighty = new JoystickButton(driverRightStick, 10);
 
     oneEighty.toggleOnTrue(new Angle(m_drivetrain, 180));
 
     balanceButton.whileTrue(new Balance(m_drivetrain));
-    armInButton.whileTrue(new MoveArm(m_arm, -1, 1.0));
-    armOutButton.whileTrue(new MoveArm(m_arm, 1, 1.0));
 
-    armDownButton.whileTrue(new Intake(m_arm, -1, 1));
-    armUpButton.whileTrue(new Intake(m_arm, 1, 1));
+    armLowButton.toggleOnTrue(new MoveArmToDistance(m_arm, 0, 1));
+    armHighButton.toggleOnTrue(new MoveArmToDistance(m_arm, 6, 1));
+
+    armDownButton.whileTrue(new MoveArm(m_arm, -1, 1));
+    armUpButton.whileTrue(new MoveArm(m_arm, 1, 1));
+
+
+    intakeInButton.whileTrue(new Intake(m_arm, -1, .75));
+    intakeOutButton.whileTrue(new Intake(m_arm, 1, .75));
 
     final JoystickButton driveStraight = new JoystickButton(driverRightStick, 11);
     driveStraight.toggleOnTrue(new AutoBalance(m_drivetrain));
