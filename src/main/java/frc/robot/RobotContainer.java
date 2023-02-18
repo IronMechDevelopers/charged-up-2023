@@ -4,17 +4,19 @@
 
 package frc.robot;
 
-import frc.robot.commands.Intake;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.Angle;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.Balance;
+import frc.robot.commands.Collection;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveForwardDistance;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveArmToDistance;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Wrist;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -34,6 +36,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   final Drivetrain m_drivetrain = new Drivetrain();
   final Arm m_arm = new Arm();
+  final Intake m_intake = new Intake();
+  final Wrist m_wrist = new Wrist();
 
   // The robot's subsystems and commands are defined here...
   private final Joystick driverLeftStick = new Joystick(0);
@@ -93,8 +97,8 @@ public class RobotContainer {
     armUpButton.whileTrue(new MoveArm(m_arm, 1, 1));
 
 
-    intakeInButton.whileTrue(new Intake(m_arm, -1, .75));
-    intakeOutButton.whileTrue(new Intake(m_arm, 1, .75));
+    intakeInButton.whileTrue(new Collection(m_intake, -1, .75));
+    intakeOutButton.whileTrue(new Collection(m_intake, 1, .75));
 
     final JoystickButton driveStraight = new JoystickButton(driverRightStick, 11);
     driveStraight.toggleOnTrue(new AutoBalance(m_drivetrain));
