@@ -2,20 +2,21 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Intake;
 
-public class Intake extends CommandBase {
-  private Arm m_arm;
+public class Collection extends CommandBase {
+
+  private Intake m_intake;
   private int m_dir;
   private double m_speed;
 
-  public Intake(Arm arm, int dir, double speed) {
+  public Collection(Intake intake, int dir, double speed) {
     super();
-    m_arm = arm;
+    m_intake = intake;
     m_dir = dir;
     m_speed = speed;
 
-    addRequirements(m_arm);
+    addRequirements(m_intake);
   }
 
   // Called when the command is initially scheduled.
@@ -26,13 +27,13 @@ public class Intake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_arm.runIntake(m_dir, m_speed);
+    m_intake.runIntake(m_dir, m_speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_arm.runIntake(0, 0);
+    m_intake.runIntake(0, 0);
   }
 
   // Returns true when the command should end.
