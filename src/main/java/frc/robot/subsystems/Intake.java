@@ -16,7 +16,7 @@ private final WPI_VictorSPX rightIntakeMotorcontroller = new WPI_VictorSPX(
     
     public Intake () {
       super(); 
-      rightIntakeMotorcontroller.setInverted(true);
+    //   rightIntakeMotorcontroller.setInverted(true);
     }
 
     public void runIntake(int dir, double speed) {

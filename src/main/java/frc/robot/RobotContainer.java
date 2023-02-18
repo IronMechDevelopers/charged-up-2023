@@ -13,6 +13,7 @@ import frc.robot.commands.Drive;
 import frc.robot.commands.DriveForwardDistance;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveArmToDistance;
+import frc.robot.commands.MoveWrist;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -78,13 +79,21 @@ public class RobotContainer {
     final JoystickButton armDownButton = new JoystickButton(driverRightStick, 7);
     final JoystickButton armUpButton = new JoystickButton(driverRightStick, 8);
 
-    final JoystickButton intakeInButton = new JoystickButton(driverRightStick, 1);
-    final JoystickButton intakeOutButton = new JoystickButton(driverLeftStick, 1);
+    final JoystickButton rightFire = new JoystickButton(driverRightStick, 1);
+    final JoystickButton leftFire = new JoystickButton(driverLeftStick, 1);
 
     final JoystickButton armLowButton = new JoystickButton(driverLeftStick, 7);
     final JoystickButton armHighButton = new JoystickButton(driverLeftStick, 8);
 
     final JoystickButton oneEighty = new JoystickButton(driverRightStick, 10);
+
+    final JoystickButton intakeInButton = new JoystickButton(driverLeftStick, 4);
+    final JoystickButton intakeOutButton = new JoystickButton(driverRightStick, 3);
+
+    final JoystickButton wristDownButton = new JoystickButton(driverRightStick, 4);
+    final JoystickButton wristUpButton = new JoystickButton(driverRightStick, 6);
+
+
 
     oneEighty.toggleOnTrue(new Angle(m_drivetrain, 180));
 
@@ -97,8 +106,14 @@ public class RobotContainer {
     armUpButton.whileTrue(new MoveArm(m_arm, 1, 1));
 
 
-    intakeInButton.whileTrue(new Collection(m_intake, -1, .75));
-    intakeOutButton.whileTrue(new Collection(m_intake, 1, .75));
+    intakeInButton.whileTrue(new Collection(m_intake, 1, .75));
+    intakeOutButton.whileTrue(new Collection(m_intake, -1, .75));
+
+    leftFire.whileTrue(new MoveArm(m_arm,1,1));
+    rightFire.whileTrue(new MoveArm(m_arm,-1,.75));
+
+    wristDownButton.whileTrue(new MoveWrist(m_wrist, -1, .5));
+    wristUpButton.whileTrue(new MoveWrist(m_wrist, 1, .5));
 
     final JoystickButton driveStraight = new JoystickButton(driverRightStick, 11);
     driveStraight.toggleOnTrue(new AutoBalance(m_drivetrain));

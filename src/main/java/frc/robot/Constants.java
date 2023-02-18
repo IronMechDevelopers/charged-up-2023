@@ -55,4 +55,6 @@ public final class Constants {
   public static final int ARM_MOTOR_CONTROLLER_CONSTANT = 4;
   public static final int LEFT_INTAKE_MOTOR_CONTROLLER_CONSTANT = 5;
   public static final int RIGHT_INTAKE_MOTOR_CONTROLLER_CONSTANT = 6;
+
+  public static final int WRIST_MOTOR_CONTROLLER_CONSTANT = 7;
 }
