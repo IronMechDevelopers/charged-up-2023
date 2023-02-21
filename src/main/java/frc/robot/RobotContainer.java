@@ -4,16 +4,20 @@
 
 package frc.robot;
 
-import frc.robot.commands.Intake;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.Angle;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.Balance;
+import frc.robot.commands.Collection;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveForwardDistance;
 import frc.robot.commands.MoveArm;
+import frc.robot.commands.MoveArmToDistance;
+import frc.robot.commands.MoveWrist;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Wrist;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -33,6 +37,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   final Drivetrain m_drivetrain = new Drivetrain();
   final Arm m_arm = new Arm();
+  final Intake m_intake = new Intake();
+  final Wrist m_wrist = new Wrist();
 
   // The robot's subsystems and commands are defined here...
   private final Joystick driverLeftStick = new Joystick(0);
@@ -68,34 +74,66 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    final JoystickButton balanceButton = new JoystickButton(driverLeftStick, 3);
-    final JoystickButton armInButton = new JoystickButton(driverLeftStick, 7); // TODO Get button number
-    final JoystickButton armOutButton = new JoystickButton(driverLeftStick, 8); // TODO Get button number
-    final JoystickButton intakeInButton = new JoystickButton(driverRightStick, 7);
-    final JoystickButton intakeOutButton = new JoystickButton(driverRightStick, 8);
+    // final JoystickButton balanceButton = new JoystickButton(driverLeftStick, 3);
+
+    // final JoystickButton armDownButton = new JoystickButton(driverRightStick, 7);
+    // final JoystickButton armUpButton = new JoystickButton(driverRightStick, 8);
+
+    final JoystickButton rightFire = new JoystickButton(driverRightStick, 1);
+    final JoystickButton leftFire = new JoystickButton(driverLeftStick, 1);
+
+    final JoystickButton armLowButton = new JoystickButton(driverLeftStick, 7);
+    final JoystickButton armHighButton = new JoystickButton(driverLeftStick, 8);
 
     final JoystickButton oneEighty = new JoystickButton(driverRightStick, 10);
 
+    final JoystickButton intakeInButton = new JoystickButton(driverRightStick, 5);
+    final JoystickButton intakeOutButton = new JoystickButton(driverRightStick, 6);
+
+    final JoystickButton wristDownButton = new JoystickButton(driverRightStick, 3);
+    final JoystickButton wristUpButton = new JoystickButton(driverRightStick, 4);
+
+
+    // final JoystickButton driveForwardDistanceButton2 = new JoystickButton(driverRightStick, 5);
+
+
+    // final JoystickButton driveForwardDistanceButton = new JoystickButton(driverLeftStick, 5);
+
+    // final JoystickButton angleCorrecter = new JoystickButton(driverLeftStick, 6);
+
+    // final JoystickButton driveStraight = new JoystickButton(driverRightStick, 11);
+
     oneEighty.toggleOnTrue(new Angle(m_drivetrain, 180));
 
-    balanceButton.whileTrue(new Balance(m_drivetrain));
-    armInButton.whileTrue(new MoveArm(m_arm, -1, 1.0));
-    armOutButton.whileTrue(new MoveArm(m_arm, 1, 1.0));
+    // balanceButton.whileTrue(new Balance(m_drivetrain));
 
-    intakeInButton.whileTrue(new Intake(m_arm, -1, 1.0));
-    intakeOutButton.whileTrue(new Intake(m_arm, 1, 1.0));
+    armLowButton.toggleOnTrue(new MoveArmToDistance(m_arm, 0, 1));
+    armHighButton.toggleOnTrue(new MoveArmToDistance(m_arm, 6, 1));
 
-    final JoystickButton driveStraight = new JoystickButton(driverRightStick, 11);
-    driveStraight.toggleOnTrue(new AutoBalance(m_drivetrain));
+    // armDownButton.whileTrue(new MoveArm(m_arm, -1, 1));
+    // armUpButton.whileTrue(new MoveArm(m_arm, 1, 1));
 
-    final JoystickButton angleCorrecter = new JoystickButton(driverLeftStick, 6);
-    angleCorrecter.toggleOnTrue(new TurnToAngle(m_drivetrain, m_drivetrain.getGoalAngle(90)));
 
-    final JoystickButton driveForwardDistanceButton = new JoystickButton(driverLeftStick, 5);
-    driveForwardDistanceButton.toggleOnTrue(new DriveForwardDistance(m_drivetrain, -36));
+    intakeInButton.whileTrue(new Collection(m_intake, 1, .75));
+    intakeOutButton.whileTrue(new Collection(m_intake, -1, .75));
 
-    final JoystickButton driveForwardDistanceButton2 = new JoystickButton(driverRightStick, 5);
-    driveForwardDistanceButton2.toggleOnTrue(new DriveForwardDistance(m_drivetrain, -6));
+    leftFire.whileTrue(new MoveArm(m_arm,1,1));
+    rightFire.whileTrue(new MoveArm(m_arm,-1,.75));
+
+    wristDownButton.whileTrue(new MoveWrist(m_wrist, -1, .5));
+    wristUpButton.whileTrue(new MoveWrist(m_wrist, 1, .5));
+
+    
+    // driveStraight.toggleOnTrue(new AutoBalance(m_drivetrain));
+
+    
+    // angleCorrecter.toggleOnTrue(new TurnToAngle(m_drivetrain, m_drivetrain.getGoalAngle(90)));
+
+    
+    // driveForwardDistanceButton.toggleOnTrue(new DriveForwardDistance(m_drivetrain, -36));
+
+   
+    // driveForwardDistanceButton2.toggleOnTrue(new DriveForwardDistance(m_drivetrain, -6));
   }
 
   /**
