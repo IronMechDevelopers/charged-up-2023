@@ -14,6 +14,7 @@ import frc.robot.commands.DriveForwardDistance;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveArmToDistance;
 import frc.robot.commands.MoveWrist;
+import frc.robot.commands.SlowSpeed;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -79,7 +80,7 @@ public class RobotContainer {
     // final JoystickButton armDownButton = new JoystickButton(driverRightStick, 7);
     // final JoystickButton armUpButton = new JoystickButton(driverRightStick, 8);
 
-    final JoystickButton rightFire = new JoystickButton(driverRightStick, 1);
+    final JoystickButton slow = new JoystickButton(driverLeftStick, 4);
     final JoystickButton leftFire = new JoystickButton(driverLeftStick, 1);
 
     final JoystickButton armLowButton = new JoystickButton(driverLeftStick, 7);
@@ -118,7 +119,9 @@ public class RobotContainer {
     intakeOutButton.whileTrue(new Collection(m_intake, -1, .75));
 
     leftFire.whileTrue(new MoveArm(m_arm,1,1));
-    rightFire.whileTrue(new MoveArm(m_arm,-1,.75));
+    slow.whileTrue(new SlowSpeed(driverLeftStick::getY,
+    driverRightStick::getX,
+    m_drivetrain));
 
     wristDownButton.whileTrue(new MoveWrist(m_wrist, -1, .5));
     wristUpButton.whileTrue(new MoveWrist(m_wrist, 1, .5));
