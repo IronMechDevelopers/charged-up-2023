@@ -24,8 +24,9 @@ public class Wrist extends SubsystemBase {
 
     }
 
-    public double getDistance() {
-        return wristMotor.getSelectedSensorPosition();
+    public double getAngle() {
+        double ticks = wristMotor.getSelectedSensorPosition();
+        return ticks * 360/4096.0;
 
     }
 
