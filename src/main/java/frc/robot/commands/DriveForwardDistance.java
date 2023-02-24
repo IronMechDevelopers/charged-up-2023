@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
@@ -27,7 +29,10 @@ public class DriveForwardDistance extends CommandBase {
     @Override
     public void execute() {
         SmartDashboard.putNumber("distance2", inches);
-        m_Drivetrain.driveForwardDistance(inches);
+        int tickCountGoal = m_Drivetrain.convertInchesToTicks(inches);
+        SmartDashboard.putNumber("driveForwardDistance", tickCountGoal);
+        m_Drivetrain.leftFather.set(ControlMode.Position, tickCountGoal);
+        m_Drivetrain.rightFather.set(ControlMode.Position, tickCountGoal);
     }
 
     // Called once the command ends or is interrupted.
