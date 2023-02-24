@@ -2,81 +2,89 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxAlternateEncoder;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Wrist extends SubsystemBase {
 
-
     // private Encoder encoder;
-    private static final int kCanID = Constants.WRIST_MOTOR_CONTROLLER_CONSTANT;
-    private static final MotorType kMotorType = MotorType.kBrushed;
-    private static final SparkMaxAlternateEncoder.Type kAltEncType = SparkMaxAlternateEncoder.Type.kQuadrature;
-    private static final int kCPR = 8192;
-    private CANSparkMax m_motor;
-
-    /**
-   * An alternate encoder object is constructed using the GetAlternateEncoder() 
-   * method on an existing CANSparkMax object. If using a REV Through Bore 
-   * Encoder, the type should be set to quadrature and the counts per 
-   * revolution set to 8192
-   */
-  private RelativeEncoder m_alternateEncoder;
+    private final WPI_TalonSRX wristMotor = new WPI_TalonSRX(Constants.WRIST_MOTOR_CONTROLLER_CONSTANT);
+    private final NeutralMode brakeMode = NeutralMode.Brake;
 
     public Wrist() {
         super();
-        m_motor = new CANSparkMax(kCanID, kMotorType);
-        m_motor.restoreFactoryDefaults();
-        m_motor.setInverted(true);
-    
-        // m_alternateEncoder = m_motor.getAlternateEncoder(kAltEncType, kCPR);
-
-
-        
-        // encoder = new Encoder(1,
-        //         2,
-        //         false,
-        //         Encoder.EncodingType.k4X);
-
-        // encoder.setDistancePerPulse(18);
-
-        // // Configures the encoder to consider itself stopped when its rate is below 10
-        // encoder.setMinRate(10);
-
-        // // Reverses the direction of the encoder
-        // encoder.setReverseDirection(true);
-
-        // // Configures an encoder to average its period measurement over 5 samples
-        // // Can be between 1 and 127 samples
-        // encoder.setSamplesToAverage(5);
+        wristMotor.configFactoryDefault();
+        wristMotor.setNeutralMode(brakeMode);
+        setTalon(wristMotor);
 
     }
 
     public void periodic() {
-        // SmartDashboard.putNumber("wrist", encoder.getDistance());
-        // SmartDashboard.putNumber("ProcessVariable", m_alternateEncoder.getPosition());
 
-    } 
+    }
 
     public double getDistance() {
-        // return encoder.getDistance();
-        return 0;
-    
-    } 
+        return wristMotor.getSelectedSensorPosition();
 
-    public double getRate () {
-        // return encoder.getRate(); 
-        return 0;
     }
 
-    public void setMotor(double speed)
-    {
-        m_motor.set(speed);
+    public void resetEncoder() {
+        wristMotor.setSelectedSensorPosition(0);
     }
-  
+
+    public void setMotor(double speed) {
+        wristMotor.set(speed);
+    }
+
+    public void setTalon(final WPI_TalonSRX _talon) {
+
+        /* Set relevant frame periods to be at least as fast as periodic rate */
+        _talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0,
+                10,
+                Constants.kTimeoutMs);
+        _talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic,
+                10,
+                Constants.kTimeoutMs);
+
+        /* Set the peak and nominal outputs */
+        _talon.configNominalOutputForward(0,
+                Constants.kTimeoutMs);
+        _talon.configNominalOutputReverse(0,
+                Constants.kTimeoutMs);
+        _talon.configPeakOutputForward(1,
+                Constants.kTimeoutMs);
+        _talon.configPeakOutputReverse(-1,
+                Constants.kTimeoutMs);
+
+        /* Set Motion Magic gains in slot0 - see documentation */
+        _talon.selectProfileSlot(Constants.kSlotIdx,
+                Constants.kPIDLoopIdx);
+        _talon.config_kF(Constants.kSlotIdx,
+                Constants.kGains_kF,
+                Constants.kTimeoutMs);
+        _talon.config_kP(Constants.kSlotIdx,
+                Constants.kGains_kP,
+                Constants.kTimeoutMs);
+        _talon.config_kI(Constants.kSlotIdx,
+                Constants.kGains_kI,
+                Constants.kTimeoutMs);
+        _talon.config_kD(Constants.kSlotIdx,
+                Constants.kGains_kD,
+                Constants.kTimeoutMs);
+
+        _talon.config_IntegralZone(0, 150, 0);
+
+        /* Set acceleration and vcruise velocity - see documentation */
+        _talon.configMotionCruiseVelocity(15000,
+                Constants.kTimeoutMs);
+        _talon.configMotionAcceleration(6000,
+                Constants.kTimeoutMs);
+
+        /* Zero the sensor once on robot boot up */
+        _talon.setSelectedSensorPosition(0,
+                Constants.kPIDLoopIdx,
+                Constants.kTimeoutMs);
+    }
+
 }
