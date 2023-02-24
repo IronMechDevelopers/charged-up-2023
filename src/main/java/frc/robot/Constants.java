@@ -71,8 +71,5 @@ public final class Constants {
   public static final int WRIST_MOTOR_CONTROLLER_CONSTANT = 7;
 
 
-  public static final int
-
-
   public static final double SLOW_SPEED_RATE=0.5;
 }
