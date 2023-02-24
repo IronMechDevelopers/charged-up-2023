@@ -19,7 +19,6 @@ public class MoveWrist extends CommandBase {
 
     public void initialize() {
         m_wrist.getDistance();
-        m_wrist.getRate();
     }
 
     // The closer we get to balancing the slower we go till eventully we stop
