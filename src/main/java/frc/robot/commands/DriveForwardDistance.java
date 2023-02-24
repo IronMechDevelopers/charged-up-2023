@@ -31,8 +31,8 @@ public class DriveForwardDistance extends CommandBase {
         SmartDashboard.putNumber("distance2", inches);
         int tickCountGoal = m_Drivetrain.convertInchesToTicks(inches);
         SmartDashboard.putNumber("driveForwardDistance", tickCountGoal);
-        m_Drivetrain.leftFather.set(ControlMode.Position, tickCountGoal);
-        m_Drivetrain.rightFather.set(ControlMode.Position, tickCountGoal);
+        m_Drivetrain.set(ControlMode.Position, tickCountGoal);
+    
     }
 
     // Called once the command ends or is interrupted.
