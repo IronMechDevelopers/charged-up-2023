@@ -1,8 +1,11 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -13,6 +16,7 @@ public class Wrist extends SubsystemBase {
         // private Encoder encoder;
         private final WPI_TalonSRX wristMotor = new WPI_TalonSRX(Constants.WRIST_MOTOR_CONTROLLER_CONSTANT);
         private final NeutralMode brakeMode = NeutralMode.Brake;
+        private final double feedForward;
 
         public Wrist() {
                 super();
@@ -20,18 +24,20 @@ public class Wrist extends SubsystemBase {
                 wristMotor.setNeutralMode(brakeMode);
                 setTalon(wristMotor);
 
-                wristMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
+                wristMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute,
                 0,
                 10);
+                feedForward=.01;
 
         }
 
         public void periodic() {
-
+                SmartDashboard.putNumber("WristAngle", getAngle());
         }
 
         public double getAngle() {
                 double ticks = wristMotor.getSelectedSensorPosition();
+                
                 return ticks * 360 / 4096.0;
 
         }
@@ -42,6 +48,10 @@ public class Wrist extends SubsystemBase {
 
         public void setMotor(double speed) {
                 wristMotor.set(speed);
+        }
+
+        public void setAngle(double angle) {
+                wristMotor.set(ControlMode.MotionMagic, angle, DemandType.ArbitraryFeedForward, feedForward);
         }
 
         public void setTalon(final WPI_TalonSRX _talon) {
