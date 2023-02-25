@@ -28,20 +28,13 @@ public class DriveStraightUntilPitch extends CommandBase  {
     // If any interference to change direction, command would realine itself.
     @Override
     public void execute() {
-        double speed =  -.6;
-        double angle = m_drivetrain.getPitch();
-        double errorAngle=angle-goalAngle;
-        SmartDashboard.putNumber("errorAngle",errorAngle);
-        if(errorAngle>1)
-        {
-            m_drivetrain.arcadeDrive(speed,-0.4);
-        }
-       else if(errorAngle<-1)
-        {
-            m_drivetrain.arcadeDrive(speed, 0.4);
-        }
-        else{
-            m_drivetrain.arcadeDrive(speed, 0);
+        double errorAngle = m_drivetrain.getYaw() - goalAngle;
+        if (errorAngle > 3) {
+            m_drivetrain.arcadeDrive(-0.6, -0.2);
+        } else if (errorAngle < -3) {
+            m_drivetrain.arcadeDrive(-0.6, 0.2);
+        } else {
+            m_drivetrain.arcadeDrive(-0.6, 0.0);
         }
     }
 

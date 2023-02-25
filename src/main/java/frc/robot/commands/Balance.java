@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
@@ -32,7 +31,7 @@ public class Balance extends CommandBase {
         double angle = m_drivetrain.getPitch();
 
         if (angle > 5) {
-            //this  means the front is up and we should drive forward 6 inches
+            // this means the front is up and we should drive forward 6 inches
             m_drivetrain.driveForwardDistanceToCount(left + sixInches, right + sixInches);
         } else {
             m_drivetrain.driveForwardDistanceToCount(left - sixInches, right - sixInches);

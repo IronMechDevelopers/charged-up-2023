@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.XboxController;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -27,13 +29,14 @@ public class Drivetrain extends SubsystemBase {
         private final WPI_VictorSPX leftSon = new WPI_VictorSPX(Constants.LEFT_SON_CANBUS_NUMBER);
         private final WPI_VictorSPX rightSon = new WPI_VictorSPX(Constants.RIGHT_SON_CANBUS_NUMBER);
         private final NeutralMode brakeMode = NeutralMode.Brake;
-
+        private final double circumference;
         private AHRS gyro;
+        private final XboxController copilotXbox;
 
         /**
          * 
          */
-        public Drivetrain() {
+        public Drivetrain(XboxController copilotXbox) {
                 super();
 
                 gyro = new AHRS(SPI.Port.kMXP);
@@ -87,6 +90,9 @@ public class Drivetrain extends SubsystemBase {
                 addChild("Drive",
                                 m_drive);
 
+                circumference = 2 * Math.PI * Constants.kDriveWheelDiameter;
+                this.copilotXbox= copilotXbox;
+
         }
 
         public void periodic() {
@@ -97,6 +103,13 @@ public class Drivetrain extends SubsystemBase {
                 SmartDashboard.putNumber("RightWheelEncoder", rightFather.getSelectedSensorPosition());
                 SmartDashboard.putNumber("Left wheel velocity", leftFather.getSelectedSensorVelocity());
                 SmartDashboard.putNumber("Right wheel velocity", rightFather.getSelectedSensorVelocity());
+                if(Math.abs(getPitch()) > 4)
+                {
+                        copilotXbox.setRumble(RumbleType.kBothRumble, 1);
+                }
+                else{
+                        copilotXbox.setRumble(RumbleType.kBothRumble, 0);
+                }
         }
 
         /***
@@ -129,9 +142,9 @@ public class Drivetrain extends SubsystemBase {
         public void arcadeDriveBySpeed(double fwd, double rot) {
                 SmartDashboard.putNumber("Fwd", fwd);
                 SmartDashboard.putNumber("rot", rot);
-                // making rot so that postive goes clockwise instead of WPILIB standard
-                leftFather.set(ControlMode.Velocity, 800);
-                rightFather.set(ControlMode.Velocity, 800);
+                
+                leftFather.set(ControlMode.Velocity, fwd);
+                rightFather.set(ControlMode.Velocity, rot);
         }
 
         public void setTalon(final WPI_TalonSRX _talon) {
@@ -158,16 +171,16 @@ public class Drivetrain extends SubsystemBase {
                 _talon.selectProfileSlot(Constants.kSlotIdx,
                                 Constants.kPIDLoopIdx);
                 _talon.config_kF(Constants.kSlotIdx,
-                                Constants.kGains_kF,
+                                Constants.kGains_drivetrain_kF,
                                 Constants.kTimeoutMs);
                 _talon.config_kP(Constants.kSlotIdx,
-                                Constants.kGains_kP,
+                                Constants.kGains_drivetrain_kP,
                                 Constants.kTimeoutMs);
                 _talon.config_kI(Constants.kSlotIdx,
-                                Constants.kGains_kI,
+                                Constants.kGains_drivetrain_kI,
                                 Constants.kTimeoutMs);
                 _talon.config_kD(Constants.kSlotIdx,
-                                Constants.kGains_kD,
+                                Constants.kGains_drivetrain_kD,
                                 Constants.kTimeoutMs);
 
                 _talon.config_IntegralZone(0, 150, 0);
@@ -192,12 +205,6 @@ public class Drivetrain extends SubsystemBase {
                 return gyro.getAltitude();
         }
 
-        public double getGoalAngle(double angleToTurnBy) {
-                System.out.println("yaw:" + getYaw());
-                double goalAngle = getYaw() + angleToTurnBy;
-                SmartDashboard.putNumber("goal Angle2", goalAngle);
-                return goalAngle;
-        }
 
         public void driveForwardDistanceToCountLeft(double leftTickCountGoal) {
                 SmartDashboard.putNumber("leftTickCountGoal", leftTickCountGoal);
@@ -214,15 +221,7 @@ public class Drivetrain extends SubsystemBase {
                 driveForwardDistanceToCountRight(rightTickCountGoal);
         }
 
-        public int driveForwardDistance(double distance) {
-                int tickCountGoal = convertInchesToTicks(distance);
-                SmartDashboard.putNumber("driveForwardDistance", tickCountGoal);
-                leftFather.set(ControlMode.Position, tickCountGoal);
-                rightFather.set(ControlMode.Position, tickCountGoal);
-                return tickCountGoal;
-        }
-
-        public void driveForwardDistance(double left, double right) {
+        public void driveForwardDistanceInInches(double left, double right) {
                 int leftTickCountGoal = convertInchesToTicks(left);
                 int rightTickCountGoal = convertInchesToTicks(right);
                 leftFather.set(ControlMode.Position, leftTickCountGoal);
@@ -257,13 +256,16 @@ public class Drivetrain extends SubsystemBase {
         }
 
         public int convertInchesToTicks(double inches) {
-                double circumference = 2 * Math.PI * 3;
                 double a = 4096 / circumference;
                 return (int) (a * inches);
         }
 
         public double convertTicksToInches(double ticks) {
-                double circumference = 2 * Math.PI * 3;
                 return ticks * (1.0 / 4096.0) * circumference;
+        }
+
+        public void set(ControlMode controlMode, int tickCountGoal) {
+                leftFather.set(controlMode, tickCountGoal);
+                rightFather.set(controlMode, tickCountGoal);
         }
 }

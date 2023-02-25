@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.util.Units;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -37,26 +35,39 @@ public final class Constants {
    */
   public static final int kPIDLoopIdx = 0;
 
-  /**
-   * set to zero to skip waiting for confirmation, set to nonzero to wait and
-   * report to DS if action fails.
-   */
-  public static final int kTimeoutMs = 30;
-  public static final double kGains_kF = 0.0;
-  public static final double kGains_kP = 1.5;
-  public static final double kGains_kI = 0.008;
-  public static final double kGains_kD = 70;
+   // Controller constants
+   public static final int left_joystick_index = 0;
+   public static final int righh_joystick_index=1;
+   public static final int  xbox_index=2;
 
+ // Drive constants
+  public static final int kTimeoutMs = 30;
+  public static final double kGains_drivetrain_kF = 0.0;
+  public static final double kGains_drivetrain_kP = 1.5;
+  public static final double kGains_drivetrain_kI = 0.008;
+  public static final double kGains_drivetrain_kD = 70;
+  public static final double kDriveWheelDiameter = 3;
+  
+
+
+  // Wrist constants
+  public static final double kGains_wrist_kF = 0.0;
+  public static final double kGains_wrist_kP = 1.5;
+  public static final double kGains_wrist_kI = 0.008;
+  public static final double kGains_wrist_kD = 70;
+
+
+
+// CanBus constants
   public static final int RIGHT_SON_CANBUS_NUMBER = 3;
   public static final int LEFT_SON_CANBUS_NUMBER = 2;
   public static final int RIGHT_FATHER_CANBUS_NUMBER = 0;
   public static final int LEFT_FATHER_CANBUS_NUMBER = 1;
-
   public static final int ARM_MOTOR_CONTROLLER_CONSTANT = 4;
   public static final int LEFT_INTAKE_MOTOR_CONTROLLER_CONSTANT = 5;
   public static final int RIGHT_INTAKE_MOTOR_CONTROLLER_CONSTANT = 6;
-
   public static final int WRIST_MOTOR_CONTROLLER_CONSTANT = 7;
+
 
 
   public static final double SLOW_SPEED_RATE=0.5;

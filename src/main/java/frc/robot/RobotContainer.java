@@ -4,16 +4,15 @@
 
 package frc.robot;
 
-import frc.robot.commands.TurnToAngle;
-import frc.robot.commands.Angle;
 import frc.robot.commands.AutoBalance;
-import frc.robot.commands.Balance;
+import frc.robot.commands.AutoCone;
 import frc.robot.commands.Collection;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveForwardDistance;
+import frc.robot.commands.IntakeCone;
 import frc.robot.commands.MoveArm;
-import frc.robot.commands.MoveArmToDistance;
 import frc.robot.commands.MoveWrist;
+import frc.robot.commands.MoveWristToAngle;
 import frc.robot.commands.SlowSpeed;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
@@ -37,17 +36,28 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+    // The robot's subsystems and commands are defined here...
+  private final Joystick driverLeftStick = new Joystick(0);
+  private final Joystick driverRightStick = new Joystick(1);
+  private final XboxController copilotXbox = new XboxController(2);
+  
   // The robot's subsystems and commands are defined here...
-  final Drivetrain m_drivetrain = new Drivetrain();
+  final Drivetrain m_drivetrain = new Drivetrain(copilotXbox);
   final Arm m_arm = new Arm();
   final Intake m_intake = new Intake();
   final Wrist m_wrist = new Wrist();
 
-  // The robot's subsystems and commands are defined here...
-  private final Joystick driverLeftStick = new Joystick(0);
-  private final Joystick driverRightStick = new Joystick(1);
-  private final Joystick copilot = new Joystick(2);
-  XboxController copilotXbox = new XboxController(3); 
+  
+
+  final JoystickButton slow = new JoystickButton(driverLeftStick, 4);
+  final JoystickButton leftFire = new JoystickButton(driverLeftStick, 1);
+  Trigger dpadDownButton = new Trigger(() -> copilotXbox.getPOV() == 180);
+  Trigger dpadUpButton = new Trigger(() -> copilotXbox.getPOV() == 0);
+  Trigger dpadRightButton = new Trigger(() -> copilotXbox.getPOV() == 90);
+  Trigger dpadLeftButton = new Trigger(() -> copilotXbox.getPOV() == 270);
+
+  Trigger leftTigger = new Trigger(() -> copilotXbox.getRawAxis(2)>.5 );
+  Trigger rightTigger = new Trigger(() -> copilotXbox.getRawAxis(3)>.5 );
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -78,83 +88,54 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-     //final JoystickButton balanceButton = new JoystickButton(driverLeftStick, 12);
-
-    // final JoystickButton armDownButton = new JoystickButton(driverRightStick, 7);
-    // final JoystickButton armUpButton = new JoystickButton(driverRightStick, 8); 
-
-    final JoystickButton slow = new JoystickButton(driverLeftStick, 4);
-    final JoystickButton leftFire = new JoystickButton(driverLeftStick, 1);
-
-    //final JoystickButton AutoBalance= new JoystickButton(driverRightStick, 11);
-
-    
-
-    new JoystickButton(copilotXbox, Button.kLeftBumper.value)
-    .whileTrue(new Collection(m_intake, -1, .75));
-
-    new JoystickButton(copilotXbox, Button.kRightBumper.value)
-    .whileTrue(new Collection(m_intake, 1, .75));
-
     new JoystickButton(copilotXbox, Button.kA.value)
-    .whileTrue(new MoveWrist(m_wrist, 1, .5));
+        .whileTrue(new Collection(m_intake, -1, .75));
 
     new JoystickButton(copilotXbox, Button.kB.value)
-    .whileTrue(new MoveWrist(m_wrist, -1, .5));
+        .whileTrue(new Collection(m_intake, 1, .75));
+
+    new JoystickButton(copilotXbox, Button.kLeftBumper.value)
+        .whileTrue(new MoveWrist(m_wrist, 1, .5));
+
+    new JoystickButton(copilotXbox, Button.kRightBumper.value)
+        .whileTrue(new MoveWrist(m_wrist, -1, .5));
 
     new JoystickButton(copilotXbox, Button.kY.value)
-    .whileTrue(new MoveArm(m_arm,1,1));
+        .whileTrue(new MoveArm(m_arm, 1, 1));
 
     new JoystickButton(copilotXbox, Button.kX.value)
-    .whileTrue(new MoveArm(m_arm,-1,.75));
-  
+        .whileTrue(new MoveArm(m_arm, -1, .75));
 
-    // // final JoystickButton driveForwardDistanceButton2 = new JoystickButton(driverRightStick, 5);
+    new JoystickButton(driverLeftStick, 1).whileTrue(new MoveArm(m_arm, 1, 1));
+    new JoystickButton(driverRightStick, 1).whileTrue(new MoveArm(m_arm, -1, 1));
 
+    leftTigger.whileTrue(new MoveArm(m_arm, 1, 1));
+    rightTigger.whileTrue(new MoveArm(m_arm, -1, 1));
 
-    // // final JoystickButton driveForwardDistanceButton = new JoystickButton(driverLeftStick, 5);
+    new JoystickButton(driverLeftStick, 5).toggleOnTrue(new MoveArm(m_arm, 1, 1).withTimeout(1));
+    new JoystickButton(driverLeftStick, 3).toggleOnTrue(new MoveArm(m_arm, -1, 1).withTimeout(1));
 
-    // // final JoystickButton angleCorrecter = new JoystickButton(driverLeftStick, 6);
+    new JoystickButton(driverRightStick, 5).toggleOnTrue(new MoveWristToAngle(m_wrist, -15));
+    new JoystickButton(driverRightStick, 6).toggleOnTrue(new MoveWristToAngle(m_wrist, -105));
 
-    // // final JoystickButton driveStraight = new JoystickButton(driverRightStick, 11);
+    new JoystickButton(driverRightStick, 2).toggleOnTrue(new SlowSpeed(driverLeftStick::getY,
+        driverRightStick::getX,
+        m_drivetrain)); 
 
-    // oneEighty.toggleOnTrue(new Angle(m_drivetrain, 180));
+    new JoystickButton(driverRightStick, 3)
+    .toggleOnTrue(new IntakeCone (m_intake, m_wrist, m_arm ));
 
-    // // balanceButton.whileTrue(new Balance(m_drivetrain));
+        
+        dpadDownButton.toggleOnTrue(new MoveWristToAngle(m_wrist, -87));
+        dpadUpButton.toggleOnTrue(new MoveWristToAngle(m_wrist, -116));
+        dpadRightButton.toggleOnTrue(new MoveWristToAngle(m_wrist, -144));
+        dpadLeftButton.toggleOnTrue(new MoveWristToAngle(m_wrist, -129));
 
-    // armLowButton.toggleOnTrue(new MoveArmToDistance(m_arm, 0, 1));
-    // armHighButton.toggleOnTrue(new MoveArmToDistance(m_arm, 6, 1));
+        new JoystickButton(driverLeftStick, 10).toggleOnTrue(new AutoCone (m_intake,  m_wrist,  m_arm,  m_drivetrain));
 
-    // // armDownButton.whileTrue(new MoveArm(m_arm, -1, 1));
-    // // armUpButton.whileTrue(new MoveArm(m_arm, 1, 1));
+        new JoystickButton(driverLeftStick, 11).toggleOnTrue(new DriveForwardDistance(m_drivetrain, 6));
+        new JoystickButton(driverLeftStick, 12).toggleOnTrue(new AutoBalance(m_drivetrain));
 
-
-    // intakeInButton.whileTrue(new Collection(m_intake, 1, .75));
-    // intakeOutButton.whileTrue(new Collection(m_intake, -1, .75));
-
-    leftFire.whileTrue(new MoveArm(m_arm,1,1));
-    
-    slow.whileTrue(new SlowSpeed(driverLeftStick::getY,
-    driverRightStick::getX,
-    m_drivetrain));
-    
-    // leftFire.whileTrue(new MoveArm(m_arm,1,1));
-    // rightFire.whileTrue(new MoveArm(m_arm,-1,.75));
-
-    // wristDownButton.whileTrue(new MoveWrist(m_wrist, -1, .5));
-    // wristUpButton.whileTrue(new MoveWrist(m_wrist, 1, .5));
-
-    
-    // // driveStraight.toggleOnTrue(new AutoBalance(m_drivetrain));
-
-    
-    // // angleCorrecter.toggleOnTrue(new TurnToAngle(m_drivetrain, m_drivetrain.getGoalAngle(90)));
-
-    
-    // // driveForwardDistanceButton.toggleOnTrue(new DriveForwardDistance(m_drivetrain, -36));
-
-   
-    // // driveForwardDistanceButton2.toggleOnTrue(new DriveForwardDistance(m_drivetrain, -6));
   }
 
   /**
