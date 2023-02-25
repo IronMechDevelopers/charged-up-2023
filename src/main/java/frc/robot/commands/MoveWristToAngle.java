@@ -3,16 +3,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Wrist;
 
-public class MoveWrist extends CommandBase {
+public class MoveWristToAngle  extends CommandBase {
     private Wrist m_wrist;
-    private double m_dir;
-    private double m_speed;
+    private double m_angle;
 
-    public MoveWrist(Wrist wrist, int dir, double speed) {
+
+    public MoveWristToAngle(Wrist wrist, double angle) {
         super();
         m_wrist = wrist;
-        m_dir = dir;
-        m_speed = speed;
+        m_angle = angle;
 
         addRequirements(m_wrist);
     }
@@ -24,7 +23,7 @@ public class MoveWrist extends CommandBase {
     // The closer we get to balancing the slower we go till eventully we stop
     @Override
     public void execute() {
-        m_wrist.setMotor(m_dir * m_speed);
+        m_wrist.setAngle(m_angle);
     }
 
     // Called once the command ends or is interrupted.

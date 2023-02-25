@@ -252,4 +252,9 @@ public class Drivetrain extends SubsystemBase {
         public double convertTicksToInches(double ticks) {
                 return ticks * (1.0 / 4096.0) * circumference;
         }
+
+        public void set(ControlMode controlMode, int tickCountGoal) {
+                leftFather.set(controlMode, tickCountGoal);
+                rightFather.set(controlMode, tickCountGoal);
+        }
 }
