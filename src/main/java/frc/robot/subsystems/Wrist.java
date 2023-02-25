@@ -23,6 +23,7 @@ public class Wrist extends SubsystemBase {
                 wristMotor.configFactoryDefault();
                 wristMotor.setNeutralMode(brakeMode);
                 setTalon(wristMotor);
+                
 
                 wristMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute,
                 0,
@@ -38,7 +39,7 @@ public class Wrist extends SubsystemBase {
         public double getAngle() {
                 double ticks = wristMotor.getSelectedSensorPosition();
                 
-                return ticks * 360 / 4096.0;
+                return ticks * 360 / 4096.0-206;
 
         }
 

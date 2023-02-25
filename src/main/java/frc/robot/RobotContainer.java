@@ -9,6 +9,7 @@ import frc.robot.commands.Collection;
 import frc.robot.commands.Drive;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveWrist;
+import frc.robot.commands.MoveWristToAngle;
 import frc.robot.commands.SlowSpeed;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
@@ -32,16 +33,18 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+    // The robot's subsystems and commands are defined here...
+  private final Joystick driverLeftStick = new Joystick(0);
+  private final Joystick driverRightStick = new Joystick(1);
+  private final XboxController copilotXbox = new XboxController(2);
+  
   // The robot's subsystems and commands are defined here...
-  final Drivetrain m_drivetrain = new Drivetrain();
+  final Drivetrain m_drivetrain = new Drivetrain(copilotXbox);
   final Arm m_arm = new Arm();
   final Intake m_intake = new Intake();
   final Wrist m_wrist = new Wrist();
 
-  // The robot's subsystems and commands are defined here...
-  private final Joystick driverLeftStick = new Joystick(0);
-  private final Joystick driverRightStick = new Joystick(1);
-  private final XboxController copilotXbox = new XboxController(2);
+  
 
   final JoystickButton slow = new JoystickButton(driverLeftStick, 4);
   final JoystickButton leftFire = new JoystickButton(driverLeftStick, 1);
@@ -75,17 +78,17 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    new JoystickButton(copilotXbox, Button.kLeftBumper.value)
+    new JoystickButton(copilotXbox, Button.kA.value)
         .whileTrue(new Collection(m_intake, -1, .75));
 
-    new JoystickButton(copilotXbox, Button.kRightBumper.value)
+    new JoystickButton(copilotXbox, Button.kB.value)
         .whileTrue(new Collection(m_intake, 1, .75));
 
-    new JoystickButton(copilotXbox, Button.kA.value)
-        .whileTrue(new MoveWrist(m_wrist, 1, .5));
-
-    new JoystickButton(copilotXbox, Button.kB.value)
+    new JoystickButton(copilotXbox, Button.kLeftBumper.value)
         .whileTrue(new MoveWrist(m_wrist, -1, .5));
+
+    new JoystickButton(copilotXbox, Button.kRightBumper.value)
+        .whileTrue(new MoveWrist(m_wrist, 1, .5));
 
     new JoystickButton(copilotXbox, Button.kY.value)
         .whileTrue(new MoveArm(m_arm, 1, 1));
@@ -96,7 +99,10 @@ public class RobotContainer {
     new JoystickButton(driverLeftStick, 1).whileTrue(new MoveArm(m_arm, 1, 1));
     new JoystickButton(driverRightStick, 1).whileTrue(new MoveArm(m_arm, -1, 1));
 
-    new JoystickButton(driverLeftStick, 4).whileTrue(new SlowSpeed(driverLeftStick::getY,
+    new JoystickButton(driverRightStick, 5).toggleOnTrue(new MoveWristToAngle(m_wrist, -15));
+    new JoystickButton(driverRightStick, 6).toggleOnTrue(new MoveWristToAngle(m_wrist, -105));
+
+    new JoystickButton(driverRightStick, 2).whileTrue(new SlowSpeed(driverLeftStick::getY,
         driverRightStick::getX,
         m_drivetrain));
 

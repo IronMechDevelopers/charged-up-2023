@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.XboxController;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -29,11 +31,12 @@ public class Drivetrain extends SubsystemBase {
         private final NeutralMode brakeMode = NeutralMode.Brake;
         private final double circumference;
         private AHRS gyro;
+        private final XboxController copilotXbox;
 
         /**
          * 
          */
-        public Drivetrain() {
+        public Drivetrain(XboxController copilotXbox) {
                 super();
 
                 gyro = new AHRS(SPI.Port.kMXP);
@@ -88,6 +91,7 @@ public class Drivetrain extends SubsystemBase {
                                 m_drive);
 
                 circumference = 2 * Math.PI * Constants.kDriveWheelDiameter;
+                this.copilotXbox= copilotXbox;
 
         }
 
@@ -99,6 +103,13 @@ public class Drivetrain extends SubsystemBase {
                 SmartDashboard.putNumber("RightWheelEncoder", rightFather.getSelectedSensorPosition());
                 SmartDashboard.putNumber("Left wheel velocity", leftFather.getSelectedSensorVelocity());
                 SmartDashboard.putNumber("Right wheel velocity", rightFather.getSelectedSensorVelocity());
+                if(Math.abs(getPitch()) > 2.5)
+                {
+                        copilotXbox.setRumble(RumbleType.kBothRumble, 1);
+                }
+                else{
+                        copilotXbox.setRumble(RumbleType.kBothRumble, 0);
+                }
         }
 
         /***

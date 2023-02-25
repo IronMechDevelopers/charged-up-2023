@@ -6,6 +6,7 @@ import frc.robot.subsystems.Wrist;
 public class MoveWristToAngle  extends CommandBase {
     private Wrist m_wrist;
     private double m_angle;
+    private double motorSpeed=.5;
 
 
     public MoveWristToAngle(Wrist wrist, double angle) {
@@ -23,7 +24,16 @@ public class MoveWristToAngle  extends CommandBase {
     // The closer we get to balancing the slower we go till eventully we stop
     @Override
     public void execute() {
-        m_wrist.setAngle(m_angle);
+        double error = m_wrist.getAngle() - m_angle;
+        if(error >0 )
+        {
+            m_wrist.setMotor(-1*motorSpeed);
+        }
+        else
+        {
+            m_wrist.setMotor(motorSpeed);
+        }
+        
     }
 
     // Called once the command ends or is interrupted.
@@ -35,6 +45,7 @@ public class MoveWristToAngle  extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        double error = m_wrist.getAngle() - m_angle;
+        return Math.abs(error) <= 5;
     }
 }
