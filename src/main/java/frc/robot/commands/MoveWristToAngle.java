@@ -25,14 +25,20 @@ public class MoveWristToAngle  extends CommandBase {
     @Override
     public void execute() {
         double error = m_wrist.getAngle() - m_angle;
+        double speed = 0;
         if(error >0 )
         {
-            m_wrist.setMotor(-1*motorSpeed);
+            speed = -1*motorSpeed;
         }
         else
         {
-            m_wrist.setMotor(motorSpeed);
+            speed = motorSpeed;
         }
+
+
+
+        m_wrist.setMotor(speed);
+
         
     }
 

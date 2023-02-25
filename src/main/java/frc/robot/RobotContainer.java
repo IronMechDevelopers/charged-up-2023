@@ -53,8 +53,8 @@ public class RobotContainer {
   Trigger dpadRightButton = new Trigger(() -> copilotXbox.getPOV() == 90);
   Trigger dpadLeftButton = new Trigger(() -> copilotXbox.getPOV() == 270);
 
-  Trigger leftTigger = new Trigger(() -> copilotXbox.getRawAxis(2)>.25 );
-  Trigger rightTigger = new Trigger(() -> copilotXbox.getRawAxis(3)>.25 );
+  Trigger leftTigger = new Trigger(() -> copilotXbox.getRawAxis(2)>.5 );
+  Trigger rightTigger = new Trigger(() -> copilotXbox.getRawAxis(3)>.5 );
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
