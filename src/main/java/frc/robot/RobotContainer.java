@@ -5,8 +5,10 @@
 package frc.robot;
 
 import frc.robot.commands.AutoBalance;
+import frc.robot.commands.AutoCone;
 import frc.robot.commands.Collection;
 import frc.robot.commands.Drive;
+import frc.robot.commands.DriveForwardDistance;
 import frc.robot.commands.IntakeCone;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveWrist;
@@ -49,6 +51,13 @@ public class RobotContainer {
 
   final JoystickButton slow = new JoystickButton(driverLeftStick, 4);
   final JoystickButton leftFire = new JoystickButton(driverLeftStick, 1);
+  Trigger dpadDownButton = new Trigger(() -> copilotXbox.getPOV() == 180);
+  Trigger dpadUpButton = new Trigger(() -> copilotXbox.getPOV() == 0);
+  Trigger dpadRightButton = new Trigger(() -> copilotXbox.getPOV() == 90);
+  Trigger dpadLeftButton = new Trigger(() -> copilotXbox.getPOV() == 270);
+
+  Trigger leftTigger = new Trigger(() -> copilotXbox.getRawAxis(2)>.5 );
+  Trigger rightTigger = new Trigger(() -> copilotXbox.getRawAxis(3)>.5 );
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -86,10 +95,10 @@ public class RobotContainer {
         .whileTrue(new Collection(m_intake, 1, .75));
 
     new JoystickButton(copilotXbox, Button.kLeftBumper.value)
-        .whileTrue(new MoveWrist(m_wrist, -1, .5));
+        .whileTrue(new MoveWrist(m_wrist, 1, .5));
 
     new JoystickButton(copilotXbox, Button.kRightBumper.value)
-        .whileTrue(new MoveWrist(m_wrist, 1, .5));
+        .whileTrue(new MoveWrist(m_wrist, -1, .5));
 
     new JoystickButton(copilotXbox, Button.kY.value)
         .whileTrue(new MoveArm(m_arm, 1, 1));
@@ -100,15 +109,32 @@ public class RobotContainer {
     new JoystickButton(driverLeftStick, 1).whileTrue(new MoveArm(m_arm, 1, 1));
     new JoystickButton(driverRightStick, 1).whileTrue(new MoveArm(m_arm, -1, 1));
 
+    leftTigger.whileTrue(new MoveArm(m_arm, 1, 1));
+    rightTigger.whileTrue(new MoveArm(m_arm, -1, 1));
+
+    new JoystickButton(driverLeftStick, 5).toggleOnTrue(new MoveArm(m_arm, 1, 1).withTimeout(1));
+    new JoystickButton(driverLeftStick, 3).toggleOnTrue(new MoveArm(m_arm, -1, 1).withTimeout(1));
+
     new JoystickButton(driverRightStick, 5).toggleOnTrue(new MoveWristToAngle(m_wrist, -15));
     new JoystickButton(driverRightStick, 6).toggleOnTrue(new MoveWristToAngle(m_wrist, -105));
 
-    new JoystickButton(driverRightStick, 2).whileTrue(new SlowSpeed(driverLeftStick::getY,
+    new JoystickButton(driverRightStick, 2).toggleOnTrue(new SlowSpeed(driverLeftStick::getY,
         driverRightStick::getX,
         m_drivetrain)); 
 
     new JoystickButton(driverRightStick, 3)
     .toggleOnTrue(new IntakeCone (m_intake, m_wrist, m_arm ));
+
+        
+        dpadDownButton.toggleOnTrue(new MoveWristToAngle(m_wrist, -87));
+        dpadUpButton.toggleOnTrue(new MoveWristToAngle(m_wrist, -116));
+        dpadRightButton.toggleOnTrue(new MoveWristToAngle(m_wrist, -144));
+        dpadLeftButton.toggleOnTrue(new MoveWristToAngle(m_wrist, -129));
+
+        new JoystickButton(driverLeftStick, 10).toggleOnTrue(new AutoCone (m_intake,  m_wrist,  m_arm,  m_drivetrain));
+
+        new JoystickButton(driverLeftStick, 11).toggleOnTrue(new DriveForwardDistance(m_drivetrain, 6));
+        new JoystickButton(driverLeftStick, 12).toggleOnTrue(new AutoBalance(m_drivetrain));
 
   }
 

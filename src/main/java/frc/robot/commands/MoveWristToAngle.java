@@ -6,7 +6,7 @@ import frc.robot.subsystems.Wrist;
 public class MoveWristToAngle  extends CommandBase {
     private Wrist m_wrist;
     private double m_angle;
-    private double motorSpeed=.5;
+    private double motorSpeed=.75;
 
 
     public MoveWristToAngle(Wrist wrist, double angle) {
@@ -25,14 +25,20 @@ public class MoveWristToAngle  extends CommandBase {
     @Override
     public void execute() {
         double error = m_wrist.getAngle() - m_angle;
+        double speed = 0;
         if(error >0 )
         {
-            m_wrist.setMotor(-1*motorSpeed);
+            speed = -1*motorSpeed;
         }
         else
         {
-            m_wrist.setMotor(motorSpeed);
+            speed = motorSpeed;
         }
+
+
+
+        m_wrist.setMotor(speed);
+
         
     }
 

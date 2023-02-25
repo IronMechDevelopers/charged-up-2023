@@ -103,7 +103,7 @@ public class Drivetrain extends SubsystemBase {
                 SmartDashboard.putNumber("RightWheelEncoder", rightFather.getSelectedSensorPosition());
                 SmartDashboard.putNumber("Left wheel velocity", leftFather.getSelectedSensorVelocity());
                 SmartDashboard.putNumber("Right wheel velocity", rightFather.getSelectedSensorVelocity());
-                if(Math.abs(getPitch()) > 2.5)
+                if(Math.abs(getPitch()) > 4)
                 {
                         copilotXbox.setRumble(RumbleType.kBothRumble, 1);
                 }
