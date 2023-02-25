@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.Collection;
 import frc.robot.commands.Drive;
+import frc.robot.commands.IntakeCone;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveWrist;
 import frc.robot.commands.MoveWristToAngle;
@@ -104,7 +105,10 @@ public class RobotContainer {
 
     new JoystickButton(driverRightStick, 2).whileTrue(new SlowSpeed(driverLeftStick::getY,
         driverRightStick::getX,
-        m_drivetrain));
+        m_drivetrain)); 
+
+    new JoystickButton(driverRightStick, 3)
+    .toggleOnTrue(new IntakeCone (m_intake, m_wrist, m_arm ));
 
   }
 
