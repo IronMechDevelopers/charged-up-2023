@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.AutoCone;
+import frc.robot.commands.AutoHighConeMoveBalance;
 import frc.robot.commands.Collection;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveForwardDistance;
@@ -131,7 +132,7 @@ public class RobotContainer {
         dpadRightButton.toggleOnTrue(new MoveWristToAngle(m_wrist, -144));
         dpadLeftButton.toggleOnTrue(new MoveWristToAngle(m_wrist, -129));
 
-        new JoystickButton(driverLeftStick, 10).toggleOnTrue(new AutoCone (m_intake,  m_wrist,  m_arm,  m_drivetrain));
+        new JoystickButton(driverLeftStick, 10).toggleOnTrue(new AutoHighConeMoveBalance ( m_arm,  m_wrist,  m_intake,  m_drivetrain));
 
         new JoystickButton(driverLeftStick, 11).toggleOnTrue(new DriveForwardDistance(m_drivetrain, 6));
         new JoystickButton(driverLeftStick, 12).toggleOnTrue(new AutoBalance(m_drivetrain));
@@ -145,6 +146,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new AutoBalance(m_drivetrain);
+    return new AutoHighConeMoveBalance ( m_arm,  m_wrist,  m_intake,  m_drivetrain);
   }
 }
