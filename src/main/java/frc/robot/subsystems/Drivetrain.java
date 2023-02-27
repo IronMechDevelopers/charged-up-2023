@@ -16,6 +16,7 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
+import static frc.robot.Constants.*;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -29,7 +30,6 @@ public class Drivetrain extends SubsystemBase {
         private final WPI_VictorSPX leftSon = new WPI_VictorSPX(Constants.LEFT_SON_CANBUS_NUMBER);
         private final WPI_VictorSPX rightSon = new WPI_VictorSPX(Constants.RIGHT_SON_CANBUS_NUMBER);
         private final NeutralMode brakeMode = NeutralMode.Brake;
-        private final double circumference;
         private AHRS gyro;
         private final XboxController copilotXbox;
 
@@ -90,7 +90,7 @@ public class Drivetrain extends SubsystemBase {
                 addChild("Drive",
                                 m_drive);
 
-                circumference = 2 * Math.PI * Constants.kDriveWheelDiameter;
+                
                 this.copilotXbox= copilotXbox;
 
         }
@@ -245,15 +245,14 @@ public class Drivetrain extends SubsystemBase {
         }
 
         public int convertInchesToTicks(double inches) {
-                double a = 4096 / circumference;
-                return (int) (a * inches);
+                return (int) ( (COUNTS_PER_REVOLUTION / CIRCUMFERENCE) * inches);
         }
 
         public double convertTicksToInches(double ticks) {
-                return ticks * (1.0 / 4096.0) * circumference;
+                return ticks * (1.0 / COUNTS_PER_REVOLUTION) * CIRCUMFERENCE;
         }
 
-        public void set(double leftTickCountGoal, double rightTickCountGoal) {
+        public void setPosition(double leftTickCountGoal, double rightTickCountGoal) {
                 leftFather.set(ControlMode.Position, leftTickCountGoal);
                 rightFather.set(ControlMode.Position, rightTickCountGoal);
         }

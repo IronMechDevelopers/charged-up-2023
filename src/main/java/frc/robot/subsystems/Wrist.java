@@ -13,7 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import static frc.robot.Constants.MINIMUM_ANGLE;
 import static frc.robot.Constants.MAXIMUM_ANGLE;
-
+import static frc.robot.Constants.*;
 public class Wrist extends SubsystemBase {
 
         // private Encoder encoder;
@@ -42,7 +42,7 @@ public class Wrist extends SubsystemBase {
         public double getAngle() {
                 double ticks = wristMotor.getSelectedSensorPosition();
                 
-                return ticks * 360 / 4096.0-206;
+                return ticks * 360 / COUNTS_PER_REVOLUTION-WRIST_OFFSET;
 
         }
 
