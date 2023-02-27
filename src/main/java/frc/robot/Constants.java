@@ -70,5 +70,6 @@ public final class Constants {
 
 
 
-  public static final double SLOW_SPEED_RATE=0.5;
+  public static final double SLOW_SPEED_RATE_FOWRARD=0.5;
+  public static final double SLOW_SPEED_RATE_TURN=0.75;
 }

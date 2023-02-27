@@ -9,6 +9,8 @@ import frc.robot.subsystems.Drivetrain;
 public class DriveForwardDistance extends CommandBase {
     private Drivetrain m_Drivetrain;
     private double inches;
+    private double leftGoal;
+    private double rightGoal;
 
     // basiclly this allows us to move forward a set amount of inches
     public DriveForwardDistance(Drivetrain _drivetrain, double _inches) {
@@ -20,18 +22,17 @@ public class DriveForwardDistance extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_Drivetrain.resetEncoders();
-        SmartDashboard.putNumber("leftDistance", 0);
-        SmartDashboard.putNumber("rightDistance", 0);
+        int toAdd = m_Drivetrain.convertInchesToTicks(inches);
+        leftGoal = m_Drivetrain.getLeftEncoderCount() + toAdd;
+        rightGoal = m_Drivetrain.getRightEncoderCount() + toAdd;
+        SmartDashboard.putNumber("leftGoal", leftGoal);
+        SmartDashboard.putNumber("rightGoal", rightGoal);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        SmartDashboard.putNumber("distance2", inches);
-        int tickCountGoal = m_Drivetrain.convertInchesToTicks(inches);
-        SmartDashboard.putNumber("driveForwardDistance", tickCountGoal);
-        m_Drivetrain.set(ControlMode.Position, tickCountGoal);
+        m_Drivetrain.set(leftGoal, rightGoal);
     
     }
 
@@ -46,9 +47,13 @@ public class DriveForwardDistance extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return (Math
-                .abs(m_Drivetrain.getRightEncoderCount() - m_Drivetrain.convertInchesToTicks(inches))) < m_Drivetrain
-                        .convertInchesToTicks(.1);
+        double leftError = Math.abs(leftGoal - m_Drivetrain.getLeftEncoderCount() );
+        double rightError = Math.abs(rightGoal - m_Drivetrain.getRightEncoderCount() );
+
+        SmartDashboard.putNumber("leftError", leftError);
+        SmartDashboard.putNumber("rightError", rightError);
+
+        return leftError < 1000 && rightError < 1000;
     }
 
 }

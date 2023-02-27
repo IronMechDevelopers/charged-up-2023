@@ -105,7 +105,7 @@ public class Drivetrain extends SubsystemBase {
                 SmartDashboard.putNumber("Right wheel velocity", rightFather.getSelectedSensorVelocity());
                 if(Math.abs(getPitch()) > 4)
                 {
-                        copilotXbox.setRumble(RumbleType.kBothRumble, 1);
+                        // copilotXbox.setRumble(RumbleType.kBothRumble, 1);
                 }
                 else{
                         copilotXbox.setRumble(RumbleType.kBothRumble, 0);
@@ -221,17 +221,6 @@ public class Drivetrain extends SubsystemBase {
                 driveForwardDistanceToCountRight(rightTickCountGoal);
         }
 
-        public void driveForwardDistanceInInches(double left, double right) {
-                int leftTickCountGoal = convertInchesToTicks(left);
-                int rightTickCountGoal = convertInchesToTicks(right);
-                leftFather.set(ControlMode.Position, leftTickCountGoal);
-                rightFather.set(ControlMode.Position, rightTickCountGoal);
-        }
-
-        public void resetEncoders() {
-                leftFather.setSelectedSensorPosition(0);
-                rightFather.setSelectedSensorPosition(0);
-        }
 
         public void zeroHeading() {
                 gyro.reset();
@@ -264,8 +253,8 @@ public class Drivetrain extends SubsystemBase {
                 return ticks * (1.0 / 4096.0) * circumference;
         }
 
-        public void set(ControlMode controlMode, int tickCountGoal) {
-                leftFather.set(controlMode, tickCountGoal);
-                rightFather.set(controlMode, tickCountGoal);
+        public void set(double leftTickCountGoal, double rightTickCountGoal) {
+                leftFather.set(ControlMode.Position, leftTickCountGoal);
+                rightFather.set(ControlMode.Position, rightTickCountGoal);
         }
 }

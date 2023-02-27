@@ -5,8 +5,9 @@
 package frc.robot;
 
 import frc.robot.commands.AutoBalance;
-import frc.robot.commands.AutoCone;
+import frc.robot.commands.AutoHighConeMove;
 import frc.robot.commands.AutoHighConeMoveBalance;
+import frc.robot.commands.AutoHighCubeMove;
 import frc.robot.commands.Collection;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveForwardDistance;
@@ -19,6 +20,8 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Wrist;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -50,7 +53,6 @@ public class RobotContainer {
 
   
 
-  final JoystickButton slow = new JoystickButton(driverLeftStick, 4);
   final JoystickButton leftFire = new JoystickButton(driverLeftStick, 1);
   Trigger dpadDownButton = new Trigger(() -> copilotXbox.getPOV() == 180);
   Trigger dpadUpButton = new Trigger(() -> copilotXbox.getPOV() == 0);
@@ -59,11 +61,14 @@ public class RobotContainer {
 
   Trigger leftTigger = new Trigger(() -> copilotXbox.getRawAxis(2)>.5 );
   Trigger rightTigger = new Trigger(() -> copilotXbox.getRawAxis(3)>.5 );
+  UsbCamera camera1;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
+    camera1 = CameraServer.startAutomaticCapture(0);
 
     m_drivetrain.setDefaultCommand(new Drive(driverLeftStick::getY,
         driverRightStick::getX,
@@ -108,7 +113,7 @@ public class RobotContainer {
         .whileTrue(new MoveArm(m_arm, -1, .75));
 
     new JoystickButton(driverLeftStick, 1).whileTrue(new MoveArm(m_arm, 1, 1));
-    new JoystickButton(driverRightStick, 1).whileTrue(new MoveArm(m_arm, -1, 1));
+    new JoystickButton(driverRightStick, 1).whileTrue(new MoveArm(m_arm, -1, .75));
 
     leftTigger.whileTrue(new MoveArm(m_arm, 1, 1));
     rightTigger.whileTrue(new MoveArm(m_arm, -1, 1));
@@ -123,18 +128,21 @@ public class RobotContainer {
         driverRightStick::getX,
         m_drivetrain)); 
 
-    new JoystickButton(driverRightStick, 3)
-    .toggleOnTrue(new IntakeCone (m_intake, m_wrist, m_arm ));
+    // new JoystickButton(driverRightStick, 3)
+    // .toggleOnTrue(new IntakeCone (m_intake, m_wrist, m_arm ));
 
-        
+        //-120 should be for ground pick up cube when arm is out a little bit
         dpadDownButton.toggleOnTrue(new MoveWristToAngle(m_wrist, -87));
         dpadUpButton.toggleOnTrue(new MoveWristToAngle(m_wrist, -116));
         dpadRightButton.toggleOnTrue(new MoveWristToAngle(m_wrist, -144));
         dpadLeftButton.toggleOnTrue(new MoveWristToAngle(m_wrist, -129));
 
-        new JoystickButton(driverLeftStick, 10).toggleOnTrue(new AutoHighConeMoveBalance ( m_arm,  m_wrist,  m_intake,  m_drivetrain));
+        new JoystickButton(driverLeftStick, 10).toggleOnTrue(new AutoHighConeMove ( m_arm,  m_wrist,  m_intake,  m_drivetrain));
+        new JoystickButton(driverLeftStick, 4).toggleOnTrue(new AutoHighConeMoveBalance ( m_arm,  m_wrist,  m_intake,  m_drivetrain));
 
-        new JoystickButton(driverLeftStick, 11).toggleOnTrue(new DriveForwardDistance(m_drivetrain, 6));
+        new JoystickButton(driverRightStick, 10).toggleOnTrue(new AutoHighCubeMove ( m_arm,  m_wrist,  m_intake,  m_drivetrain));
+
+        // new JoystickButton(driverLeftStick, 4).toggleOnTrue(new DriveForwardDistance(m_drivetrain, 12));
         new JoystickButton(driverLeftStick, 12).toggleOnTrue(new AutoBalance(m_drivetrain));
 
   }
@@ -146,6 +154,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new AutoHighConeMoveBalance ( m_arm,  m_wrist,  m_intake,  m_drivetrain);
+    return new AutoHighConeMove ( m_arm,  m_wrist,  m_intake,  m_drivetrain);
   }
 }
