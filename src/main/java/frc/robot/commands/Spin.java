@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
+import static frc.robot.Constants.*;
 
 public class Spin extends CommandBase {
     private final Drivetrain m_drivetrain;
@@ -18,13 +19,13 @@ public class Spin extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_drivetrain.arcadeDrive(0, .5);
+        m_drivetrain.arcadeDrive(0, SPIN_SPEED);
     }
   
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_drivetrain.arcadeDrive(0, .5);
+        m_drivetrain.arcadeDrive(0, SPIN_SPEED);
     }
   
     // Called once the command ends or is interrupted.

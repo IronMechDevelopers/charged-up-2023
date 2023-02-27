@@ -3,11 +3,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Wrist;
 
-public class MoveWristToAngle  extends CommandBase {
+import static frc.robot.Constants.MOTOR_SPEED_AUTO;
+
+public class MoveWristToAngle extends CommandBase {
     private Wrist m_wrist;
     private double m_angle;
-    private double motorSpeed=.5;
-
+    private double m_motorSpeed = MOTOR_SPEED_AUTO;
 
     public MoveWristToAngle(Wrist wrist, double angle) {
         super();
@@ -18,28 +19,16 @@ public class MoveWristToAngle  extends CommandBase {
     }
 
     public void initialize() {
-        
+
     }
 
     // The closer we get to balancing the slower we go till eventully we stop
     @Override
     public void execute() {
         double error = m_wrist.getAngle() - m_angle;
-        double speed = 0;
-        if(error >0 )
-        {
-            speed = -1*motorSpeed;
-        }
-        else
-        {
-            speed = motorSpeed;
-        }
-
-
+        double speed = error > 0 ? -1 * m_motorSpeed : m_motorSpeed;
 
         m_wrist.setMotor(speed);
-
-        
     }
 
     // Called once the command ends or is interrupted.
@@ -52,6 +41,6 @@ public class MoveWristToAngle  extends CommandBase {
     @Override
     public boolean isFinished() {
         double error = m_wrist.getAngle() - m_angle;
-        return Math.abs(error) <= 5;
+        return Math.abs(error) <= 2;
     }
 }

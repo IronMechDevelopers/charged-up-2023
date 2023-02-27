@@ -10,8 +10,6 @@ import frc.robot.commands.AutoHighConeMoveBalance;
 import frc.robot.commands.AutoHighCubeMove;
 import frc.robot.commands.Collection;
 import frc.robot.commands.Drive;
-import frc.robot.commands.DriveForwardDistance;
-import frc.robot.commands.IntakeCone;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveWrist;
 import frc.robot.commands.MoveWristToAngle;
@@ -29,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import static frc.robot.Constants.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -41,15 +40,15 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
-  private final Joystick driverLeftStick = new Joystick(0);
-  private final Joystick driverRightStick = new Joystick(1);
-  private final XboxController copilotXbox = new XboxController(2);
+  private  static final Joystick driverLeftStick = new Joystick(0);
+  private  static final Joystick driverRightStick = new Joystick(1);
+  private  static final XboxController copilotXbox = new XboxController(2);
   
   // The robot's subsystems and commands are defined here...
-  final Drivetrain m_drivetrain = new Drivetrain(copilotXbox);
-  final Arm m_arm = new Arm();
-  final Intake m_intake = new Intake();
-  final Wrist m_wrist = new Wrist();
+  public static final Drivetrain m_drivetrain = new Drivetrain(copilotXbox);
+  public static final  Arm m_arm = new Arm();
+  public static final  Intake m_intake = new Intake();
+  public static final  Wrist m_wrist = new Wrist();
 
   
 
@@ -95,34 +94,31 @@ public class RobotContainer {
   private void configureBindings() {
 
     new JoystickButton(copilotXbox, Button.kA.value)
-        .whileTrue(new Collection(m_intake, -1, .75));
+        .whileTrue(new Collection(m_intake, CONE_COLLECTION_OUT_DITRECTION, CONE_COLLECTION_OUT_SPEED));
 
     new JoystickButton(copilotXbox, Button.kB.value)
-        .whileTrue(new Collection(m_intake, 1, .75));
+        .whileTrue(new Collection(m_intake, CONE_COLLECTION_IN_DITRECTION, CONE_COLLECTION_IN_SPEED));
 
     new JoystickButton(copilotXbox, Button.kLeftBumper.value)
-        .whileTrue(new MoveWrist(m_wrist, 1, .5));
+        .whileTrue(new MoveWrist(m_wrist, WRIST_IN, MOTOR_SPEED));
 
     new JoystickButton(copilotXbox, Button.kRightBumper.value)
-        .whileTrue(new MoveWrist(m_wrist, -1, .5));
+        .whileTrue(new MoveWrist(m_wrist, WRIST_OUT, MOTOR_SPEED));
 
     new JoystickButton(copilotXbox, Button.kY.value)
-        .whileTrue(new MoveArm(m_arm, 1, 1));
+        .whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
 
     new JoystickButton(copilotXbox, Button.kX.value)
-        .whileTrue(new MoveArm(m_arm, -1, .75));
+        .whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
 
-    new JoystickButton(driverLeftStick, 1).whileTrue(new MoveArm(m_arm, 1, 1));
-    new JoystickButton(driverRightStick, 1).whileTrue(new MoveArm(m_arm, -1, .75));
+    new JoystickButton(driverLeftStick, 1).whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
+    new JoystickButton(driverRightStick, 1).whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
 
-    leftTigger.whileTrue(new MoveArm(m_arm, 1, 1));
-    rightTigger.whileTrue(new MoveArm(m_arm, -1, 1));
+    leftTigger.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
+    rightTigger.whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
 
-    new JoystickButton(driverLeftStick, 5).toggleOnTrue(new MoveArm(m_arm, 1, 1).withTimeout(1));
-    new JoystickButton(driverLeftStick, 3).toggleOnTrue(new MoveArm(m_arm, -1, 1).withTimeout(1));
-
-    new JoystickButton(driverRightStick, 5).toggleOnTrue(new MoveWristToAngle(m_wrist, -15));
-    new JoystickButton(driverRightStick, 6).toggleOnTrue(new MoveWristToAngle(m_wrist, -105));
+    new JoystickButton(driverLeftStick, 5).toggleOnTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED).withTimeout(1));
+    new JoystickButton(driverLeftStick, 3).toggleOnTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED).withTimeout(1));
 
     new JoystickButton(driverRightStick, 2).toggleOnTrue(new SlowSpeed(driverLeftStick::getY,
         driverRightStick::getX,
@@ -132,13 +128,13 @@ public class RobotContainer {
     // .toggleOnTrue(new IntakeCone (m_intake, m_wrist, m_arm ));
 
         //-120 should be for ground pick up cube when arm is out a little bit
-        dpadDownButton.toggleOnTrue(new MoveWristToAngle(m_wrist, -87));
-        dpadUpButton.toggleOnTrue(new MoveWristToAngle(m_wrist, -116));
-        dpadRightButton.toggleOnTrue(new MoveWristToAngle(m_wrist, -144));
-        dpadLeftButton.toggleOnTrue(new MoveWristToAngle(m_wrist, -129));
+        dpadDownButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_ONE_ANGLE));
+        dpadUpButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_THREE_ANGLE));
+        dpadRightButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_TWO_ANGLE));
+        dpadLeftButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_HUMAN_PLAYER_ANGLE));
 
-        new JoystickButton(driverLeftStick, 10).toggleOnTrue(new AutoHighConeMove ( m_arm,  m_wrist,  m_intake,  m_drivetrain));
-        new JoystickButton(driverLeftStick, 4).toggleOnTrue(new AutoHighConeMoveBalance ( m_arm,  m_wrist,  m_intake,  m_drivetrain));
+        new JoystickButton(driverLeftStick, 10).toggleOnTrue(new AutoHighConeMove (m_drivetrain, m_arm, m_wrist, m_intake));
+        new JoystickButton(driverLeftStick, 4).toggleOnTrue(new AutoHighConeMoveBalance (m_drivetrain, m_arm, m_wrist, m_intake));
 
         new JoystickButton(driverRightStick, 10).toggleOnTrue(new AutoHighCubeMove ( m_arm,  m_wrist,  m_intake,  m_drivetrain));
 
@@ -154,6 +150,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new AutoHighConeMove ( m_arm,  m_wrist,  m_intake,  m_drivetrain);
+    return new AutoHighConeMove ( m_drivetrain, m_arm, m_wrist, m_intake);
   }
 }
