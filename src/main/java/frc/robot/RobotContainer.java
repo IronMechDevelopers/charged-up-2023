@@ -11,7 +11,6 @@ import frc.robot.commands.AutoLevelThreeCone;
 import frc.robot.commands.AutoLevelThreeCube;
 import frc.robot.commands.Collection;
 import frc.robot.commands.Drive;
-import frc.robot.commands.DriveBackwards;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveWrist;
 import frc.robot.commands.MoveWristToAngle;
@@ -20,8 +19,6 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Wrist;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -150,7 +147,6 @@ public class RobotContainer {
 
                 rightTen.toggleOnTrue(new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake)
                                 .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist)));
-                
 
         }
 
