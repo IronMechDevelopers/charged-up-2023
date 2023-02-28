@@ -45,13 +45,24 @@ public final class Constants {
   public static final double kGains_drivetrain_kF = 0.0;
   public static final double kGains_drivetrain_kP = 1.5;
   public static final double kGains_drivetrain_kI = 0.008;
+
+  public static final double kTurnP = 1;
+  public static final double kTurnI = 0;
+  public static final double kTurnD = 0;
+
+  public static final double kMaxTurnRateDegPerS = 100;
+  public static final double kMaxTurnAccelerationDegPerSSquared = 300;
+
+  public static final double kTurnToleranceDeg = 5;
+  public static final double kTurnRateToleranceDegPerS = 10; // degrees per second
+
   public static final double kGains_drivetrain_kD = 70;
   public static final double kDriveWheelDiameter = 3;
   public static final double CIRCUMFERENCE = 2 * Math.PI * Constants.kDriveWheelDiameter;
   public static final double SLOW_SPEED_RATE_FOWRARD = 0.5;
   public static final double SLOW_SPEED_RATE_TURN = 0.75;
   public static final double BALANCE_DISTANCE = -18.5;
-  public static final int COUNTS_PER_REVOLUTION  = 4096;
+  public static final int COUNTS_PER_REVOLUTION = 4096;
 
   public static final double SPIN_SPEED = .5;
 
@@ -66,7 +77,7 @@ public final class Constants {
   public static final double MAXIMUM_ANGLE = 0;
   public static final double MOTOR_SPEED_AUTO = .5;
   public static final double MOTOR_SPEED = .5;
-  public static final double WRIST_OFFSET=206;
+  public static final double WRIST_OFFSET = 206;
 
   // Arm constants
   public static final int ARM_DOWN = -1;

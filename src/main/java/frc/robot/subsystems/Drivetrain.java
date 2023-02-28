@@ -226,6 +226,11 @@ public class Drivetrain extends SubsystemBase {
                 gyro.reset();
         }
 
+        public double getHeading()
+        {
+                return gyro.getAngle();
+        }
+
         public double getLeftEncoderCount() {
                 return leftFather.getSelectedSensorPosition();
         }
