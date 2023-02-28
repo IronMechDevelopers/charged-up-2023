@@ -44,136 +44,125 @@ import static frc.robot.Constants.*;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-    // The robot's subsystems and commands are defined here...
-    private static final Joystick driverLeftStick = new Joystick(0);
-    private static final Joystick driverRightStick = new Joystick(1);
-    private static final XboxController copilotXbox = new XboxController(2);
+        // The robot's subsystems and commands are defined here...
+        private static final Joystick driverLeftStick = new Joystick(0);
+        private static final Joystick driverRightStick = new Joystick(1);
+        private static final XboxController copilotXbox = new XboxController(2);
 
-    // The robot's subsystems and commands are defined here...
-    public static final Drivetrain m_drivetrain = new Drivetrain(copilotXbox);
-    public static final Arm m_arm = new Arm();
-    public static final Intake m_intake = new Intake();
-    public static final Wrist m_wrist = new Wrist();
+        // The robot's subsystems and commands are defined here...
+        public static final Drivetrain m_drivetrain = new Drivetrain(copilotXbox);
+        public static final Arm m_arm = new Arm();
+        public static final Intake m_intake = new Intake();
+        public static final Wrist m_wrist = new Wrist();
 
-    SendableChooser<Command> first = new SendableChooser<>();
-    SendableChooser<Command> second = new SendableChooser<>();
+        SendableChooser<Command> first = new SendableChooser<>();
+        SendableChooser<Command> second = new SendableChooser<>();
 
-    private final Trigger dpadDownButton = new Trigger(() -> copilotXbox.getPOV() == 180);
-    private final Trigger dpadUpButton = new Trigger(() -> copilotXbox.getPOV() == 0);
-    private final Trigger dpadRightButton = new Trigger(() -> copilotXbox.getPOV() == 90);
-    private final Trigger dpadLeftButton = new Trigger(() -> copilotXbox.getPOV() == 270);
+        private final Trigger dpadDownButton = new Trigger(() -> copilotXbox.getPOV() == 180);
+        private final Trigger dpadUpButton = new Trigger(() -> copilotXbox.getPOV() == 0);
+        private final Trigger dpadRightButton = new Trigger(() -> copilotXbox.getPOV() == 90);
+        private final Trigger dpadLeftButton = new Trigger(() -> copilotXbox.getPOV() == 270);
 
-    private final Trigger leftTigger = new Trigger(() -> copilotXbox.getRawAxis(2) > .5);
-    private final Trigger rightTigger = new Trigger(() -> copilotXbox.getRawAxis(3) > .5);
+        private final Trigger leftTigger = new Trigger(() -> copilotXbox.getRawAxis(2) > .5);
+        private final Trigger rightTigger = new Trigger(() -> copilotXbox.getRawAxis(3) > .5);
+        private final JoystickButton aButton = new JoystickButton(copilotXbox, Button.kA.value);
+        private final JoystickButton bButton = new JoystickButton(copilotXbox, Button.kB.value);
+        private final JoystickButton xButton = new JoystickButton(copilotXbox, Button.kX.value);
+        private final JoystickButton yButton = new JoystickButton(copilotXbox, Button.kY.value);
+        private final JoystickButton rightBumper = new JoystickButton(copilotXbox, Button.kRightBumper.value);
+        private final JoystickButton leftBumper = new JoystickButton(copilotXbox, Button.kLeftBumper.value);
 
-    /**
-     * The container for the robot. Contains subsystems, OI devices, and commands.
-     */
-    public RobotContainer() {
-        m_drivetrain.setDefaultCommand(new Drive(driverLeftStick::getY,
-                driverRightStick::getX,
-                m_drivetrain));
+        private final JoystickButton leftFire = new JoystickButton(driverLeftStick, 1);
+        private final JoystickButton rightFire = new JoystickButton(driverRightStick, 1);
+        private final JoystickButton leftFive = new JoystickButton(driverLeftStick, 5);
+        private final JoystickButton leftThree = new JoystickButton(driverLeftStick, 3);
+        private final JoystickButton rightTwo = new JoystickButton(driverRightStick, 2);
+        private final JoystickButton leftTen = new JoystickButton(driverLeftStick, 10);
+        private final JoystickButton rightTen = new JoystickButton(driverRightStick, 10);
+        private final JoystickButton leftTwelve = new JoystickButton(driverLeftStick, 12);
 
-        // Configure the trigger bindings
-        configureBindings();
-    }
+        /**
+         * The container for the robot. Contains subsystems, OI devices, and commands.
+         */
+        public RobotContainer() {
+                m_drivetrain.setDefaultCommand(new Drive(driverLeftStick::getY,
+                                driverRightStick::getX,
+                                m_drivetrain));
 
-    /**
-     * Use this method to define your trigger->command mappings. Triggers can be
-     * created via the
-     * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
-     * an arbitrary
-     * predicate, or via the named factories in {@link
-     * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-     * {@link
-     * CommandXboxController
-     * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-     * PS4} controllers or
-     * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-     * joysticks}.
-     */
-    private void configureBindings() {
+                // Configure the trigger bindings
+                configureBindings();
+        }
 
-        first.setDefaultOption("Nothing", new WaitCommand(.1));
-        first.addOption("High Cube", new AutoLevelThreeCube(m_drivetrain, m_arm, m_wrist, m_intake));
-        first.addOption("High Cone", new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake));
-        first.addOption("Nothing", new WaitCommand(.1));
+        /**
+         * Use this method to define your trigger->command mappings. Triggers can be
+         * created via the
+         * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
+         * an arbitrary
+         * predicate, or via the named factories in {@link
+         * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
+         * {@link
+         * CommandXboxController
+         * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+         * PS4} controllers or
+         * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+         * joysticks}.
+         */
+        private void configureBindings() {
 
-        second.setDefaultOption("Nothing", new WaitCommand(.1));
-        second.setDefaultOption("balance with encoders", new AutoBalance(m_drivetrain));
-        second.setDefaultOption("balance without encoders", new AutoBalanceDumb(m_drivetrain));
-        second.setDefaultOption("drive backwards", new AutoDriveBackwards( m_drivetrain,  m_wrist));
+                first.setDefaultOption("Nothing", new WaitCommand(.1));
+                first.addOption("High Cube", new AutoLevelThreeCube(m_drivetrain, m_arm, m_wrist, m_intake));
+                first.addOption("High Cone", new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake));
 
-        
+                second.setDefaultOption("Nothing", new WaitCommand(.1));
+                second.setDefaultOption("balance with encoders", new AutoBalance(m_drivetrain));
+                second.setDefaultOption("balance without encoders", new AutoBalanceDumb(m_drivetrain));
+                second.setDefaultOption("drive backwards", new AutoDriveBackwards(m_drivetrain, m_wrist));
 
-        // m_chooser.addOption("HighCone Move", new AutoHighConeMove(m_drivetrain,
-        // m_arm, m_wrist, m_intake));
+                SmartDashboard.putData(first);
+                SmartDashboard.putData(second);
 
-        SmartDashboard.putData(first);
-        SmartDashboard.putData(second);
+                aButton.whileTrue(new Collection(m_intake, CONE_COLLECTION_OUT_DITRECTION, CONE_COLLECTION_OUT_SPEED));
+                bButton.whileTrue(new Collection(m_intake, CONE_COLLECTION_IN_DITRECTION, CONE_COLLECTION_IN_SPEED));
+                yButton.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
+                xButton.whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
+                leftBumper.whileTrue(new MoveWrist(m_wrist, WRIST_IN, MOTOR_SPEED));
+                rightBumper.whileTrue(new MoveWrist(m_wrist, WRIST_OUT, MOTOR_SPEED));
+                leftTigger.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
+                rightTigger.whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
+                dpadDownButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_ONE_ANGLE));
+                dpadUpButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_THREE_ANGLE));
+                dpadRightButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_TWO_ANGLE));
+                dpadLeftButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_HUMAN_PLAYER_ANGLE));
 
-        new JoystickButton(copilotXbox, Button.kA.value)
-                .whileTrue(new Collection(m_intake, CONE_COLLECTION_OUT_DITRECTION, CONE_COLLECTION_OUT_SPEED));
+                leftFire.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
+                rightFire.whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
 
-        new JoystickButton(copilotXbox, Button.kB.value)
-                .whileTrue(new Collection(m_intake, CONE_COLLECTION_IN_DITRECTION, CONE_COLLECTION_IN_SPEED));
+                leftFive.toggleOnTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED).withTimeout(1));
+                leftThree.toggleOnTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED).withTimeout(1));
+                leftTwelve.toggleOnTrue(new AutoBalance(m_drivetrain));
 
-        new JoystickButton(copilotXbox, Button.kLeftBumper.value)
-                .whileTrue(new MoveWrist(m_wrist, WRIST_IN, MOTOR_SPEED));
+                rightTwo.toggleOnTrue(new SlowSpeed(driverLeftStick::getY,
+                                driverRightStick::getX,
+                                m_drivetrain));
 
-        new JoystickButton(copilotXbox, Button.kRightBumper.value)
-                .whileTrue(new MoveWrist(m_wrist, WRIST_OUT, MOTOR_SPEED));
+                leftTen.toggleOnTrue(new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake)
+                                .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist)));
 
-        new JoystickButton(copilotXbox, Button.kY.value)
-                .whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
+                rightTen.toggleOnTrue(new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake)
+                                .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist)));
+                
 
-        new JoystickButton(copilotXbox, Button.kX.value)
-                .whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
+        }
 
-        new JoystickButton(driverLeftStick, 1).whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
-        new JoystickButton(driverRightStick, 1).whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
-
-        leftTigger.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
-        rightTigger.whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
-
-        new JoystickButton(driverLeftStick, 5).toggleOnTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED).withTimeout(1));
-        new JoystickButton(driverLeftStick, 3)
-                .toggleOnTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED).withTimeout(1));
-
-        new JoystickButton(driverRightStick, 2).toggleOnTrue(new SlowSpeed(driverLeftStick::getY,
-                driverRightStick::getX,
-                m_drivetrain));
-
-        // new JoystickButton(driverRightStick, 3)
-        // .toggleOnTrue(new IntakeCone (m_intake, m_wrist, m_arm ));
-
-        // -120 should be for ground pick up cube when arm is out a little bit
-        dpadDownButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_ONE_ANGLE));
-        dpadUpButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_THREE_ANGLE));
-        dpadRightButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_TWO_ANGLE));
-        dpadLeftButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_HUMAN_PLAYER_ANGLE));
-
-        new JoystickButton(driverLeftStick, 10)
-                .toggleOnTrue(new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake).andThen(new AutoDriveBackwards(m_drivetrain, m_wrist)));
-
-        new JoystickButton(driverRightStick, 10)
-                .toggleOnTrue(new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake).andThen(new AutoDriveBackwards(m_drivetrain, m_wrist)));
-
-        // new JoystickButton(driverLeftStick, 4).toggleOnTrue(new
-        // DriveForwardDistance(m_drivetrain, 12));
-        new JoystickButton(driverLeftStick, 12).toggleOnTrue(new AutoBalance(m_drivetrain));
-
-    }
-
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand() {
-        // An example command will be run in autonomous
-        Command firstCommand = first.getSelected();
-        Command secondCommand = second.getSelected();
-        return firstCommand.andThen(secondCommand);
-    }
+        /**
+         * Use this to pass the autonomous command to the main {@link Robot} class.
+         *
+         * @return the command to run in autonomous
+         */
+        public Command getAutonomousCommand() {
+                // An example command will be run in autonomous
+                Command firstCommand = first.getSelected();
+                Command secondCommand = second.getSelected();
+                return firstCommand.andThen(secondCommand);
+        }
 }

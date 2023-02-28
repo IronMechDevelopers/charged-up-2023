@@ -104,10 +104,10 @@ public final class Constants {
   public static final double HOME_ANGLE = -5;
 
   // CanBus constants
-  public static final int RIGHT_SON_CANBUS_NUMBER = 3;
-  public static final int LEFT_SON_CANBUS_NUMBER = 2;
   public static final int RIGHT_FATHER_CANBUS_NUMBER = 0;
   public static final int LEFT_FATHER_CANBUS_NUMBER = 1;
+  public static final int LEFT_SON_CANBUS_NUMBER = 2;
+  public static final int RIGHT_SON_CANBUS_NUMBER = 3;
   public static final int ARM_MOTOR_CONTROLLER_CONSTANT = 4;
   public static final int LEFT_INTAKE_MOTOR_CONTROLLER_CONSTANT = 5;
   public static final int RIGHT_INTAKE_MOTOR_CONTROLLER_CONSTANT = 6;
