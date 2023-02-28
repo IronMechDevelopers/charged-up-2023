@@ -7,10 +7,6 @@ package frc.robot;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.AutoBalanceDumb;
 import frc.robot.commands.AutoDriveBackwards;
-import frc.robot.commands.AutoHighConeMove;
-import frc.robot.commands.AutoHighConeMoveBalance;
-import frc.robot.commands.AutoHighConeMove;
-import frc.robot.commands.AutoHighCubeMove;
 import frc.robot.commands.AutoLevelThreeCone;
 import frc.robot.commands.AutoLevelThreeCube;
 import frc.robot.commands.Collection;
@@ -158,12 +154,10 @@ public class RobotContainer {
         dpadLeftButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_HUMAN_PLAYER_ANGLE));
 
         new JoystickButton(driverLeftStick, 10)
-                .toggleOnTrue(new AutoHighConeMove(m_drivetrain, m_arm, m_wrist, m_intake));
-        new JoystickButton(driverLeftStick, 4)
-                .toggleOnTrue(new AutoHighConeMoveBalance(m_drivetrain, m_arm, m_wrist, m_intake));
+                .toggleOnTrue(new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake).andThen(new AutoDriveBackwards(m_drivetrain, m_wrist)));
 
         new JoystickButton(driverRightStick, 10)
-                .toggleOnTrue(new AutoHighCubeMove(m_arm, m_wrist, m_intake, m_drivetrain));
+                .toggleOnTrue(new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake).andThen(new AutoDriveBackwards(m_drivetrain, m_wrist)));
 
         // new JoystickButton(driverLeftStick, 4).toggleOnTrue(new
         // DriveForwardDistance(m_drivetrain, 12));
