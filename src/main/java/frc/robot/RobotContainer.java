@@ -22,6 +22,7 @@ import frc.robot.commands.SlowSpeed;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.PDP;
 import frc.robot.subsystems.Wrist;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -55,6 +56,7 @@ public class RobotContainer {
         public static final Arm m_arm = new Arm();
         public static final Intake m_intake = new Intake();
         public static final Wrist m_wrist = new Wrist();
+        public static final PDP pdp = new PDP();
 
         SendableChooser<Command> first = new SendableChooser<>();
         SendableChooser<Command> second = new SendableChooser<>();
