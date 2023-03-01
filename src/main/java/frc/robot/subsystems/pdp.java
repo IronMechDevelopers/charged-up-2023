@@ -1,22 +1,24 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class PDP extends SubsystemBase {
 
     // private Encoder encoder;
-    private final PowerDistribution m_pdp = new PowerDistribution();
+    private final PowerDistribution m_pdp = new PowerDistribution(0, ModuleType.kCTRE);
 
     public PDP() {
         super();
     }
 
     public void periodic() {
-        SmartDashboard.putNumber("Voltage", getVoltage());
-        SmartDashboard.putNumber("Temperature", getTemperature());
-        SmartDashboard.putNumber("Total Current", getTotalCurrent());
+        // SmartDashboard.putNumber("Voltage", getVoltage());
+        // SmartDashboard.putNumber("Temperature", getTemperature());
+        // SmartDashboard.putNumber("Total Current", getTotalCurrent());
+        // SmartDashboard.putNumber("Arm Current", getCurrent(13));
     }
 
     public double getVoltage() {

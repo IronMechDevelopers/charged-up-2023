@@ -40,8 +40,8 @@ public class Drive extends CommandBase {
         double rotation = m_right.getAsDouble();
         // flipping joystick to make postive be up
         forward = forward * -1;
-        SmartDashboard.putNumber("left joystick", forward);
-        SmartDashboard.putNumber("right joystick", rotation);
+        // SmartDashboard.putNumber("left joystick", forward);
+        // SmartDashboard.putNumber("right joystick", rotation);
 
         m_drivetrain.arcadeDrive(forward, rotation);
     }

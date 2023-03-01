@@ -23,8 +23,8 @@ public class DriveForwardDistance extends CommandBase {
         int toAdd = m_Drivetrain.convertInchesToTicks(inches);
         leftGoal = m_Drivetrain.getLeftEncoderCount() + toAdd;
         rightGoal = m_Drivetrain.getRightEncoderCount() + toAdd;
-        SmartDashboard.putNumber("leftGoal", leftGoal);
-        SmartDashboard.putNumber("rightGoal", rightGoal);
+        // SmartDashboard.putNumber("leftGoal", leftGoal);
+        // SmartDashboard.putNumber("rightGoal", rightGoal);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -37,8 +37,8 @@ public class DriveForwardDistance extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        SmartDashboard.putNumber("leftDistance", m_Drivetrain.getLeftEncoderCountInInches());
-        SmartDashboard.putNumber("rightDistance", m_Drivetrain.getRightEncoderCountInInches());
+        // SmartDashboard.putNumber("leftDistance", m_Drivetrain.getLeftEncoderCountInInches());
+        // SmartDashboard.putNumber("rightDistance", m_Drivetrain.getRightEncoderCountInInches());
         m_Drivetrain.arcadeDrive(0, 0);
     }
 
@@ -48,8 +48,8 @@ public class DriveForwardDistance extends CommandBase {
         double leftError = Math.abs(leftGoal - m_Drivetrain.getLeftEncoderCount() );
         double rightError = Math.abs(rightGoal - m_Drivetrain.getRightEncoderCount() );
 
-        SmartDashboard.putNumber("leftError", leftError);
-        SmartDashboard.putNumber("rightError", rightError);
+        // SmartDashboard.putNumber("leftError", leftError);
+        // SmartDashboard.putNumber("rightError", rightError);
 
         return leftError < 1000 && rightError < 1000;
     }

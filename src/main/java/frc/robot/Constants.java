@@ -82,26 +82,27 @@ public final class Constants {
   // Arm constants
   public static final int ARM_DOWN = -1;
   public static final int ARM_UP = 1;
-  public static final double ARM_DOWN_SPEED = .75;
+  public static final double ARM_DOWN_SPEED = .9;
   public static final double ARM_UP_SPEED = 1;
 
   // Collection constants
   public static final double CONE_COLLECTION_OUT_SPEED = .75;
   public static final double CONE_COLLECTION_IN_SPEED = .75;
-  public static final int CONE_COLLECTION_OUT_DITRECTION = -1;
-  public static final int CONE_COLLECTION_IN_DITRECTION = 1;
+  public static final int CONE_COLLECTION_OUT_DITRECTION = 1;
+  public static final int CONE_COLLECTION_IN_DITRECTION = -1;
 
-  public static final double CUBE_COLLECTION_OUT_SPEED = -.75;
-  public static final double CUBE_COLLECTION_IN_SPEED = -.75;
-  public static final int CUBE_COLLECTION_OUT_DITRECTION = 1;
-  public static final int CUBE_COLLECTION_IN_DITRECTION = -1;
+  public static final double CUBE_COLLECTION_OUT_SPEED = .75;
+  public static final double CUBE_COLLECTION_IN_SPEED = .75;
+  public static final int CUBE_COLLECTION_OUT_DITRECTION = -1;
+  public static final int CUBE_COLLECTION_IN_DITRECTION = 1;
 
   public static final double CUBE_COLLECTION_GROUND_ANGLE = -120;
   public static final double COLLECTION_HUMAN_PLAYER_ANGLE = -129;
   public static final double COLLECTION_LEVEL_ONE_ANGLE = -87;
   public static final double COLLECTION_LEVEL_TWO_ANGLE = -144;
-  public static final double COLLECTION_LEVEL_THREE_ANGLE = -116;
-  public static final double HOME_ANGLE = -5;
+  public static final double COLLECTION_LEVEL_THREE_ANGLE = -126;
+  public static final double COLLECTION_LEVEL_THREE_CUBE_ANGLE = -146;
+  public static final double HOME_ANGLE = 0;
 
   // CanBus constants
   public static final int RIGHT_FATHER_CANBUS_NUMBER = 0;

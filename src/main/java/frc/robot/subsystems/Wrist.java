@@ -36,7 +36,7 @@ public class Wrist extends SubsystemBase {
         }
 
         public void periodic() {
-                SmartDashboard.putNumber("WristAngle", getAngle());
+                // SmartDashboard.putNumber("WristAngle", getAngle());
         }
 
         public double getAngle() {
@@ -54,14 +54,14 @@ public class Wrist extends SubsystemBase {
                 if(getAngle() >MAXIMUM_ANGLE && speed>0) 
                 {
                     speed=0;
-                        SmartDashboard.putString("Wrist Saftey", "Active");
+                        // SmartDashboard.putString("Wrist Saftey", "Active");
                 }
                 else if(getAngle() < MINIMUM_ANGLE && speed<0) 
                 {
                         speed=0;
-                        SmartDashboard.putString("Wrist Saftey", "Active");
+                        // SmartDashboard.putString("Wrist Saftey", "Active");
                 }
-                SmartDashboard.putString("Wrist Saftey", "Inactive");
+                // SmartDashboard.putString("Wrist Saftey", "Inactive");
                 wristMotor.set(speed);
         }
 

@@ -13,7 +13,7 @@ public class AutoLevelTwoCube  extends SequentialCommandGroup {
         addCommands(
 
 
-        new RaiseArmAndWristToAngle(m_wrist, m_arm, COLLECTION_LEVEL_THREE_ANGLE, ARM_UP,ARM_UP_SPEED, .1),
+        new RaiseArmAndWristToAngle(m_wrist, m_arm, COLLECTION_LEVEL_TWO_ANGLE, ARM_UP,ARM_UP_SPEED, .1),
         new WaitCommand(1).andThen(new Collection(m_intake, CUBE_COLLECTION_OUT_DITRECTION, CUBE_COLLECTION_OUT_SPEED).withTimeout(1)),
         new DriveBackwards(m_drivetrain).withTimeout(.25),
         new RaiseArmAndWristToAngle(m_wrist, m_arm, HOME_ANGLE, ARM_DOWN,ARM_DOWN_SPEED, 0));

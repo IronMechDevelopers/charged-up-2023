@@ -13,7 +13,7 @@ public class AutoLevelOneCone  extends SequentialCommandGroup {
         addCommands(
 
 
-        new RaiseArmAndWristToAngle(m_wrist, m_arm, COLLECTION_LEVEL_ONE_ANGLE, ARM_UP,ARM_UP_SPEED, .1),
+        new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_ONE_ANGLE),
         new WaitCommand(1).andThen(new Collection(m_intake, CONE_COLLECTION_OUT_DITRECTION, CONE_COLLECTION_OUT_SPEED).withTimeout(1)),
         new DriveBackwards(m_drivetrain).withTimeout(.25),
         new RaiseArmAndWristToAngle(m_wrist, m_arm, HOME_ANGLE, ARM_DOWN,ARM_DOWN_SPEED, 0));

@@ -46,10 +46,10 @@ public class Drivetrain extends SubsystemBase {
                 gyro = new AHRS(SPI.Port.kMXP);
                 new Thread(() -> {
                         try {
-                                SmartDashboard.putString("gyro", "No good");
+                                // SmartDashboard.putString("gyro", "No good");
                                 Thread.sleep(1000);
                                 zeroHeading();
-                                SmartDashboard.putString("gyro", "Good");
+                                // SmartDashboard.putString("gyro", "Good");
                         } catch (Exception e) {
 
                         }
@@ -103,22 +103,8 @@ public class Drivetrain extends SubsystemBase {
         }
 
         public void periodic() {
-                SmartDashboard.putNumber("Pitch", gyro.getPitch());
-                SmartDashboard.putNumber("Yaw", gyro.getYaw());
-                SmartDashboard.putNumber("Roll", gyro.getRoll());
-                SmartDashboard.putNumber("LeftWheelEncoder", leftFather.getSelectedSensorPosition());
-                SmartDashboard.putNumber("RightWheelEncoder", rightFather.getSelectedSensorPosition());
-                SmartDashboard.putNumber("Left wheel velocity", leftFather.getSelectedSensorVelocity());
-                SmartDashboard.putNumber("Right wheel velocity", rightFather.getSelectedSensorVelocity());
-
-                m_odometry.update(
-                                gyro.getRotation2d(), getLeftEncoderCountInInches(), getRightEncoderCountInInches());
-
-                if (Math.abs(getPitch()) > 4) {
-                        // copilotXbox.setRumble(RumbleType.kBothRumble, 1);
-                } else {
-                        copilotXbox.setRumble(RumbleType.kBothRumble, 0);
-                }
+                SmartDashboard.putNumber("Left", leftFather.getSelectedSensorPosition());
+                SmartDashboard.putNumber("right", rightFather.getSelectedSensorPosition());
         }
 
         public Pose2d getPose() {
@@ -163,8 +149,8 @@ public class Drivetrain extends SubsystemBase {
          * @param rot a number from -1 to 1 with 1 moving clockwise
          */
         public void arcadeDrive(double fwd, double rot) {
-                SmartDashboard.putNumber("Fwd", fwd);
-                SmartDashboard.putNumber("rot", rot);
+                // SmartDashboard.putNumber("Fwd", fwd);
+                // SmartDashboard.putNumber("rot", rot);
                 // making rot so that postive goes clockwise instead of WPILIB standard
                 m_drive.arcadeDrive(fwd, -1 * rot);
         }
@@ -179,8 +165,8 @@ public class Drivetrain extends SubsystemBase {
             
 
         public void arcadeDriveBySpeed(double fwd, double rot) {
-                SmartDashboard.putNumber("Fwd", fwd);
-                SmartDashboard.putNumber("rot", rot);
+                // SmartDashboard.putNumber("Fwd", fwd);
+                // SmartDashboard.putNumber("rot", rot);
 
                 leftFather.set(ControlMode.Velocity, fwd);
                 rightFather.set(ControlMode.Velocity, rot);
@@ -245,12 +231,12 @@ public class Drivetrain extends SubsystemBase {
         }
 
         public void driveForwardDistanceToCountLeft(double leftTickCountGoal) {
-                SmartDashboard.putNumber("leftTickCountGoal", leftTickCountGoal);
+                // SmartDashboard.putNumber("leftTickCountGoal", leftTickCountGoal);
                 leftFather.set(ControlMode.Position, leftTickCountGoal);
         }
 
         public void driveForwardDistanceToCountRight(double rightTickCountGoal) {
-                SmartDashboard.putNumber("rightTickCountGoal", rightTickCountGoal);
+                // SmartDashboard.putNumber("rightTickCountGoal", rightTickCountGoal);
                 rightFather.set(ControlMode.Position, rightTickCountGoal);
         }
 

@@ -41,8 +41,8 @@ public class SlowSpeed  extends CommandBase {
         double rotation = m_right.getAsDouble()*Constants.SLOW_SPEED_RATE_TURN;
         // flipping joystick to make postive be up
         forward = forward * -1;
-        SmartDashboard.putNumber("left joystick", forward);
-        SmartDashboard.putNumber("right joystick", rotation);
+        // SmartDashboard.putNumber("left joystick", forward);
+        // SmartDashboard.putNumber("right joystick", rotation);
 
         m_drivetrain.arcadeDrive(forward, rotation);
     }

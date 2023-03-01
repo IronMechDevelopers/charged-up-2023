@@ -15,6 +15,8 @@ import frc.robot.commands.AutoLevelTwoCone;
 import frc.robot.commands.AutoLevelTwoCube;
 import frc.robot.commands.Collection;
 import frc.robot.commands.Drive;
+import frc.robot.commands.DriveStraight;
+import frc.robot.commands.DriveStraightUntilPitch;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveWrist;
 import frc.robot.commands.MoveWristToAngle;
@@ -56,7 +58,7 @@ public class RobotContainer {
         public static final Arm m_arm = new Arm();
         public static final Intake m_intake = new Intake();
         public static final Wrist m_wrist = new Wrist();
-        public static final PDP pdp = new PDP();
+        // public static final PDP pdp = new PDP();
 
         SendableChooser<Command> first = new SendableChooser<>();
         SendableChooser<Command> second = new SendableChooser<>();
@@ -124,12 +126,15 @@ public class RobotContainer {
                 second.setDefaultOption("balance with encoders", new AutoBalance(m_drivetrain));
                 second.setDefaultOption("balance without encoders", new AutoBalanceDumb(m_drivetrain));
                 second.setDefaultOption("drive backwards", new AutoDriveBackwards(m_drivetrain, m_wrist));
+                second.setDefaultOption("drive to Charge Station", new DriveStraightUntilPitch(m_drivetrain));
+                second.setDefaultOption("drive backwards with wrist", new AutoDriveBackwards(m_drivetrain, m_wrist).andThen(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_ONE_ANGLE)));
+                second.setDefaultOption("drive backwards and collect", new AutoDriveBackwards(m_drivetrain, m_wrist).andThen(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_ONE_ANGLE)).andThen(new DriveStraight(m_drivetrain).alongWith(new Collection(m_intake, CONE_COLLECTION_IN_DITRECTION, CUBE_COLLECTION_IN_SPEED)).withTimeout(.25)));
 
                 SmartDashboard.putData(first);
                 SmartDashboard.putData(second);
 
-                aButton.whileTrue(new Collection(m_intake, CONE_COLLECTION_OUT_DITRECTION, CONE_COLLECTION_OUT_SPEED));
-                bButton.whileTrue(new Collection(m_intake, CONE_COLLECTION_IN_DITRECTION, CONE_COLLECTION_IN_SPEED));
+                aButton.whileTrue(new Collection(m_intake, CONE_COLLECTION_IN_DITRECTION, CONE_COLLECTION_OUT_SPEED));
+                bButton.whileTrue(new Collection(m_intake, CONE_COLLECTION_OUT_DITRECTION, CONE_COLLECTION_IN_SPEED));
                 yButton.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
                 xButton.whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
                 leftBumper.whileTrue(new MoveWrist(m_wrist, WRIST_IN, MOTOR_SPEED));

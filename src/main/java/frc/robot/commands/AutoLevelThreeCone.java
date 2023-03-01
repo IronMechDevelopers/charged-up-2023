@@ -14,9 +14,10 @@ public class AutoLevelThreeCone extends SequentialCommandGroup {
 
 
         new RaiseArmAndWristToAngle(m_wrist, m_arm, COLLECTION_LEVEL_THREE_ANGLE, ARM_UP,ARM_UP_SPEED, .1),
+        new DriveStraight(m_drivetrain).withTimeout(0.1),
         new WaitCommand(1).andThen(new Collection(m_intake, CONE_COLLECTION_OUT_DITRECTION, CONE_COLLECTION_OUT_SPEED).withTimeout(1)),
-        new DriveBackwards(m_drivetrain).withTimeout(.25),
-        new RaiseArmAndWristToAngle(m_wrist, m_arm, HOME_ANGLE, ARM_DOWN,ARM_DOWN_SPEED, 0));
+        new DriveBackwards(m_drivetrain).withTimeout(.25).raceWith(new MoveWristToAngle(m_wrist,HOME_ANGLE )),
+        new RaiseArmAndWristToAngle(m_wrist, m_arm, HOME_ANGLE, ARM_DOWN,ARM_DOWN_SPEED, 0)); 
 
     }
 

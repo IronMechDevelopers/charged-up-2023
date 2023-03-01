@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
@@ -15,9 +16,9 @@ public class BalanceDumb extends CommandBase {
     public BalanceDumb(Drivetrain drivetrain) {
         super();
         m_drivetrain = drivetrain;
-        m_speed = .5;
-        m_lockTime_delay=1000;
-        
+        m_speed = .4;
+        m_lockTime_delay=500;
+        m_accelerationThreshold=.75;
         addRequirements(m_drivetrain);
     }
 
@@ -40,8 +41,11 @@ public class BalanceDumb extends CommandBase {
 
         if (angle > 5) {
             speed = m_speed;
-        } else {
+        } else if (angle < -5){
             speed = -1 * m_speed;
+        }
+        else{
+            speed = 0;
         }
         if (Math.abs(acc) > m_accelerationThreshold) {
             speed = 0;
