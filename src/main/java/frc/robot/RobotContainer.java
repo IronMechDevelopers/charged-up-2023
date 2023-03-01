@@ -173,9 +173,10 @@ public class RobotContainer {
          */
         public Command getAutonomousCommand() {
                 // An example command will be run in autonomous
-                // Command firstCommand = first.getSelected();
-                // Command secondCommand = second.getSelected();
-                SequentialCommandGroup temp = new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake).andThen(new AutoBalanceDumb(m_drivetrain));
-                return temp;
+                Command firstCommand = first.getSelected().asProxy();
+                Command secondCommand = second.getSelected();
+                return firstCommand.andThen(secondCommand);
+                // SequentialCommandGroup temp = new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake).andThen(new AutoBalanceDumb(m_drivetrain));
+                // return temp;
         }
 }
