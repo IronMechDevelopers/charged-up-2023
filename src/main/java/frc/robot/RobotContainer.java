@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -172,8 +173,9 @@ public class RobotContainer {
          */
         public Command getAutonomousCommand() {
                 // An example command will be run in autonomous
-                Command firstCommand = first.getSelected();
-                Command secondCommand = second.getSelected();
-                return firstCommand.andThen(secondCommand);
+                // Command firstCommand = first.getSelected();
+                // Command secondCommand = second.getSelected();
+                SequentialCommandGroup temp = new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake).andThen(new AutoBalanceDumb(m_drivetrain));
+                return temp;
         }
 }
