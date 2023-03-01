@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
@@ -32,6 +35,7 @@ public class Drivetrain extends SubsystemBase {
         private final NeutralMode brakeMode = NeutralMode.Brake;
         private AHRS gyro;
         private final XboxController copilotXbox;
+        private final DifferentialDriveOdometry m_odometry;
 
         /**
          * 
@@ -90,8 +94,11 @@ public class Drivetrain extends SubsystemBase {
                 addChild("Drive",
                                 m_drive);
 
-                
-                this.copilotXbox= copilotXbox;
+                this.copilotXbox = copilotXbox;
+
+                resetEncoders();
+                m_odometry = new DifferentialDriveOdometry(
+                                gyro.getRotation2d(), getLeftEncoderCountInInches(), getRightEncoderCountInInches());
 
         }
 
@@ -103,13 +110,36 @@ public class Drivetrain extends SubsystemBase {
                 SmartDashboard.putNumber("RightWheelEncoder", rightFather.getSelectedSensorPosition());
                 SmartDashboard.putNumber("Left wheel velocity", leftFather.getSelectedSensorVelocity());
                 SmartDashboard.putNumber("Right wheel velocity", rightFather.getSelectedSensorVelocity());
-                if(Math.abs(getPitch()) > 4)
-                {
+
+                m_odometry.update(
+                                gyro.getRotation2d(), getLeftEncoderCountInInches(), getRightEncoderCountInInches());
+
+                if (Math.abs(getPitch()) > 4) {
                         // copilotXbox.setRumble(RumbleType.kBothRumble, 1);
-                }
-                else{
+                } else {
                         copilotXbox.setRumble(RumbleType.kBothRumble, 0);
                 }
+        }
+
+        public Pose2d getPose() {
+                return m_odometry.getPoseMeters();
+        }
+
+        /**
+         * Returns the current wheel speeds of the robot.
+         *
+         * @return The current wheel speeds.
+         */
+        public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+                return new DifferentialDriveWheelSpeeds(leftFather.getSelectedSensorVelocity(),
+                                rightFather.getSelectedSensorVelocity());
+        }
+
+        public void resetOdometry(Pose2d pose) {
+                resetEncoders();
+                m_odometry.resetPosition(
+                                gyro.getRotation2d(), getLeftEncoderCountInInches(), getRightEncoderCountInInches(),
+                                pose);
         }
 
         /***
@@ -139,10 +169,19 @@ public class Drivetrain extends SubsystemBase {
                 m_drive.arcadeDrive(fwd, -1 * rot);
         }
 
+        public void tankDriveVolts(double leftVolts, double rightVolts) {
+
+                leftFather.set(leftVolts/12.0);
+                rightFather.set(leftVolts/12.0);
+                m_drive.feed();
+              }
+            
+            
+
         public void arcadeDriveBySpeed(double fwd, double rot) {
                 SmartDashboard.putNumber("Fwd", fwd);
                 SmartDashboard.putNumber("rot", rot);
-                
+
                 leftFather.set(ControlMode.Velocity, fwd);
                 rightFather.set(ControlMode.Velocity, rot);
         }
@@ -205,7 +244,6 @@ public class Drivetrain extends SubsystemBase {
                 return gyro.getAltitude();
         }
 
-
         public void driveForwardDistanceToCountLeft(double leftTickCountGoal) {
                 SmartDashboard.putNumber("leftTickCountGoal", leftTickCountGoal);
                 leftFather.set(ControlMode.Position, leftTickCountGoal);
@@ -221,18 +259,21 @@ public class Drivetrain extends SubsystemBase {
                 driveForwardDistanceToCountRight(rightTickCountGoal);
         }
 
-
         public void zeroHeading() {
                 gyro.reset();
         }
 
-        public double getHeading()
-        {
+        public double getHeading() {
                 return gyro.getAngle();
         }
 
         public double getLeftEncoderCount() {
                 return leftFather.getSelectedSensorPosition();
+        }
+
+        public void resetEncoders() {
+                leftFather.setSelectedSensorPosition(0);
+                rightFather.setSelectedSensorPosition(0);
         }
 
         public double getRightEncoderCount() {
@@ -250,7 +291,7 @@ public class Drivetrain extends SubsystemBase {
         }
 
         public int convertInchesToTicks(double inches) {
-                return (int) ( (COUNTS_PER_REVOLUTION / CIRCUMFERENCE) * inches);
+                return (int) ((COUNTS_PER_REVOLUTION / CIRCUMFERENCE) * inches);
         }
 
         public double convertTicksToInches(double ticks) {

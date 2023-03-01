@@ -7,8 +7,12 @@ package frc.robot;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.AutoBalanceDumb;
 import frc.robot.commands.AutoDriveBackwards;
+import frc.robot.commands.AutoLevelOneCone;
+import frc.robot.commands.AutoLevelOneCube;
 import frc.robot.commands.AutoLevelThreeCone;
 import frc.robot.commands.AutoLevelThreeCube;
+import frc.robot.commands.AutoLevelTwoCone;
+import frc.robot.commands.AutoLevelTwoCube;
 import frc.robot.commands.Collection;
 import frc.robot.commands.Drive;
 import frc.robot.commands.MoveArm;
@@ -106,11 +110,15 @@ public class RobotContainer {
          */
         private void configureBindings() {
 
-                first.setDefaultOption("Nothing", new WaitCommand(.1));
+                first.setDefaultOption("Nothing", new WaitCommand(0.02));
                 first.addOption("High Cube", new AutoLevelThreeCube(m_drivetrain, m_arm, m_wrist, m_intake));
                 first.addOption("High Cone", new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake));
+                first.addOption("Middle Cube", new AutoLevelTwoCube(m_drivetrain, m_arm, m_wrist, m_intake));
+                first.addOption("Middle Cone", new AutoLevelTwoCone(m_drivetrain, m_arm, m_wrist, m_intake));
+                first.addOption("Low Cube", new AutoLevelOneCube(m_drivetrain, m_arm, m_wrist, m_intake));
+                first.addOption("Low Cone", new AutoLevelOneCone(m_drivetrain, m_arm, m_wrist, m_intake));
 
-                second.setDefaultOption("Nothing", new WaitCommand(.1));
+                second.setDefaultOption("Nothing", new WaitCommand(0.02));
                 second.setDefaultOption("balance with encoders", new AutoBalance(m_drivetrain));
                 second.setDefaultOption("balance without encoders", new AutoBalanceDumb(m_drivetrain));
                 second.setDefaultOption("drive backwards", new AutoDriveBackwards(m_drivetrain, m_wrist));
