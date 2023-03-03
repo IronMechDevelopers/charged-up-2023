@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import javax.lang.model.util.ElementScanner6;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
@@ -33,8 +35,12 @@ public class Balance extends CommandBase {
         if (angle > 5) {
             // this means the front is up and we should drive forward 6 inches
             m_drivetrain.driveForwardDistanceToCount(left + sixInches, right + sixInches);
-        } else {
+        }
+        else if (angle < -5)  {
             m_drivetrain.driveForwardDistanceToCount(left - sixInches, right - sixInches);
+        }
+        else{
+            m_drivetrain.arcadeDrive(0, 0);
         }
 
     }
