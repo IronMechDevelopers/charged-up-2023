@@ -21,6 +21,7 @@ import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveWrist;
 import frc.robot.commands.MoveWristToAngle;
 import frc.robot.commands.SlowSpeed;
+import frc.robot.commands.ToggleSaftey;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -85,6 +86,7 @@ public class RobotContainer {
         private final JoystickButton rightFire = new JoystickButton(driverRightStick, 1);
         private final JoystickButton leftFive = new JoystickButton(driverLeftStick, 5);
         private final JoystickButton leftThree = new JoystickButton(driverLeftStick, 3);
+        private final JoystickButton rightSix = new JoystickButton(driverRightStick, 6);
         private final JoystickButton rightTwo = new JoystickButton(driverRightStick, 2);
         private final JoystickButton leftTen = new JoystickButton(driverLeftStick, 10);
         private final JoystickButton rightTen = new JoystickButton(driverRightStick, 10);
@@ -184,6 +186,7 @@ public class RobotContainer {
                 dpadUpButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_THREE_ANGLE));
                 dpadRightButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_TWO_ANGLE));
                 dpadLeftButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_HUMAN_PLAYER_ANGLE));
+                rightSix.toggleOnTrue(new ToggleSaftey(m_wrist));
 
                 leftFire.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
                 rightFire.whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));

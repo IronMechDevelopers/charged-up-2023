@@ -77,7 +77,7 @@ public final class Constants {
   public static final double MAXIMUM_ANGLE = -5;
   public static final double MOTOR_SPEED_AUTO = .5;
   public static final double MOTOR_SPEED = .5;
-  public static final double WRIST_OFFSET = 2;
+  public static final double WRIST_OFFSET = 200;
 
   // Arm constants
   public static final int ARM_DOWN = -1;

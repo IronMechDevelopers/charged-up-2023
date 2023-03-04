@@ -17,35 +17,38 @@ import javax.lang.model.util.ElementScanner6;
 
 import static frc.robot.Constants.MAXIMUM_ANGLE;
 import static frc.robot.Constants.*;
+
 public class Wrist extends SubsystemBase {
 
         // private Encoder encoder;
         private final WPI_TalonSRX wristMotor = new WPI_TalonSRX(Constants.WRIST_MOTOR_CONTROLLER_CONSTANT);
         private final NeutralMode brakeMode = NeutralMode.Brake;
         private final double feedForward;
+        private boolean saftey;
 
         public Wrist() {
                 super();
                 wristMotor.configFactoryDefault();
                 wristMotor.setNeutralMode(brakeMode);
+                saftey = false;
                 setTalon(wristMotor);
-                
 
                 wristMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute,
-                0,
-                10);
-                feedForward=.01;
+                                0,
+                                10);
+                feedForward = .01;
 
         }
 
         public void periodic() {
                 SmartDashboard.putNumber("WristAngle", getAngle());
+                SmartDashboard.putBoolean("saftey", saftey);
         }
 
         public double getAngle() {
                 double ticks = wristMotor.getSelectedSensorPosition();
-                
-                return ticks * 360 / COUNTS_PER_REVOLUTION-WRIST_OFFSET;
+
+                return ticks * 360 / COUNTS_PER_REVOLUTION  - WRIST_OFFSET;
 
         }
 
@@ -54,21 +57,25 @@ public class Wrist extends SubsystemBase {
         }
 
         public void setMotor(double speed) {
-                if(getAngle() >MAXIMUM_ANGLE && speed>0) 
-                {
-                    speed=0;
-                        SmartDashboard.putString("Wrist Saftey", "Active");
+                if (saftey) {
+                        if (getAngle() > MAXIMUM_ANGLE && speed < 0) {
+                                speed = 0;
+                                SmartDashboard.putString("Wrist Saftey", "Active 1");
+                        } else if (getAngle() < MINIMUM_ANGLE && speed > 0) {
+                                speed = 0;
+                                SmartDashboard.putString("Wrist Saftey", "Active 2");
+                        } else {
+                                SmartDashboard.putString("Wrist Saftey", "Running");
+                        }
+                } else {
+                        SmartDashboard.putString("Wrist Saftey", "UNSAFE");
                 }
-                else if(getAngle() < MINIMUM_ANGLE && speed<0) 
-                {
-                        speed=0;
-                        SmartDashboard.putString("Wrist Saftey", "Active");
-                }
-                else{
-                        SmartDashboard.putString("Wrist Saftey", "Running");
-                }
-                SmartDashboard.putString("Wrist Saftey", "Inactive");
+
                 wristMotor.set(speed);
+        }
+
+        public void toggleSaftey() {
+                saftey = !saftey;
         }
 
         public void setAngle(double angle) {
@@ -124,7 +131,6 @@ public class Wrist extends SubsystemBase {
                                 Constants.kPIDLoopIdx,
                                 Constants.kTimeoutMs);
 
-              
         }
 
 }
