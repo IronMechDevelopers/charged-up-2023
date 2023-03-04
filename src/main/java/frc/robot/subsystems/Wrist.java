@@ -12,6 +12,9 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import static frc.robot.Constants.MINIMUM_ANGLE;
+
+import javax.lang.model.util.ElementScanner6;
+
 import static frc.robot.Constants.MAXIMUM_ANGLE;
 import static frc.robot.Constants.*;
 public class Wrist extends SubsystemBase {
@@ -36,7 +39,7 @@ public class Wrist extends SubsystemBase {
         }
 
         public void periodic() {
-                // SmartDashboard.putNumber("WristAngle", getAngle());
+                SmartDashboard.putNumber("WristAngle", getAngle());
         }
 
         public double getAngle() {
@@ -54,14 +57,17 @@ public class Wrist extends SubsystemBase {
                 if(getAngle() >MAXIMUM_ANGLE && speed>0) 
                 {
                     speed=0;
-                        // SmartDashboard.putString("Wrist Saftey", "Active");
+                        SmartDashboard.putString("Wrist Saftey", "Active");
                 }
                 else if(getAngle() < MINIMUM_ANGLE && speed<0) 
                 {
                         speed=0;
-                        // SmartDashboard.putString("Wrist Saftey", "Active");
+                        SmartDashboard.putString("Wrist Saftey", "Active");
                 }
-                // SmartDashboard.putString("Wrist Saftey", "Inactive");
+                else{
+                        SmartDashboard.putString("Wrist Saftey", "Running");
+                }
+                SmartDashboard.putString("Wrist Saftey", "Inactive");
                 wristMotor.set(speed);
         }
 

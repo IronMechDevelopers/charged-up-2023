@@ -74,10 +74,10 @@ public final class Constants {
   public static final int WRIST_OUT = -1;
   public static final int WRIST_IN = 1;
   public static final double MINIMUM_ANGLE = -153;
-  public static final double MAXIMUM_ANGLE = 0;
+  public static final double MAXIMUM_ANGLE = -5;
   public static final double MOTOR_SPEED_AUTO = .5;
   public static final double MOTOR_SPEED = .5;
-  public static final double WRIST_OFFSET = 206;
+  public static final double WRIST_OFFSET = 2;
 
   // Arm constants
   public static final int ARM_DOWN = -1;
@@ -99,9 +99,9 @@ public final class Constants {
   public static final double CUBE_COLLECTION_GROUND_ANGLE = -120;
   public static final double COLLECTION_HUMAN_PLAYER_ANGLE = -129;
   public static final double COLLECTION_LEVEL_ONE_ANGLE = -87;
-  public static final double COLLECTION_LEVEL_TWO_ANGLE = -144;
-  public static final double COLLECTION_LEVEL_THREE_ANGLE = -126;
-  public static final double COLLECTION_LEVEL_THREE_CUBE_ANGLE = -146;
+  public static final double COLLECTION_LEVEL_TWO_ANGLE = -103;
+  public static final double COLLECTION_LEVEL_THREE_ANGLE = -120;
+  public static final double COLLECTION_LEVEL_THREE_CUBE_ANGLE = -120;
   public static final double HOME_ANGLE = 0;
 
   // CanBus constants
