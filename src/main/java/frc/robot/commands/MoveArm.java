@@ -12,7 +12,7 @@ public class MoveArm extends CommandBase {
     super();
     m_arm = arm;
     m_dir = dir;
-    m_speed = speed;
+    m_speed = Math.abs(speed);
 
   
     addRequirements(m_arm);

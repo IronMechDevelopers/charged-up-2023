@@ -37,12 +37,12 @@ public class SlowSpeed  extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double forward = m_left.getAsDouble()*Constants.SLOW_SPEED_RATE;
-        double rotation = m_right.getAsDouble()*Constants.SLOW_SPEED_RATE;
+        double forward = m_left.getAsDouble()*Constants.SLOW_SPEED_RATE_FOWRARD;
+        double rotation = m_right.getAsDouble()*Constants.SLOW_SPEED_RATE_TURN;
         // flipping joystick to make postive be up
         forward = forward * -1;
-        SmartDashboard.putNumber("left joystick", forward);
-        SmartDashboard.putNumber("right joystick", rotation);
+        // SmartDashboard.putNumber("left joystick", forward);
+        // SmartDashboard.putNumber("right joystick", rotation);
 
         m_drivetrain.arcadeDrive(forward, rotation);
     }

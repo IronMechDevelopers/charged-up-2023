@@ -13,7 +13,7 @@ public class Collection extends CommandBase {
     super();
     m_intake = intake;
     m_dir = dir;
-    m_speed = speed;
+    m_speed = Math.abs(speed);
 
     addRequirements(m_intake);
   }

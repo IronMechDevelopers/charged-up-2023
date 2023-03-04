@@ -12,7 +12,7 @@ public class MoveWrist extends CommandBase {
         super();
         m_wrist = wrist;
         m_dir = dir;
-        m_speed = speed;
+        m_speed = Math.abs(speed);
 
         addRequirements(m_wrist);
     }
@@ -24,17 +24,7 @@ public class MoveWrist extends CommandBase {
     // The closer we get to balancing the slower we go till eventully we stop
     @Override
     public void execute() {
-        if(m_wrist.getAngle() >0 && m_dir==1) 
-        {
-            m_wrist.setMotor(0);
-        }
-        else if (m_wrist.getAngle() < -153 && m_dir==-1) 
-        {
-            m_wrist.setMotor(0);
-        }
-        else{
         m_wrist.setMotor(m_dir * m_speed);
-        }
     }
 
     // Called once the command ends or is interrupted.

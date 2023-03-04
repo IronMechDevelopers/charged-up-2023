@@ -35,40 +35,83 @@ public final class Constants {
    */
   public static final int kPIDLoopIdx = 0;
 
-   // Controller constants
-   public static final int left_joystick_index = 0;
-   public static final int righh_joystick_index=1;
-   public static final int  xbox_index=2;
+  // Controller constants
+  public static final int left_joystick_index = 0;
+  public static final int righh_joystick_index = 1;
+  public static final int xbox_index = 2;
 
- // Drive constants
+  // Drive constants
   public static final int kTimeoutMs = 30;
   public static final double kGains_drivetrain_kF = 0.0;
   public static final double kGains_drivetrain_kP = 1.5;
   public static final double kGains_drivetrain_kI = 0.008;
+
+  public static final double kTurnP = 1;
+  public static final double kTurnI = 0;
+  public static final double kTurnD = 0;
+
+  public static final double kMaxTurnRateDegPerS = 100;
+  public static final double kMaxTurnAccelerationDegPerSSquared = 300;
+
+  public static final double kTurnToleranceDeg = 5;
+  public static final double kTurnRateToleranceDegPerS = 10; // degrees per second
+
   public static final double kGains_drivetrain_kD = 70;
   public static final double kDriveWheelDiameter = 3;
-  
+  public static final double CIRCUMFERENCE = 2 * Math.PI * Constants.kDriveWheelDiameter;
+  public static final double SLOW_SPEED_RATE_FOWRARD = 0.5;
+  public static final double SLOW_SPEED_RATE_TURN = 0.75;
+  public static final double BALANCE_DISTANCE = -18.5;
+  public static final int COUNTS_PER_REVOLUTION = 4096;
 
+  public static final double SPIN_SPEED = .5;
 
   // Wrist constants
   public static final double kGains_wrist_kF = 0.0;
   public static final double kGains_wrist_kP = 1.5;
   public static final double kGains_wrist_kI = 0.008;
   public static final double kGains_wrist_kD = 70;
+  public static final int WRIST_OUT = -1;
+  public static final int WRIST_IN = 1;
+  public static final double MINIMUM_ANGLE = -153;
+  public static final double MAXIMUM_ANGLE = -5;
+  public static final double MOTOR_SPEED_AUTO = .5;
+  public static final double MOTOR_SPEED = .5;
+  public static final double WRIST_OFFSET = 200;
 
+  // Arm constants
+  public static final int ARM_DOWN = -1;
+  public static final int ARM_UP = 1;
+  public static final double ARM_DOWN_SPEED = .9;
+  public static final double ARM_UP_SPEED = 1;
 
+  // Collection constants
+  public static final double CONE_COLLECTION_OUT_SPEED = .75;
+  public static final double CONE_COLLECTION_IN_SPEED = .75;
+  public static final int CONE_COLLECTION_OUT_DITRECTION = 1;
+  public static final int CONE_COLLECTION_IN_DITRECTION = -1;
 
-// CanBus constants
-  public static final int RIGHT_SON_CANBUS_NUMBER = 3;
-  public static final int LEFT_SON_CANBUS_NUMBER = 2;
+  public static final double CUBE_COLLECTION_OUT_SPEED = .75;
+  public static final double CUBE_COLLECTION_IN_SPEED = .75;
+  public static final int CUBE_COLLECTION_OUT_DITRECTION = -1;
+  public static final int CUBE_COLLECTION_IN_DITRECTION = 1;
+
+  public static final double CUBE_COLLECTION_GROUND_ANGLE = -120;
+  public static final double COLLECTION_HUMAN_PLAYER_ANGLE = -129;
+  public static final double COLLECTION_LEVEL_ONE_ANGLE = -87;
+  public static final double COLLECTION_LEVEL_TWO_ANGLE = -103;
+  public static final double COLLECTION_LEVEL_THREE_ANGLE = -120;
+  public static final double COLLECTION_LEVEL_THREE_CUBE_ANGLE = -120;
+  public static final double HOME_ANGLE = 0;
+
+  // CanBus constants
   public static final int RIGHT_FATHER_CANBUS_NUMBER = 0;
   public static final int LEFT_FATHER_CANBUS_NUMBER = 1;
+  public static final int LEFT_SON_CANBUS_NUMBER = 2;
+  public static final int RIGHT_SON_CANBUS_NUMBER = 3;
   public static final int ARM_MOTOR_CONTROLLER_CONSTANT = 4;
   public static final int LEFT_INTAKE_MOTOR_CONTROLLER_CONSTANT = 5;
   public static final int RIGHT_INTAKE_MOTOR_CONTROLLER_CONSTANT = 6;
   public static final int WRIST_MOTOR_CONTROLLER_CONSTANT = 7;
 
-
-
-  public static final double SLOW_SPEED_RATE=0.5;
 }

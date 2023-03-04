@@ -1,21 +1,25 @@
 package frc.robot.commands;
 
-import javax.lang.model.util.ElementScanner6;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class Balance extends CommandBase {
+public class BalanceDumb extends CommandBase {
 
     private final Drivetrain m_drivetrain;
-    private int sixInches;
+    private double m_speed;
+    private double m_accelerationThreshold;
+    private long m_lockTime;
+    private long m_lockTime_delay;
 
     // Adds drive train components to balance command
-    public Balance(Drivetrain drivetrain) {
+    public BalanceDumb(Drivetrain drivetrain) {
         super();
         m_drivetrain = drivetrain;
+        m_speed = .4;
+        m_lockTime_delay=500;
+        m_accelerationThreshold=.75;
         addRequirements(m_drivetrain);
-        sixInches = m_drivetrain.convertInchesToTicks(6);
     }
 
     // Called when the command is initially scheduled.
@@ -23,25 +27,36 @@ public class Balance extends CommandBase {
     // Goal angle is 5, closest number to 0
     @Override
     public void initialize() {
+        m_lockTime = System.currentTimeMillis();
     }
 
     // The closer we get to balancing the slower we go till eventully we stop
     @Override
     public void execute() {
-        double left = m_drivetrain.getLeftEncoderCount();
-        double right = m_drivetrain.getRightEncoderCount();
+
+        double speed = 0;
         double angle = m_drivetrain.getPitch();
+        double acc = m_drivetrain.getPitchAcc();
+        long currentTime = System.currentTimeMillis();
 
         if (angle > 5) {
-            // this means the front is up and we should drive forward 6 inches
-            m_drivetrain.driveForwardDistanceToCount(left + sixInches, right + sixInches);
-        }
-        else if (angle < -5)  {
-            m_drivetrain.driveForwardDistanceToCount(left - sixInches, right - sixInches);
+            speed = m_speed;
+        } else if (angle < -5){
+            speed = -1 * m_speed;
         }
         else{
-            m_drivetrain.arcadeDrive(0, 0);
+            speed = 0;
         }
+        if (Math.abs(acc) > m_accelerationThreshold) {
+            speed = 0;
+            m_lockTime=currentTime+m_lockTime_delay;
+        }
+        if(currentTime<=m_lockTime)
+        {
+            speed = 0;
+        }
+
+        m_drivetrain.arcadeDrive(speed, 0);
 
     }
 
