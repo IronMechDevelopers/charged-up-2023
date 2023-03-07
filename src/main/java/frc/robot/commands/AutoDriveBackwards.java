@@ -7,8 +7,8 @@ import frc.robot.subsystems.Wrist;
 public class AutoDriveBackwards extends SequentialCommandGroup {
     public AutoDriveBackwards(Drivetrain m_drivetrain, Wrist m_wrist) {
         addCommands(
-                new DriveBackwards(m_drivetrain).withTimeout(2.5),
-                new Spin(m_drivetrain).withTimeout(1.75));
+                new DriveBackwards(m_drivetrain).withTimeout(2.75));//,
+                // new Spin(m_drivetrain).withTimeout(1.75));
                 
     }
 }
