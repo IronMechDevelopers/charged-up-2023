@@ -62,7 +62,7 @@ public class RobotContainer {
         public static final Wrist m_wrist = new Wrist();
         // public static final PDP pdp = new PDP();
 
-        private final boolean simpleAutoSelector = true;
+        private final boolean simpleAutoSelector = false;
 
         SendableChooser<Command> first = new SendableChooser<>();
         SendableChooser<Command> second = new SendableChooser<>();
@@ -122,29 +122,29 @@ public class RobotContainer {
 
                 if (simpleAutoSelector) {
                         auto.setDefaultOption("Nothing", new WaitCommand(0.02));
-                        first.addOption("High Cube|balance without encoders",
+                        auto.addOption("High Cube|balance without encoders",
                                         new AutoLevelThreeCube(m_drivetrain, m_arm, m_wrist, m_intake)
                                                         .andThen(new AutoBalanceDumb(m_drivetrain)));
-                        first.addOption("High Cube|drive backwards",
+                        auto.addOption("High Cube|drive backwards",
                                         new AutoLevelThreeCube(m_drivetrain, m_arm, m_wrist, m_intake)
                                                         .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist)));
-                        first.addOption("High Cube|drive backwards with wrist", new AutoLevelThreeCube(m_drivetrain,
+                        auto.addOption("High Cube|drive backwards with wrist", new AutoLevelThreeCube(m_drivetrain,
                                         m_arm, m_wrist, m_intake)
                                         .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist).andThen(
                                                         new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_ONE_ANGLE))));
 
-                        first.addOption("High Cone|balance without encoders",
+                        auto.addOption("High Cone|balance without encoders",
                                         new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake)
                                                         .andThen(new AutoBalanceDumb(m_drivetrain)));
-                        first.addOption("High Cone|drive backwards",
+                        auto.addOption("High Cone|drive backwards",
                                         new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake)
                                                         .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist)));
-                        first.addOption("High CuConebe|drive backwards with wrist", new AutoLevelThreeCone(m_drivetrain,
+                        auto.addOption("High CuConebe|drive backwards with wrist", new AutoLevelThreeCone(m_drivetrain,
                                         m_arm, m_wrist, m_intake)
                                         .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist).andThen(
                                                         new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_ONE_ANGLE))));
 
-                        SmartDashboard.putData(auto);
+                        SmartDashboard.putData("simple auto", auto);
                 } else {
 
                         first.setDefaultOption("Nothing", new WaitCommand(0.02));
@@ -170,8 +170,8 @@ public class RobotContainer {
                                                         CONE_COLLECTION_IN_DITRECTION, CUBE_COLLECTION_IN_SPEED))
                                                         .withTimeout(.25)));
 
-                        SmartDashboard.putData(first);
-                        SmartDashboard.putData(second);
+                        SmartDashboard.putData("first auto", first);
+                        SmartDashboard.putData("second auto", second);
                 }
 
                 aButton.whileTrue(new Collection(m_intake, CONE_COLLECTION_IN_DITRECTION, CONE_COLLECTION_OUT_SPEED));
@@ -213,19 +213,22 @@ public class RobotContainer {
          * @return the command to run in autonomous
          */
         public Command getAutonomousCommand() {
+
+                // return  new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake).andThen(new AutoDriveBackwards(m_drivetrain, m_wrist));
+                return new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake).andThen(new AutoBalanceDumb(m_drivetrain));
                 // An example command will be run in autonomous
 
                 // Unhandled exception: java.lang.IllegalArgumentException: Commands that have
                 // been composed may not be added to another composition or scheduled
                 // individually!
-                if (simpleAutoSelector) {
-                        return auto.getSelected();
-                } else {
-                        Command firstCommand = first.getSelected();
-                        Command secondCommand = second.getSelected();
-                        return firstCommand.andThen(secondCommand);
-                }
-                // SequentialCommandGroup temp = new AutoLevelThreeCone(m_drivetrain, m_arm,
+                // if (simpleAutoSelector) {
+                //         return auto.getSelected();
+                // } else {
+                //         Command firstCommand = first.getSelected();
+                //         Command secondCommand = second.getSelected();
+                //         return firstCommand.andThen(secondCommand);
+                // }
+                // // SequentialCommandGroup temp = new AutoLevelThreeCone(m_drivetrain, m_arm,
                 // m_wrist, m_intake).andThen(new AutoBalanceDumb(m_drivetrain));
                 // return temp;
         }
