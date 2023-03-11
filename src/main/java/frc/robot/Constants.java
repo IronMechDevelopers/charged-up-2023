@@ -98,7 +98,7 @@ public final class Constants {
 
   public static final double CUBE_COLLECTION_GROUND_ANGLE = -120;
   public static final double COLLECTION_HUMAN_PLAYER_ANGLE = -129;
-  public static final double COLLECTION_LEVEL_ONE_ANGLE = -87;
+  public static final double COLLECTION_LEVEL_ONE_ANGLE = -85.4;
   public static final double COLLECTION_LEVEL_TWO_ANGLE = -103;
   public static final double COLLECTION_LEVEL_THREE_ANGLE = -120;
   public static final double COLLECTION_LEVEL_THREE_CUBE_ANGLE = -120;
