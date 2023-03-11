@@ -30,7 +30,7 @@ public class Wrist extends SubsystemBase {
                 super();
                 wristMotor.configFactoryDefault();
                 wristMotor.setNeutralMode(brakeMode);
-                saftey = false;
+                saftey = true;
                 setTalon(wristMotor);
 
                 wristMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute,
@@ -58,10 +58,10 @@ public class Wrist extends SubsystemBase {
 
         public void setMotor(double speed) {
                 if (saftey) {
-                        if (getAngle() > MAXIMUM_ANGLE && speed < 0) {
+                        if (getAngle() > MAXIMUM_ANGLE && speed > 0) {
                                 speed = 0;
                                 SmartDashboard.putString("Wrist Saftey", "Active 1");
-                        } else if (getAngle() < MINIMUM_ANGLE && speed > 0) {
+                        } else if (getAngle() < MINIMUM_ANGLE && speed < 0) {
                                 speed = 0;
                                 SmartDashboard.putString("Wrist Saftey", "Active 2");
                         } else {

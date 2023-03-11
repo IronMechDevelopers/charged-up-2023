@@ -25,7 +25,8 @@ import frc.robot.commands.ToggleSaftey;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.PDP;
+// import frc.robot.subsystems.PDP;
+import frc.robot.subsystems.Auto_Selector;
 import frc.robot.subsystems.Wrist;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -33,7 +34,6 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -61,6 +61,7 @@ public class RobotContainer {
         public static final Intake m_intake = new Intake();
         public static final Wrist m_wrist = new Wrist();
         // public static final PDP pdp = new PDP();
+        public static final Auto_Selector autoSelector = new Auto_Selector(driverLeftStick,driverRightStick);
 
         private final boolean simpleAutoSelector = false;
 
@@ -215,7 +216,7 @@ public class RobotContainer {
         public Command getAutonomousCommand() {
 
                 // return  new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake).andThen(new AutoDriveBackwards(m_drivetrain, m_wrist));
-                return new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake).andThen(new AutoBalanceDumb(m_drivetrain));
+                return  autoSelector.getAuto();
                 // An example command will be run in autonomous
 
                 // Unhandled exception: java.lang.IllegalArgumentException: Commands that have
