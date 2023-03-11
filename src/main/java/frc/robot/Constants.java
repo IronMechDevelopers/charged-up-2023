@@ -114,4 +114,11 @@ public final class Constants {
   public static final int RIGHT_INTAKE_MOTOR_CONTROLLER_CONSTANT = 6;
   public static final int WRIST_MOTOR_CONTROLLER_CONSTANT = 7;
 
+   // AUTO constantt
+   public static final String HIGH_CUBE="high cube";
+   public static final String HIGH_CONE="high cone";
+   public static final String DO_NOTHING="Do nothing";
+   public static final String BALANCE="balance";
+   public static final String DRIVE_BACKWARDS="drive backwards";
+
 }

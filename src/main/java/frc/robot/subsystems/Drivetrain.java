@@ -16,7 +16,6 @@ import frc.robot.Constants;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import static frc.robot.Constants.*;
@@ -34,7 +33,6 @@ public class Drivetrain extends SubsystemBase {
         private final WPI_VictorSPX rightSon = new WPI_VictorSPX(Constants.RIGHT_SON_CANBUS_NUMBER);
         private final NeutralMode brakeMode = NeutralMode.Brake;
         private AHRS gyro;
-        private final XboxController copilotXbox;
         private final DifferentialDriveOdometry m_odometry;
 
         /**
@@ -67,6 +65,7 @@ public class Drivetrain extends SubsystemBase {
                 rightFather.setInverted(true);
                 rightSon.setInverted(true);
                 leftSon.setInverted(false);
+                
 
                 leftFather.setSensorPhase(true);
                 rightFather.setSensorPhase(true);
@@ -94,7 +93,6 @@ public class Drivetrain extends SubsystemBase {
                 addChild("Drive",
                                 m_drive);
 
-                this.copilotXbox = copilotXbox;
 
                 resetEncoders();
                 m_odometry = new DifferentialDriveOdometry(
@@ -105,6 +103,7 @@ public class Drivetrain extends SubsystemBase {
         public void periodic() {
                 SmartDashboard.putNumber("Left", leftFather.getSelectedSensorPosition());
                 SmartDashboard.putNumber("right", rightFather.getSelectedSensorPosition());
+                
         }
 
         public Pose2d getPose() {

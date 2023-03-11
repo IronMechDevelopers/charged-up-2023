@@ -63,12 +63,6 @@ public class RobotContainer {
         // public static final PDP pdp = new PDP();
         public static final Auto_Selector autoSelector = new Auto_Selector(driverLeftStick,driverRightStick);
 
-        private final boolean simpleAutoSelector = false;
-
-        SendableChooser<Command> first = new SendableChooser<>();
-        SendableChooser<Command> second = new SendableChooser<>();
-        SendableChooser<Command> auto = new SendableChooser<>();
-
         private final Trigger dpadDownButton = new Trigger(() -> copilotXbox.getPOV() == 180);
         private final Trigger dpadUpButton = new Trigger(() -> copilotXbox.getPOV() == 0);
         private final Trigger dpadRightButton = new Trigger(() -> copilotXbox.getPOV() == 90);
@@ -121,59 +115,7 @@ public class RobotContainer {
          */
         private void configureBindings() {
 
-                if (simpleAutoSelector) {
-                        auto.setDefaultOption("Nothing", new WaitCommand(0.02));
-                        auto.addOption("High Cube|balance without encoders",
-                                        new AutoLevelThreeCube(m_drivetrain, m_arm, m_wrist, m_intake)
-                                                        .andThen(new AutoBalanceDumb(m_drivetrain)));
-                        auto.addOption("High Cube|drive backwards",
-                                        new AutoLevelThreeCube(m_drivetrain, m_arm, m_wrist, m_intake)
-                                                        .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist)));
-                        auto.addOption("High Cube|drive backwards with wrist", new AutoLevelThreeCube(m_drivetrain,
-                                        m_arm, m_wrist, m_intake)
-                                        .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist).andThen(
-                                                        new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_ONE_ANGLE))));
-
-                        auto.addOption("High Cone|balance without encoders",
-                                        new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake)
-                                                        .andThen(new AutoBalanceDumb(m_drivetrain)));
-                        auto.addOption("High Cone|drive backwards",
-                                        new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake)
-                                                        .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist)));
-                        auto.addOption("High CuConebe|drive backwards with wrist", new AutoLevelThreeCone(m_drivetrain,
-                                        m_arm, m_wrist, m_intake)
-                                        .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist).andThen(
-                                                        new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_ONE_ANGLE))));
-
-                        SmartDashboard.putData("simple auto", auto);
-                } else {
-
-                        first.setDefaultOption("Nothing", new WaitCommand(0.02));
-                        first.addOption("High Cube", new AutoLevelThreeCube(m_drivetrain, m_arm, m_wrist, m_intake));
-                        first.addOption("High Cone", new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake));
-                        first.addOption("Middle Cube", new AutoLevelTwoCube(m_drivetrain, m_arm, m_wrist, m_intake));
-                        first.addOption("Middle Cone", new AutoLevelTwoCone(m_drivetrain, m_arm, m_wrist, m_intake));
-                        first.addOption("Low Cube", new AutoLevelOneCube(m_drivetrain, m_arm, m_wrist, m_intake));
-                        first.addOption("Low Cone", new AutoLevelOneCone(m_drivetrain, m_arm, m_wrist, m_intake));
-
-                        second.setDefaultOption("Nothing", new WaitCommand(0.02));
-                        second.setDefaultOption("balance with encoders", new AutoBalance(m_drivetrain));
-                        second.setDefaultOption("balance without encoders", new AutoBalanceDumb(m_drivetrain));
-                        second.setDefaultOption("drive backwards", new AutoDriveBackwards(m_drivetrain, m_wrist));
-                        second.setDefaultOption("drive to Charge Station", new DriveStraightUntilPitch(m_drivetrain));
-                        second.setDefaultOption("drive backwards with wrist",
-                                        new AutoDriveBackwards(m_drivetrain, m_wrist).andThen(
-                                                        new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_ONE_ANGLE)));
-                        second.setDefaultOption("drive backwards and collect", new AutoDriveBackwards(m_drivetrain,
-                                        m_wrist)
-                                        .andThen(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_ONE_ANGLE))
-                                        .andThen(new DriveStraight(m_drivetrain).alongWith(new Collection(m_intake,
-                                                        CONE_COLLECTION_IN_DITRECTION, CUBE_COLLECTION_IN_SPEED))
-                                                        .withTimeout(.25)));
-
-                        SmartDashboard.putData("first auto", first);
-                        SmartDashboard.putData("second auto", second);
-                }
+                
 
                 aButton.whileTrue(new Collection(m_intake, CONE_COLLECTION_IN_DITRECTION, CONE_COLLECTION_OUT_SPEED));
                 bButton.whileTrue(new Collection(m_intake, CONE_COLLECTION_OUT_DITRECTION, CONE_COLLECTION_IN_SPEED));
@@ -215,22 +157,6 @@ public class RobotContainer {
          */
         public Command getAutonomousCommand() {
 
-                // return  new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake).andThen(new AutoDriveBackwards(m_drivetrain, m_wrist));
-                return  autoSelector.getAuto();
-                // An example command will be run in autonomous
-
-                // Unhandled exception: java.lang.IllegalArgumentException: Commands that have
-                // been composed may not be added to another composition or scheduled
-                // individually!
-                // if (simpleAutoSelector) {
-                //         return auto.getSelected();
-                // } else {
-                //         Command firstCommand = first.getSelected();
-                //         Command secondCommand = second.getSelected();
-                //         return firstCommand.andThen(secondCommand);
-                // }
-                // // SequentialCommandGroup temp = new AutoLevelThreeCone(m_drivetrain, m_arm,
-                // m_wrist, m_intake).andThen(new AutoBalanceDumb(m_drivetrain));
-                // return temp;
+        return  autoSelector.getAuto();
         }
 }
