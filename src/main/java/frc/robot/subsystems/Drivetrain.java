@@ -103,6 +103,8 @@ public class Drivetrain extends SubsystemBase {
         public void periodic() {
                 SmartDashboard.putNumber("Left", leftFather.getSelectedSensorPosition());
                 SmartDashboard.putNumber("right", rightFather.getSelectedSensorPosition());
+                SmartDashboard.putNumber(
+            "Pitch1", getPitch());
                 
         }
 

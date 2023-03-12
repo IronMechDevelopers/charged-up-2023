@@ -74,7 +74,8 @@ public class RobotContainer {
         private final JoystickButton bButton = new JoystickButton(copilotXbox, Button.kB.value);
         private final JoystickButton xButton = new JoystickButton(copilotXbox, Button.kX.value);
         private final JoystickButton yButton = new JoystickButton(copilotXbox, Button.kY.value);
-        private final JoystickButton startButton = new JoystickButton(copilotXbox, Button.kStart.value);
+        private final JoystickButton leftThreeButton = new JoystickButton(copilotXbox, 9);
+        private final JoystickButton rightThreeButton = new JoystickButton(copilotXbox, 10);
         private final JoystickButton rightBumper = new JoystickButton(copilotXbox, Button.kRightBumper.value);
         private final JoystickButton leftBumper = new JoystickButton(copilotXbox, Button.kLeftBumper.value);
 
@@ -132,7 +133,8 @@ public class RobotContainer {
                 dpadUpButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_THREE_ANGLE));
                 dpadRightButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_TWO_ANGLE));
                 dpadLeftButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_HUMAN_PLAYER_ANGLE));
-                startButton.toggleOnTrue(new MoveWristToAngle(m_wrist, HOME_ANGLE));
+                leftThreeButton.toggleOnTrue(new MoveWristToAngle(m_wrist, HOME_ANGLE));
+                rightThreeButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_CUBE_SHOOT));
                 rightSix.toggleOnTrue(new ToggleSaftey(m_wrist));
 
                 leftFire.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));

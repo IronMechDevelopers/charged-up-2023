@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
@@ -27,13 +28,15 @@ public class DriveStraightUntilPitch extends CommandBase  {
     // If any interference to change direction, command would realine itself.
     @Override
     public void execute() {
+        SmartDashboard.putNumber(
+            "Pitch1", m_drivetrain.getPitch());
         double errorAngle = m_drivetrain.getYaw() - goalAngle;
         if (errorAngle > 3) {
-            m_drivetrain.arcadeDrive(-0.6, -0.2);
+            m_drivetrain.arcadeDrive(-0.8, -0.2);
         } else if (errorAngle < -3) {
-            m_drivetrain.arcadeDrive(-0.6, 0.2);
+            m_drivetrain.arcadeDrive(-0.8, 0.2);
         } else {
-            m_drivetrain.arcadeDrive(-0.6, 0.0);
+            m_drivetrain.arcadeDrive(-0.8, 0.0);
         }
     }
 
@@ -48,7 +51,7 @@ public class DriveStraightUntilPitch extends CommandBase  {
     @Override
     public boolean isFinished() {
 
-        return Math.abs(m_drivetrain.getPitch())>14;
+        return Math.abs(m_drivetrain.getPitch())>24.5;
     }
 
 }

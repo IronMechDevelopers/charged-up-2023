@@ -78,6 +78,7 @@ public final class Constants {
   public static final double MOTOR_SPEED_AUTO = .8;
   public static final double MOTOR_SPEED = 1;
   public static final double WRIST_OFFSET =328;
+  
 
   // Arm constants
   public static final int ARM_DOWN = -1;
@@ -102,6 +103,7 @@ public final class Constants {
   public static final double COLLECTION_LEVEL_TWO_ANGLE = -103;
   public static final double COLLECTION_LEVEL_THREE_ANGLE = -123.5;
   public static final double COLLECTION_LEVEL_THREE_CUBE_ANGLE = -120;
+  public static final double COLLECTION_CUBE_SHOOT = -27;
   public static final double HOME_ANGLE = -9;
 
   // CanBus constants
