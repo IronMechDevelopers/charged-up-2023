@@ -74,7 +74,7 @@ public final class Constants {
   public static final int WRIST_OUT = -1;
   public static final int WRIST_IN = 1;
   public static final double MINIMUM_ANGLE = -153;
-  public static final double MAXIMUM_ANGLE = -4;
+  public static final double MAXIMUM_ANGLE = 0;
   public static final double MOTOR_SPEED_AUTO = .8;
   public static final double MOTOR_SPEED = 1;
   public static final double WRIST_OFFSET =328;
@@ -98,11 +98,11 @@ public final class Constants {
 
   public static final double CUBE_COLLECTION_GROUND_ANGLE = -120;
   public static final double COLLECTION_HUMAN_PLAYER_ANGLE = -129;
-  public static final double COLLECTION_LEVEL_ONE_ANGLE = -85.4;
+  public static final double COLLECTION_LEVEL_ONE_ANGLE = -86;
   public static final double COLLECTION_LEVEL_TWO_ANGLE = -103;
-  public static final double COLLECTION_LEVEL_THREE_ANGLE = -120;
+  public static final double COLLECTION_LEVEL_THREE_ANGLE = -123.5;
   public static final double COLLECTION_LEVEL_THREE_CUBE_ANGLE = -120;
-  public static final double HOME_ANGLE = 0;
+  public static final double HOME_ANGLE = -9;
 
   // CanBus constants
   public static final int RIGHT_FATHER_CANBUS_NUMBER = 0;
@@ -115,10 +115,10 @@ public final class Constants {
   public static final int WRIST_MOTOR_CONTROLLER_CONSTANT = 7;
 
    // AUTO constantt
-   public static final String HIGH_CUBE="high cube";
-   public static final String HIGH_CONE="high cone";
-   public static final String DO_NOTHING="Do nothing";
-   public static final String BALANCE="balance";
-   public static final String DRIVE_BACKWARDS="drive backwards";
+   public static final String HIGH_CUBE="High Cube";
+   public static final String HIGH_CONE="High Cone";
+   public static final String DO_NOTHING="Do Nothing";
+   public static final String BALANCE="Balance";
+   public static final String DRIVE_BACKWARDS="Drive Backwards";
 
 }
