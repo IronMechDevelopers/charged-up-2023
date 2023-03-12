@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
+import frc.robot.commands.AutoBalance;
 import frc.robot.commands.AutoBalanceDumb;
 import frc.robot.commands.AutoDriveBackwards;
 import frc.robot.commands.AutoLevelThreeCone;
@@ -41,9 +42,11 @@ public class Auto_Selector extends SubsystemBase {
             SmartDashboard.putString("1st Auto", DO_NOTHING);
         }
 
-        if (leftPot > 0.5) {
+        if (leftPot > 0.66) {
             SmartDashboard.putString("2nd Auto", BALANCE);
-        } else if (leftPot < -0.5) {
+        } else if (leftPot > 0.33) {
+            SmartDashboard.putString("2nd Auto", BALANCE_PID);
+        } else if (leftPot < -0.25) {
             SmartDashboard.putString("2nd Auto", DRIVE_BACKWARDS);
         } else {
             SmartDashboard.putString("2nd Auto", DO_NOTHING);
@@ -76,6 +79,9 @@ public class Auto_Selector extends SubsystemBase {
                 break;
             case DRIVE_BACKWARDS:
                 secondCommand = new AutoDriveBackwards(RobotContainer.m_drivetrain, RobotContainer.m_wrist);
+                break;
+            case BALANCE_PID:
+                secondCommand = new AutoBalance(RobotContainer.m_drivetrain);
                 break;
             default:
                 secondCommand = new WaitCommand(0.02);
