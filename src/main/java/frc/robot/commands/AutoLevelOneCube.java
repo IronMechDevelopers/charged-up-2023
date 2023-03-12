@@ -2,8 +2,6 @@ package frc.robot.commands;
 
 import static frc.robot.Constants.ARM_DOWN;
 import static frc.robot.Constants.ARM_DOWN_SPEED;
-import static frc.robot.Constants.ARM_UP;
-import static frc.robot.Constants.ARM_UP_SPEED;
 import static frc.robot.Constants.COLLECTION_LEVEL_ONE_ANGLE;
 import static frc.robot.Constants.CUBE_COLLECTION_OUT_DITRECTION;
 import static frc.robot.Constants.CUBE_COLLECTION_OUT_SPEED;

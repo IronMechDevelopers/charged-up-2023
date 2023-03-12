@@ -16,6 +16,7 @@ public class Arm extends SubsystemBase {
 
     public void periodic() {
         SmartDashboard.putNumber("arm voltage", armMotorcontroller.getMotorOutputVoltage());
+        
 }
 
     public void moveArm(int dir, double speed) {
