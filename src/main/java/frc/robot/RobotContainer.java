@@ -74,7 +74,8 @@ public class RobotContainer {
         private final JoystickButton bButton = new JoystickButton(copilotXbox, Button.kB.value);
         private final JoystickButton xButton = new JoystickButton(copilotXbox, Button.kX.value);
         private final JoystickButton yButton = new JoystickButton(copilotXbox, Button.kY.value);
-        private final JoystickButton startButton = new JoystickButton(copilotXbox, Button.kStart.value);
+        private final JoystickButton leftThreeButton = new JoystickButton(copilotXbox, 9);
+        private final JoystickButton rightThreeButton = new JoystickButton(copilotXbox, 10);
         private final JoystickButton rightBumper = new JoystickButton(copilotXbox, Button.kRightBumper.value);
         private final JoystickButton leftBumper = new JoystickButton(copilotXbox, Button.kLeftBumper.value);
 
@@ -120,19 +121,21 @@ public class RobotContainer {
 
                 aButton.whileTrue(new Collection(m_intake, CONE_COLLECTION_IN_DITRECTION, CONE_COLLECTION_OUT_SPEED));
                 bButton.whileTrue(new Collection(m_intake, CONE_COLLECTION_OUT_DITRECTION, CONE_COLLECTION_IN_SPEED));
-                yButton.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
-                xButton.whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
+                // yButton.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
+                // xButton.whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
+                yButton.toggleOnTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED).withTimeout(1.1));
+                xButton.toggleOnTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED).withTimeout(1.1));
                 leftBumper.whileTrue(new MoveWrist(m_wrist, WRIST_IN, MOTOR_SPEED));
                 rightBumper.whileTrue(new MoveWrist(m_wrist, WRIST_OUT, MOTOR_SPEED));
-                // leftTigger.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
-                // rightTigger.whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
-                leftTigger.toggleOnTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED).withTimeout(1.1));
-                rightTigger.toggleOnTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED).withTimeout(1.1));
+                leftTigger.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
+                rightTigger.whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
+
                 dpadDownButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_ONE_ANGLE));
                 dpadUpButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_THREE_ANGLE));
                 dpadRightButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_TWO_ANGLE));
                 dpadLeftButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_HUMAN_PLAYER_ANGLE));
-                startButton.toggleOnTrue(new MoveWristToAngle(m_wrist, HOME_ANGLE));
+                leftThreeButton.toggleOnTrue(new MoveWristToAngle(m_wrist, HOME_ANGLE));
+                rightThreeButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_CUBE_SHOOT));
                 rightSix.toggleOnTrue(new ToggleSaftey(m_wrist));
 
                 leftFire.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
