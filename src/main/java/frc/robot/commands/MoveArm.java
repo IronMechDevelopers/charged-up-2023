@@ -14,14 +14,12 @@ public class MoveArm extends CommandBase {
     m_dir = dir;
     m_speed = Math.abs(speed);
 
-  
     addRequirements(m_arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
