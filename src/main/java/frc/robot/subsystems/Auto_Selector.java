@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.AutoBalanceDumb;
+import frc.robot.commands.AutoBalancePID;
 import frc.robot.commands.AutoDriveBackwards;
 import frc.robot.commands.AutoLevelThreeCone;
 import frc.robot.commands.AutoLevelThreeCube;
@@ -50,7 +51,8 @@ public class Auto_Selector extends SubsystemBase {
             SmartDashboard.putString("2nd Auto", DRIVE_BACKWARDS);
         } else {
             SmartDashboard.putString("2nd Auto", DO_NOTHING);
-        }
+        } 
+        
     }
 
     public Command getAuto() {

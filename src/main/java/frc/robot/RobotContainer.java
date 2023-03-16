@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.AutoBalanceDumb;
+import frc.robot.commands.AutoBalancePID;
 import frc.robot.commands.AutoDriveBackwards;
 import frc.robot.commands.AutoLevelOneCone;
 import frc.robot.commands.AutoLevelOneCube;
@@ -21,6 +22,7 @@ import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveWrist;
 import frc.robot.commands.MoveWristToAngle;
 import frc.robot.commands.SlowSpeed;
+import frc.robot.commands.Spin;
 import frc.robot.commands.ToggleSaftey;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
@@ -98,7 +100,10 @@ public class RobotContainer {
                                 m_drivetrain));
 
                 // Configure the trigger bindings
-                configureBindings();
+                configureBindings(); 
+
+                SmartDashboard.putData("Autonomous Balance PID",new AutoBalancePID(m_drivetrain));
+
         }
 
         /**
@@ -127,7 +132,7 @@ public class RobotContainer {
                 xButton.toggleOnTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED).withTimeout(1.1));
                 leftBumper.whileTrue(new MoveWrist(m_wrist, WRIST_IN, MOTOR_SPEED));
                 rightBumper.whileTrue(new MoveWrist(m_wrist, WRIST_OUT, MOTOR_SPEED));
-                leftTigger.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
+                //leftTigger.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
                 rightTigger.whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
 
                 dpadDownButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_LEVEL_ONE_ANGLE));
@@ -149,11 +154,16 @@ public class RobotContainer {
                                 driverRightStick::getX,
                                 m_drivetrain));
 
-                leftTen.toggleOnTrue(new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake)
-                                .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist)));
+               // leftTen.toggleOnTrue(new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake)
+                               // .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist))); 
 
-                rightTen.toggleOnTrue(new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake)
-                                .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist)));
+                leftTigger.toggleOnTrue(new AutoBalancePID(m_drivetrain).withTimeout(10));
+
+                //leftTigger.toggleOnTrue(new Spin(m_drivetrain).withTimeout(2));
+
+
+                //rightTen.toggleOnTrue(new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake)
+                               // .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist)));
 
         }
 
