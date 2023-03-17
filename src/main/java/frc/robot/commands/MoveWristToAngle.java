@@ -5,12 +5,9 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Wrist;
 
-import static frc.robot.Constants.MOTOR_SPEED_AUTO;
-
 public class MoveWristToAngle extends CommandBase {
     private Wrist m_wrist;
     private double m_angle;
-    private double m_motorSpeed = MOTOR_SPEED_AUTO;
     private PIDController pid;
 
     public MoveWristToAngle(Wrist wrist, double angle) {
