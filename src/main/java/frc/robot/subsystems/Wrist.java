@@ -13,8 +13,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import static frc.robot.Constants.MINIMUM_ANGLE;
 
-import javax.lang.model.util.ElementScanner6;
-
 import static frc.robot.Constants.MAXIMUM_ANGLE;
 import static frc.robot.Constants.*;
 
