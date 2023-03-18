@@ -28,7 +28,8 @@ public class DriveStraightUntilPitch extends CommandBase  {
     // If any interference to change direction, command would realine itself.
     @Override
     public void execute() {
-        double driveSpeed = SmartDashboard.getNumber("Auto Speed", defaultSpeed);
+       // double driveSpeed = SmartDashboard.getNumber("Auto Speed", defaultSpeed);
+       double driveSpeed = 0.7;
         SmartDashboard.putNumber(
             "Pitch1", m_drivetrain.getPitch());
         double errorAngle = m_drivetrain.getYaw() - goalAngle;
