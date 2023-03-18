@@ -36,6 +36,7 @@ public class Wrist extends SubsystemBase {
                                 10);
                 feedForward = .01;
 
+
         }
 
         public void periodic() {
@@ -45,8 +46,9 @@ public class Wrist extends SubsystemBase {
 
         public double getAngle() {
                 double ticks = wristMotor.getSelectedSensorPosition();
+                double offset = SmartDashboard.getNumber("WRIST_OFFSET_MAKE_ZERO", WRIST_OFFSET);
 
-                return ticks * 360 / COUNTS_PER_REVOLUTION  - WRIST_OFFSET;
+                return ticks * 360 / COUNTS_PER_REVOLUTION  - offset;
 
         }
 

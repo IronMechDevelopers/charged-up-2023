@@ -113,6 +113,7 @@ public class RobotContainer {
 
                 aButton.whileTrue(new Collection(m_intake, CONE_COLLECTION_IN_DITRECTION, CONE_COLLECTION_OUT_SPEED));
                 bButton.whileTrue(new Collection(m_intake, CONE_COLLECTION_OUT_DITRECTION, CONE_COLLECTION_IN_SPEED));
+               // some button.toggleOnTrue (new Collection (m_intake, ))
                 // yButton.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
                 // xButton.whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
                 yButton.toggleOnTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED).withTimeout(1.1));
@@ -129,7 +130,7 @@ public class RobotContainer {
                 leftThreeButton.toggleOnTrue(new MoveWristToAngle(m_wrist, HOME_ANGLE));
                 rightThreeButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_CUBE_SHOOT));
                 rightSix.toggleOnTrue(new ToggleSaftey(m_wrist));
-
+                
                 leftFire.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
                 rightFire.whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
 

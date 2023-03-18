@@ -21,5 +21,10 @@ private final WPI_VictorSPX rightIntakeMotorcontroller = new WPI_VictorSPX(
     public void runIntake(int dir, double speed) {
         leftIntakeMotorcontroller.set(speed * dir);
         rightIntakeMotorcontroller.set(speed * dir);
+    } 
+
+    public void cubeOffWall(int dir, double speed) {
+        leftIntakeMotorcontroller.set(speed * dir);
+        rightIntakeMotorcontroller.set(-speed * dir);
     }
 }
