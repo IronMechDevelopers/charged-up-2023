@@ -27,7 +27,7 @@ public class MoveWristToAngle extends CommandBase {
     // The closer we get to balancing the slower we go till eventully we stop
     @Override
     public void execute() {
-         double output = MathUtil.clamp(pid.calculate(m_wrist.getAngle(), m_angle), -0.5, 0.5);
+         double output = MathUtil.clamp(pid.calculate(m_wrist.getAngle(), m_angle), -1, 1);
 
         m_wrist.setMotor(output);
     }

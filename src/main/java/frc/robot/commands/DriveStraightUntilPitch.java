@@ -9,6 +9,7 @@ public class DriveStraightUntilPitch extends CommandBase  {
 
     private final Drivetrain m_drivetrain;
     private double goalAngle;
+    private double defaultSpeed=.7;
 
     public DriveStraightUntilPitch( Drivetrain drivetrain) {
         super();
@@ -27,7 +28,7 @@ public class DriveStraightUntilPitch extends CommandBase  {
     // If any interference to change direction, command would realine itself.
     @Override
     public void execute() {
-        double driveSpeed = 0.5;
+        double driveSpeed = SmartDashboard.getNumber("Auto Speed", defaultSpeed);
         SmartDashboard.putNumber(
             "Pitch1", m_drivetrain.getPitch());
         double errorAngle = m_drivetrain.getYaw() - goalAngle;

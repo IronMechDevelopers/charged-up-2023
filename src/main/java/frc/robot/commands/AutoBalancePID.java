@@ -28,8 +28,8 @@ public class AutoBalancePID  extends CommandBase {
     @Override
     public void execute() {
         double max_output = SmartDashboard.getNumber("Auto Balance Max Output", 0.53);
-        pid.setP(SmartDashboard.getNumber("Auto Balance P", 0.03));
-        pid.setD( SmartDashboard.getNumber("Auto Balance D", 0.004));
+        pid.setP(SmartDashboard.getNumber("Auto Balance P", 0.033));
+        pid.setD( SmartDashboard.getNumber("Auto Balance D", 0.0045));
          double output = MathUtil.clamp(pid.calculate(m_drivetrain.getPitch(), 0), -max_output, max_output);
          m_drivetrain.arcadeDrive(-output,0);
     }
