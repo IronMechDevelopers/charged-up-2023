@@ -7,7 +7,7 @@ public class AutoBalance extends SequentialCommandGroup {
     // gives our AutoBalance a class to use in a button
     public AutoBalance(Drivetrain m_drivetrain) {
         addCommands(new DriveStraightUntilPitch(m_drivetrain).withTimeout(4), 
-        new AutoBalancePID(m_drivetrain).withTimeout(6), 
+        new AutoBalancePID(m_drivetrain).withTimeout(10), 
         new Spin(m_drivetrain).withTimeout(0.9));
     }
 

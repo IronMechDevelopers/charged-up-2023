@@ -29,7 +29,7 @@ public class AutoBalancePID  extends CommandBase {
     public void execute() {
        double max_output = SmartDashboard.getNumber("Auto Balance Max Output", 0.53);
        //double max_output =0.53;
-        pid.setP(SmartDashboard.getNumber("Auto Balance P", 0.035));
+        pid.setP(SmartDashboard.getNumber("Auto Balance P", 0.036));
         //pid.setP (0.033);
         pid.setD( SmartDashboard.getNumber("Auto Balance D", 0.0130));
         //pid.setD( 0.0045);
