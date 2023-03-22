@@ -103,7 +103,7 @@ public final class Constants {
   public static final double COLLECTION_LEVEL_THREE_ANGLE = -123.5;
   public static final double COLLECTION_LEVEL_THREE_CUBE_ANGLE = -120;
   public static final double COLLECTION_CUBE_SHOOT = -27;
-  public static final double HOME_ANGLE = -9;
+  public static final double HOME_ANGLE = MAXIMUM_ANGLE;
 
   // CanBus constants
   public static final int RIGHT_FATHER_CANBUS_NUMBER = 0;

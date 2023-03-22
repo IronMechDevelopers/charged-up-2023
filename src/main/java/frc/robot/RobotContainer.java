@@ -5,18 +5,9 @@
 package frc.robot;
 
 import frc.robot.commands.AutoBalance;
-import frc.robot.commands.AutoBalanceDumb;
-import frc.robot.commands.AutoDriveBackwards;
-import frc.robot.commands.AutoLevelOneCone;
-import frc.robot.commands.AutoLevelOneCube;
-import frc.robot.commands.AutoLevelThreeCone;
-import frc.robot.commands.AutoLevelThreeCube;
-import frc.robot.commands.AutoLevelTwoCone;
-import frc.robot.commands.AutoLevelTwoCube;
+import frc.robot.commands.AutoBalancePID;
 import frc.robot.commands.Collection;
 import frc.robot.commands.Drive;
-import frc.robot.commands.DriveStraight;
-import frc.robot.commands.DriveStraightUntilPitch;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveWrist;
 import frc.robot.commands.MoveWristToAngle;
@@ -31,10 +22,8 @@ import frc.robot.subsystems.Wrist;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -85,8 +74,8 @@ public class RobotContainer {
         private final JoystickButton leftThree = new JoystickButton(driverLeftStick, 3);
         private final JoystickButton rightSix = new JoystickButton(driverRightStick, 6);
         private final JoystickButton rightTwo = new JoystickButton(driverRightStick, 2);
-        private final JoystickButton leftTen = new JoystickButton(driverLeftStick, 10);
-        private final JoystickButton rightTen = new JoystickButton(driverRightStick, 10);
+        // private final JoystickButton leftTen = new JoystickButton(driverLeftStick, 10);
+        // private final JoystickButton rightTen = new JoystickButton(driverRightStick, 10);
         private final JoystickButton leftTwelve = new JoystickButton(driverLeftStick, 12);
 
         /**
@@ -98,7 +87,10 @@ public class RobotContainer {
                                 m_drivetrain));
 
                 // Configure the trigger bindings
-                configureBindings();
+                configureBindings(); 
+
+                SmartDashboard.putData("Autonomous Balance PID",new AutoBalancePID(m_drivetrain));
+
         }
 
         /**
@@ -121,6 +113,7 @@ public class RobotContainer {
 
                 aButton.whileTrue(new Collection(m_intake, CONE_COLLECTION_IN_DITRECTION, CONE_COLLECTION_OUT_SPEED));
                 bButton.whileTrue(new Collection(m_intake, CONE_COLLECTION_OUT_DITRECTION, CONE_COLLECTION_IN_SPEED));
+               // some button.toggleOnTrue (new Collection (m_intake, ))
                 // yButton.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
                 // xButton.whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
                 yButton.toggleOnTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED).withTimeout(1.1));
@@ -137,7 +130,7 @@ public class RobotContainer {
                 leftThreeButton.toggleOnTrue(new MoveWristToAngle(m_wrist, HOME_ANGLE));
                 rightThreeButton.toggleOnTrue(new MoveWristToAngle(m_wrist, COLLECTION_CUBE_SHOOT));
                 rightSix.toggleOnTrue(new ToggleSaftey(m_wrist));
-
+                
                 leftFire.whileTrue(new MoveArm(m_arm, ARM_UP, ARM_UP_SPEED));
                 rightFire.whileTrue(new MoveArm(m_arm, ARM_DOWN, ARM_DOWN_SPEED));
 
@@ -149,11 +142,15 @@ public class RobotContainer {
                                 driverRightStick::getX,
                                 m_drivetrain));
 
-                leftTen.toggleOnTrue(new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake)
-                                .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist)));
+               // leftTen.toggleOnTrue(new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake)
+                               // .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist))); 
 
-                rightTen.toggleOnTrue(new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake)
-                                .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist)));
+
+                //leftTigger.toggleOnTrue(new Spin(m_drivetrain).withTimeout(2));
+
+
+                //rightTen.toggleOnTrue(new AutoLevelThreeCone(m_drivetrain, m_arm, m_wrist, m_intake)
+                               // .andThen(new AutoDriveBackwards(m_drivetrain, m_wrist)));
 
         }
 

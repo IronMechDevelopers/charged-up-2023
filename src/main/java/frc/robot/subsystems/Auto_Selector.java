@@ -43,14 +43,15 @@ public class Auto_Selector extends SubsystemBase {
         }
 
         if (leftPot > 0.66) {
-            SmartDashboard.putString("2nd Auto", BALANCE);
+            SmartDashboard.putString("2nd Auto", BALANCE_PID );
         } else if (leftPot > 0.33) {
-            SmartDashboard.putString("2nd Auto", BALANCE_PID);
+            SmartDashboard.putString("2nd Auto", BALANCE);
         } else if (leftPot < -0.25) {
             SmartDashboard.putString("2nd Auto", DRIVE_BACKWARDS);
         } else {
             SmartDashboard.putString("2nd Auto", DO_NOTHING);
-        }
+        } 
+        
     }
 
     public Command getAuto() {

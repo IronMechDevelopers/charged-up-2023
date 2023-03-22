@@ -13,11 +13,11 @@ public class AutoLevelThreeCone extends SequentialCommandGroup {
         addCommands(
 
 
-        new RaiseArmAndWristToAngle(m_wrist, m_arm, COLLECTION_LEVEL_THREE_ANGLE, ARM_UP,ARM_UP_SPEED, .1),
+        new RaiseArmAndWristToAngle(m_wrist, m_arm, COLLECTION_LEVEL_THREE_ANGLE, ARM_UP,ARM_UP_SPEED, .1).withTimeout(2),
         // new DriveStraight(m_drivetrain).withTimeout(0.1),
         new WaitCommand(.5).andThen(new Collection(m_intake, CONE_COLLECTION_OUT_DITRECTION, CONE_COLLECTION_OUT_SPEED).withTimeout(.5)),
         new MoveWristToAngle(m_wrist,HOME_ANGLE ).withTimeout(2),
-        new DriveBackwards(m_drivetrain).withTimeout(.25),
+        new DriveBackwards(m_drivetrain).alongWith(new MoveWristToAngle(m_wrist,HOME_ANGLE )).withTimeout(.25),
         new RaiseArmAndWristToAngle(m_wrist, m_arm, HOME_ANGLE, ARM_DOWN,ARM_DOWN_SPEED, 0)); 
 
     }
